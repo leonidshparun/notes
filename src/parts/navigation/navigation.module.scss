@@ -1,0 +1,30 @@
+.container {
+    padding-top: 2.5rem;
+    transition: all 300ms ease-in-out;
+    width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transform: scaleX(0);
+    transform-origin: left;
+    border-right: 1px solid #dcdcde;
+
+    &>* {
+        width: 15rem;
+    }
+
+    footer {
+        display: flex;
+        margin-top: auto;
+
+        button {
+            padding: 0.5rem;
+            margin: 0 auto 0.25rem;
+        }
+    }
+}
+
+.visible {
+    min-width: 15rem;
+    transform: scaleX(1)
+}

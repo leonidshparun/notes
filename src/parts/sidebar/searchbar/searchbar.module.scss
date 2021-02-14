@@ -1,0 +1,28 @@
+.container {
+
+    display: flex;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #dcdcde;
+
+    svg {
+        height: 18px;
+        width: 18px;
+    }
+
+    input {
+        // margin-left: 0.5rem;
+        padding: 0 0.3rem;
+        flex-grow: 1;
+
+        &:focus {
+            outline-width: 1px;
+            outline-color: #dcdcde;
+            outline-style: solid;
+        }
+    }
+
+    button {
+        margin: 0 .8rem;
+    }
+
+}

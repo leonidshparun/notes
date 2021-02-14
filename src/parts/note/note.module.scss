@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    footer {
+        margin-top: auto;
+    }
+
+    border-left: 1px solid #dcdcde;
+}
+
+.full {
+    // &.heading {
+    //     width: calc(100% - 4rem);
+    // }
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    // align-self: flex-end;
+    // width: 100%;
+    height: 2.5rem;
+    border-bottom: 1px solid #dcdcde;
+
+    button {
+        margin: 0 0.5rem;
+
+        &:nth-child(2) {
+            margin-left: auto;
+        }
+
+        svg {
+            width: 24px;
+            height: 24px;
+        }
+    }
+}

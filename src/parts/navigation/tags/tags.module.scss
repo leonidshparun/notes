@@ -1,0 +1,45 @@
+.heading {
+    display: flex;
+    padding: 0.5rem;
+    align-items: center;
+
+    svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    p {
+        margin-left: 0.5rem;
+    }
+
+    button {
+        margin-left: auto;
+        color: darkcyan;
+    }
+}
+
+.list {
+    padding-left: 1rem;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 1.75rem;
+    padding: 0.25rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+
+    span {
+        cursor: pointer;
+    }
+
+    button {
+        color: darkcyan;
+
+        svg {
+            fill: currentColor;
+            height: 20px;
+            width: 20px;
+        }
+    }
+}

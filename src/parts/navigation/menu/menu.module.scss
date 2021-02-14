@@ -1,0 +1,31 @@
+.item {
+    border-bottom: 1px solid #dcdcde;
+    height: 2.5rem;
+    padding-left: 1rem;
+    display: flex;
+    align-items: center;
+
+    &>svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    &:hover:not(.active) {
+        color: #673AB7;
+
+        &>svg {
+            fill: #673AB7;
+        }
+
+        background-color: #e5e7eb;
+    }
+}
+
+.active {
+    background-color: #00968850;
+}
+
+.link {
+    width: 100%;
+    margin-left: 0.5rem;
+}
