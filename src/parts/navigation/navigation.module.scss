@@ -9,7 +9,7 @@
     transform-origin: left;
     border-right: 1px solid #dcdcde;
 
-    &>* {
+    & > * {
         width: 15rem;
     }
 
@@ -26,5 +26,5 @@
 
 .visible {
     min-width: 15rem;
-    transform: scaleX(1)
+    transform: scaleX(1);
 }

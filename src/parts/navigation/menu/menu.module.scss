@@ -5,16 +5,16 @@
     display: flex;
     align-items: center;
 
-    &>svg {
+    & > svg {
         width: 24px;
         height: 24px;
     }
 
     &:hover:not(.active) {
-        color: #673AB7;
+        color: #673ab7;
 
-        &>svg {
-            fill: #673AB7;
+        & > svg {
+            fill: #673ab7;
         }
 
         background-color: #e5e7eb;
