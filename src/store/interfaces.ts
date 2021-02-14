@@ -1,6 +1,6 @@
 export interface RootState {
     view: {
-        isNavigationVisible: boolean,
-        isSidebarVisible: boolean
-    }
+        isNavigationVisible: boolean;
+        isSidebarVisible: boolean;
+    };
 }

@@ -76,13 +76,13 @@ const asyncFetch = async (delay: number) => {
             // } else {
             // reject('Something went wrong')
             // }
-        }, delay)
-    })
-    return promise
-}
+        }, delay);
+    });
+    return promise;
+};
 
 const List = () => {
-    const [activeNoteId, setActiveNoteId] = useState('')
+    const [activeNoteId, setActiveNoteId] = useState('');
     const [data, setData] = useState<Array<EnumNotesItem>>([]);
     const [isError, setError] = useState('');
     const [isLoading, setLoading] = useState(true);
@@ -92,17 +92,17 @@ const List = () => {
             try {
                 const res = await asyncFetch(2000);
                 setData(res);
-                setLoading(false)
+                setLoading(false);
             } catch (error) {
                 setError(error);
-                setLoading(false)
+                setLoading(false);
             }
         };
         fetchData();
     }, []);
 
-    if (isLoading) return <p>Loading...</p>
-    if (isError) return <p>{isError}</p>
+    if (isLoading) return <p>Loading...</p>;
+    if (isError) return <p>{isError}</p>;
     return (
         <ul className={styles.container}>
             {data
@@ -118,11 +118,10 @@ const List = () => {
                     >
                         <button
                             onClick={() => {
-                                const updatedNote = { ...data[idx], pinned: !data[idx].pinned }
-                                const updatedNotes = data
-                                    .map((x, _idx) => (idx === _idx) ? updatedNote : x)
-                                setData(updatedNotes)
-                                setActiveNoteId(note.id)
+                                const updatedNote = { ...data[idx], pinned: !data[idx].pinned };
+                                const updatedNotes = data.map((x, _idx) => (idx === _idx ? updatedNote : x));
+                                setData(updatedNotes);
+                                setActiveNoteId(note.id);
                             }}
                             className={note.pinned ? styles.pinned : ''}
                         >
@@ -136,7 +135,7 @@ const List = () => {
                     </li>
                 ))}
         </ul>
-    )
+    );
 };
 
 export default List;

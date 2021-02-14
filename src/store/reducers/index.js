@@ -1,9 +1,10 @@
-import { combineReducers } from "redux"
-import viewReducer from "./view"
+import { combineReducers } from 'redux';
+import dataReducer from './data';
+import viewReducer from './view';
 
 const appReducer = combineReducers({
-  view: viewReducer,
-})
+    view: viewReducer,
+    data: dataReducer,
+});
 
-
-export default appReducer
+export default appReducer;

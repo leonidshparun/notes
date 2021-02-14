@@ -15,7 +15,7 @@ const Navigation = ({ isVisible }: NavigationProps) => {
                 <button>Keyboard Shortcuts</button>
             </footer>
         </nav>
-    )
+    );
 };
 
 export default Navigation;
