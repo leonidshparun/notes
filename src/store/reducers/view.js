@@ -1,8 +1,14 @@
-import { HIDE_NAVIGATION, TOGGLE_NAVIGATION_VISIBILITY, TOGGLE_SIDEBAR_VISIBILITY } from '../actions/view';
+import {
+    CHANGE_ROUTE,
+    HIDE_NAVIGATION,
+    TOGGLE_NAVIGATION_VISIBILITY,
+    TOGGLE_SIDEBAR_VISIBILITY,
+} from '../actions/view';
 
 const viewState = {
     isNavigationVisible: false,
     isSidebarVisible: true,
+    route: 'all',
 };
 
 const viewReducer = (state = viewState, action) => {
@@ -21,6 +27,11 @@ const viewReducer = (state = viewState, action) => {
             return {
                 ...state,
                 isNavigationVisible: false,
+            };
+        case CHANGE_ROUTE:
+            return {
+                ...state,
+                route: action.payload,
             };
         default:
             return state;

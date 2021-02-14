@@ -81,7 +81,7 @@ const asyncFetch = async (delay: number) => {
     return promise;
 };
 
-const List = () => {
+const List = ({ route }: { route: string }) => {
     const [activeNoteId, setActiveNoteId] = useState('');
     const [data, setData] = useState<Array<EnumNotesItem>>([]);
     const [isError, setError] = useState('');

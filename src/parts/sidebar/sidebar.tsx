@@ -1,32 +1,21 @@
-import { ReactComponent as AddNoteIcon } from 'assets/add.svg';
-import { ReactComponent as MenuIcon } from 'assets/menu.svg';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleNavigationVisibility } from 'store/actions/view';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store/interfaces';
+import Heading from './heading/heading';
 import List from './list/list';
 import Searchbar from './searchbar/searchbar';
 import styles from './sidebar.module.scss';
+import Sort from './sort/sort';
 
 const Sidebar = () => {
-    const dispatch = useDispatch();
     const isSidebarVisible = useSelector((state: RootState) => state.view.isSidebarVisible);
+    const route = useSelector((state: RootState) => state.view.route);
     return (
-        <section className={`${styles.container} ${isSidebarVisible ? styles.visible : ''}`}>
-            <header className={styles.heading}>
-                <button onClick={() => dispatch(toggleNavigationVisibility())}>
-                    <MenuIcon />
-                </button>
-                <h3>All notes</h3>
-                <button>
-                    <AddNoteIcon />
-                </button>
-            </header>
-
+        <section className={`${styles.container}  ${isSidebarVisible ? styles.visible : ''}`}>
+            <Heading route={route} />
             <Searchbar />
-            <List />
-
-            <footer>Sort by: Created Newest</footer>
+            <List route={route} />
+            <Sort />
         </section>
     );
 };

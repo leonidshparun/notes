@@ -11,38 +11,9 @@
     & > * {
         width: 20rem;
     }
-
-    footer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 2.5rem;
-        margin-top: auto;
-    }
 }
 
 .visible {
     width: 20rem;
     transform: scaleX(1);
-}
-
-.heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 2.5rem;
-    border-bottom: 1px solid #dcdcde;
-
-    h3 {
-        line-height: 0;
-    }
-
-    button {
-        margin: 0 0.5rem;
-
-        svg {
-            width: 24px;
-            height: 24px;
-        }
-    }
 }

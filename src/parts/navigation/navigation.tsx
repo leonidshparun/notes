@@ -1,13 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/interfaces';
 import Menu from './menu/menu';
 import styles from './navigation.module.scss';
 import Tags from './tags/tags';
 
-type NavigationProps = { isVisible: boolean };
+const Navigation = () => {
+    const isNavigationVisible = useSelector((state: RootState) => state.view.isNavigationVisible);
 
-const Navigation = ({ isVisible }: NavigationProps) => {
     return (
-        <nav className={`${styles.container} ${isVisible ? styles.visible : ''}`}>
+        <nav className={`${styles.container} ${isNavigationVisible ? styles.visible : ''}`}>
             <Menu />
             <Tags />
 
