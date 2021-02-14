@@ -5,15 +5,17 @@ import Tags from './tags/tags';
 
 type NavigationProps = { isVisible: boolean };
 
-const Navigation = ({ isVisible }: NavigationProps) => (
-    <nav className={`${styles.container} ${isVisible ? styles.visible : ''}`}>
-        <Menu />
-        <Tags />
+const Navigation = ({ isVisible }: NavigationProps) => {
+    return (
+        <nav className={`${styles.container} ${isVisible ? styles.visible : ''}`}>
+            <Menu />
+            <Tags />
 
-        <footer>
-            <button>Keyboard Shortcuts</button>
-        </footer>
-    </nav>
-);
+            <footer>
+                <button>Keyboard Shortcuts</button>
+            </footer>
+        </nav>
+    )
+};
 
 export default Navigation;

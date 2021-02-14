@@ -1,12 +1,15 @@
 import Navigation from 'parts/navigation/navigation';
 import Note from 'parts/note/note';
 import Sidebar from 'parts/sidebar/sidebar';
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { hideNavigation } from 'store/actions/view';
+import { RootState } from 'store/interfaces';
 import styles from './layout.module.scss';
 
 function Layout() {
-  const [isNavigationVisible, setNavigationVisibility] = useState(false);
-  const [isSidebarVisible, setSidebarVisibility] = useState(false);
+  const dispatch = useDispatch()
+  const isNavigationVisible = useSelector((state: RootState) => state.view.isNavigationVisible)
   return (
     <div className={styles.page}>
       <Navigation isVisible={isNavigationVisible} />
@@ -15,18 +18,12 @@ function Layout() {
         onClickCapture={(e) => {
           if (isNavigationVisible) {
             e.stopPropagation();
-            setNavigationVisibility(false);
+            dispatch(hideNavigation());
           }
         }}
       >
-        <Sidebar
-          setNavigationVisibility={setNavigationVisibility}
-          isNavigationVisible={isNavigationVisible}
-          isSidebarVisible={isSidebarVisible}
-        />
-        <Note
-          setSidebarVisibility={setSidebarVisibility}
-          isSidebarVisible={isSidebarVisible} />
+        <Sidebar />
+        <Note />
       </main>
     </div>
   );
