@@ -17,4 +17,8 @@ export interface RootState {
         error: string;
         activeNoteId: string;
     };
+    user: {
+        isLoggedIn: boolean;
+        email: string;
+    };
 }

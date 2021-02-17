@@ -142,29 +142,31 @@ const Note = ({ data, noteId }: NoteProps) => {
 
     return (
         <section className={styles.container}>
-            {noteId ? <>
-            <Heading handleCheckListModeBtnClick={toggleLineIntoChecklistItem} />
-
-            <section className={styles.textInput}>
-                <textarea
-                    ref={inputRef}
-                    className={styles.input}
-                    onClick={(e) => {
-                        toggleCheckboxState();
-                        e.preventDefault();
-                    }}
-                    onChange={(e) => setNoteInput(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                            insertCheckBoxAtNewLine();
-                        }
-                    }}
-                    value={noteInput}
-                />
-            </section>
-
-            <footer>Add a tag...</footer> </>
-            : ''}
+            {noteId ? (
+                <>
+                    <Heading handleCheckListModeBtnClick={toggleLineIntoChecklistItem} />
+                    <section className={styles.textInput}>
+                        <textarea
+                            ref={inputRef}
+                            className={styles.input}
+                            onClick={(e) => {
+                                toggleCheckboxState();
+                                e.preventDefault();
+                            }}
+                            onChange={(e) => setNoteInput(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    insertCheckBoxAtNewLine();
+                                }
+                            }}
+                            value={noteInput}
+                        />
+                    </section>
+                    <footer>Add a tag...</footer>{' '}
+                </>
+            ) : (
+                ''
+            )}
         </section>
     );
 };
