@@ -1,4 +1,4 @@
-import firebase, { database } from 'api/index';
+import { updateNote } from 'api/index';
 import {
     SYNC_UPDATES_WITH_SERVER,
     SYNC_UPDATES_WITH_SERVER_IMMEDIATELY,
@@ -7,21 +7,7 @@ import {
 let saveTimer;
 const debounceTime = 5000;
 
-const sendNoteUpdates = (note, difference) => {
-    const uid = firebase.auth().currentUser.uid;
-    database
-        .collection('users')
-        .doc(uid)
-        .collection('notes')
-        .doc(note.id)
-        .update({ ...difference })
-        .then(() => {
-            console.log('Document successfully updated!');
-        })
-        .catch((error) => {
-            console.error('Error updating document: ', error);
-        });
-};
+const sendNoteUpdates = (note, difference) => updateNote(note, difference);
 
 const syncImmediately = ({ note, difference }) => {
     sendNoteUpdates(note, difference);

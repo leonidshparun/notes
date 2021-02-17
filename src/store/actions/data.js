@@ -1,4 +1,4 @@
-import firebase, { database } from 'api/index';
+import { createNote, fetchNotes } from 'api/index';
 
 export const FETCH_DATA_START = 'FETCH_DATA_START';
 export const FETCH_DATA_ERROR = 'FETCH_DATA_ERROR';
@@ -48,25 +48,12 @@ export const setDefaultActiveNoteId = () => async (dispatch, getState) => {
 
 export const fetchData = () => async (dispatch) => {
     dispatch(fetchDataStart());
-
-    const uid = firebase.auth().currentUser.uid;
     try {
-        const notes = [];
-        await database
-            .collection('users')
-            .doc(uid)
-            .collection('notes')
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    const { text, pinned, trash } = doc.data();
-                    notes.push({ text, pinned, trash, id: doc.id });
-                });
-            });
+        const notes = await fetchNotes();
         dispatch(fetchDataSuccess(notes));
         dispatch(setDefaultActiveNoteId());
     } catch (error) {
-        dispatch(fetchDataError(error));
+        dispatch(fetchDataError(error.message));
     }
 };
 
@@ -124,25 +111,8 @@ const setNoteIsInTrash = (value) => async (dispatch, getState) => {
 export const sendNoteToTrash = () => setNoteIsInTrash(true);
 export const restoreNoteFromTrash = () => setNoteIsInTrash(false);
 
-export const createNewNote = () => async (dispatch) => {
-    const uid = firebase.auth().currentUser.uid;
-    const newNote = {
-        text: '',
-        pinned: false,
-        trash: false,
-        author: uid,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    };
-    database
-        .collection('users')
-        .doc(uid)
-        .collection('notes')
-        .add(newNote)
-        .then((docRef) => {
-            dispatch({ type: CREATE_NEW_NOTE, payload: { ...newNote, id: docRef.id } });
-            dispatch(setActiveNoteId(docRef.id));
-        })
-        .catch((error) => {
-            console.error('Error adding document: ', error);
-        });
-};
+export const createNewNote = () => async (dispatch) =>
+    createNote((docRef, newNote) => {
+        dispatch({ type: CREATE_NEW_NOTE, payload: { ...newNote, id: docRef.id } });
+        dispatch(setActiveNoteId(docRef.id));
+    });
