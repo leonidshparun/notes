@@ -1,9 +1,17 @@
-import { FETCH_DATA_ERROR, FETCH_DATA_START, FETCH_DATA_SUCCESS } from '../actions/data';
+import {
+    CREATE_NEW_NOTE,
+    FETCH_DATA_ERROR,
+    FETCH_DATA_START,
+    FETCH_DATA_SUCCESS,
+    SET_ACTIVE_NOTE_ID,
+    UPDATE_DATA,
+} from '../actions/data';
 
 const dataState = {
     data: [],
     loading: false,
     error: '',
+    activeNoteId: '',
 };
 
 const dataReducer = (state = dataState, action) => {
@@ -24,6 +32,21 @@ const dataReducer = (state = dataState, action) => {
                 ...state,
                 loading: false,
                 data: action.payload,
+            };
+        case UPDATE_DATA:
+            return {
+                ...state,
+                data: action.payload,
+            };
+        case SET_ACTIVE_NOTE_ID:
+            return {
+                ...state,
+                activeNoteId: action.payload,
+            };
+        case CREATE_NEW_NOTE:
+            return {
+                ...state,
+                data: [...state.data, action.payload],
             };
         default:
             return state;
