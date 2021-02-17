@@ -9,7 +9,14 @@ interface IconProps {
 const Icon = ({ name, width, svg }: IconProps) => {
     const key: string = `${name}.${svg ? 'svg' : 'png'}`;
     const link = images[key as keyof typeof images];
-    return <img style={{ display: 'inline' }} width={width} src={link['default']} alt={name} />;
+    return (
+        <img
+            style={{ display: 'inline' }}
+            width={width}
+            src={link['default']}
+            alt={name}
+        />
+    );
 };
 
 export default Icon;

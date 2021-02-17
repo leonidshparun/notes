@@ -8,10 +8,14 @@ import styles from './sidebar.module.scss';
 import Sort from './sort/sort';
 
 const Sidebar = () => {
-    const isSidebarVisible = useSelector((state: RootState) => state.view.isSidebarVisible);
+    const isSidebarVisible = useSelector(
+        (state: RootState) => state.view.isSidebarVisible,
+    );
     const route = useSelector((state: RootState) => state.view.route);
     return (
-        <section className={`${styles.container}  ${isSidebarVisible ? styles.visible : ''}`}>
+        <section
+            className={`${styles.container}  ${isSidebarVisible ? styles.visible : ''}`}
+        >
             <Heading route={route} />
             <Searchbar />
             <List route={route} />

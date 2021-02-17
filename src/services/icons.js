@@ -6,4 +6,6 @@ function importAll(assets) {
     return images;
 }
 
-export const images = importAll(require.context('./../assets', false, /\.(png|jpe?g|svg)$/));
+export const images = importAll(
+    require.context('./../assets', false, /\.(png|jpe?g|svg)$/),
+);

@@ -10,7 +10,9 @@ const Tags = () => {
         <>
             <div className={styles.heading}>
                 <p>Tags</p>
-                <button onClick={() => toggleAccessToEditState(!accessToEdit)}>{accessToEdit ? 'Done' : 'Edit'}</button>
+                <button onClick={() => toggleAccessToEditState(!accessToEdit)}>
+                    {accessToEdit ? 'Done' : 'Edit'}
+                </button>
             </div>
             <ul className={styles.list}>
                 {TAGS.map((tag, idx) => (

@@ -11,7 +11,12 @@ const Navigation = () => {
     return (
         <ul className={styles.container}>
             {menuConfig.map((item, idx) => (
-                <li key={idx} className={`${styles.item} ${route === item.route ? styles.active : ''}`}>
+                <li
+                    key={idx}
+                    className={`${styles.item} ${
+                        route === item.route ? styles.active : ''
+                    }`}
+                >
                     {item.icon}
                     <a
                         onClick={(e) => {

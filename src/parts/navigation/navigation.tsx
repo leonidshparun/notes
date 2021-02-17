@@ -6,10 +6,14 @@ import styles from './navigation.module.scss';
 import Tags from './tags/tags';
 
 const Navigation = () => {
-    const isNavigationVisible = useSelector((state: RootState) => state.view.isNavigationVisible);
+    const isNavigationVisible = useSelector(
+        (state: RootState) => state.view.isNavigationVisible,
+    );
 
     return (
-        <nav className={`${styles.container} ${isNavigationVisible ? styles.visible : ''}`}>
+        <nav
+            className={`${styles.container} ${isNavigationVisible ? styles.visible : ''}`}
+        >
             <Menu />
             <Tags />
 
