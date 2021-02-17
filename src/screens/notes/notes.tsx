@@ -8,7 +8,10 @@ import styles from './notes.module.scss';
 
 function Notes() {
     const dispatch = useDispatch();
-    const isNavigationVisible = useSelector((state: RootState) => state.view.isNavigationVisible);
+    const isNavigationVisible = useSelector(
+        (state: RootState) => state.view.isNavigationVisible,
+    );
+    const { data, activeNoteId } = useSelector((state: RootState) => state.data);
     return (
         <main
             className={`${styles.container} ${isNavigationVisible && styles.blur}`}
@@ -20,7 +23,7 @@ function Notes() {
             }}
         >
             <Sidebar />
-            <Note />
+            <Note data={data} noteId={activeNoteId} />
         </main>
     );
 }

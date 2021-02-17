@@ -17,4 +17,10 @@
             height: 24px;
         }
     }
+
+    button:disabled {
+        svg {
+            fill: rgb(158, 158, 158);
+        }
+    }
 }
