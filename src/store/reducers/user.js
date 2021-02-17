@@ -3,7 +3,7 @@ import { LOGIN, LOGOUT } from '../actions/user';
 const dataState = {
     isLoggedIn: false,
     email: '',
-    id: ''
+    id: '',
 };
 
 const dataReducer = (state = dataState, action) => {

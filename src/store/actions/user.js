@@ -3,7 +3,7 @@ export const LOGOUT = 'LOGOUT';
 
 export const userLogin = (email, id) => ({
     type: LOGIN,
-    payload: {email, id},
+    payload: { email, id },
 });
 
 export const userLogout = (error) => ({

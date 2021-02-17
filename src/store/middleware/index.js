@@ -1,7 +1,7 @@
 import firebase, { database } from 'api/index';
 import {
     SYNC_UPDATES_WITH_SERVER,
-    SYNC_UPDATES_WITH_SERVER_IMMEDIATELY
+    SYNC_UPDATES_WITH_SERVER_IMMEDIATELY,
 } from '../actions/data';
 
 let saveTimer;
@@ -9,7 +9,10 @@ const debounceTime = 5000;
 
 const sendNoteUpdates = (note, difference) => {
     const uid = firebase.auth().currentUser.uid;
-    database.collection('users').doc(uid).collection('notes')
+    database
+        .collection('users')
+        .doc(uid)
+        .collection('notes')
         .doc(note.id)
         .update({ ...difference })
         .then(() => {

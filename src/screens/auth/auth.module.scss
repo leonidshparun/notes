@@ -25,6 +25,13 @@
         }
     }
 
+    .rememberMe {
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     form {
         margin-top: 60px;
         display: flex;
@@ -59,8 +66,8 @@
             }
         }
 
-        &>p {
-            color:tomato;
+        & > p {
+            color: tomato;
             font-weight: 500;
             padding: 10px;
         }
