@@ -1,5 +1,6 @@
 import {
     CREATE_NEW_NOTE,
+    DELETE_NOTE,
     FETCH_DATA_ERROR,
     FETCH_DATA_START,
     FETCH_DATA_SUCCESS,
@@ -47,6 +48,11 @@ const dataReducer = (state = dataState, action) => {
             return {
                 ...state,
                 data: [...state.data, action.payload],
+            };
+        case DELETE_NOTE:
+            return {
+                ...state,
+                data: state.data.filter((note) => note.id !== action.payload),
             };
         default:
             return state;

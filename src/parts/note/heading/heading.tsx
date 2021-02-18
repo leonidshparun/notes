@@ -4,7 +4,11 @@ import { ReactComponent as InfoIcon } from 'assets/information.svg';
 import { ReactComponent as SidebarIcon } from 'assets/sidebar.svg';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { restoreNoteFromTrash, sendNoteToTrash } from 'store/actions/data';
+import {
+    deleteNoteForever,
+    restoreNoteFromTrash,
+    sendNoteToTrash,
+} from 'store/actions/data';
 import { toggleSidebarVisibility } from 'store/actions/view';
 import { RootState } from 'store/interfaces';
 import styles from './heading.module.scss';
@@ -47,7 +51,7 @@ const Heading = ({
                     </button>
                     <button
                         className={styles.textBtn}
-                        onClick={() => dispatch(restoreNoteFromTrash())}
+                        onClick={() => dispatch(deleteNoteForever())}
                     >
                         Delete forever
                     </button>

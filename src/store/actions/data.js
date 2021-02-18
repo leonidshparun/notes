@@ -1,4 +1,4 @@
-import { createNote, fetchNotes } from 'api/index';
+import { createNote, deleteNote, fetchNotes } from 'api/index';
 
 export const FETCH_DATA_START = 'FETCH_DATA_START';
 export const FETCH_DATA_ERROR = 'FETCH_DATA_ERROR';
@@ -9,6 +9,7 @@ export const CREATE_NEW_NOTE = 'CREATE_NEW_NOTE';
 export const SYNC_UPDATES_WITH_SERVER = 'SYNC_UPDATES_WITH_SERVER';
 export const SYNC_UPDATES_WITH_SERVER_IMMEDIATELY =
     'SYNC_UPDATES_WITH_SERVER_IMMEDIATELY';
+export const DELETE_NOTE = 'DELETE_NOTE';
 
 export const fetchDataStart = () => ({
     type: FETCH_DATA_START,
@@ -93,18 +94,16 @@ export const pinNote = (note) => async (dispatch) => {
 };
 
 export const updateNoteText = (value) => async (dispatch, getState) => {
-    const { activeNote, data } = getState().data;
-    const note = data.find((note) => note.id === activeNote.id);
-    if (!note || value === note.text) return;
+    const { activeNote } = getState().data;
+    if (!activeNote || value === activeNote.text) return;
     const difference = { text: value };
-    dispatch(updateNoteWithDebounce(note, difference));
+    dispatch(updateNoteWithDebounce(activeNote, difference));
 };
 
 const setNoteIsInTrash = (value) => async (dispatch, getState) => {
-    const { activeNote, data } = getState().data;
-    const note = data.find((note) => note.id === activeNote.id);
+    const { activeNote } = getState().data;
     const difference = { trash: value };
-    dispatch(updateNoteImmediately(note, difference));
+    dispatch(updateNoteImmediately(activeNote, difference));
     dispatch(setDefaultActiveNoteId());
 };
 
@@ -116,3 +115,11 @@ export const createNewNote = () => async (dispatch) =>
         dispatch({ type: CREATE_NEW_NOTE, payload: { ...newNote, id: docRef.id } });
         dispatch(setActiveNoteData({ ...newNote, id: docRef.id }));
     });
+
+export const deleteNoteForever = () => (dispatch, getState) => {
+    const { activeNote } = getState().data;
+    deleteNote(activeNote, () => {
+        dispatch({ type: DELETE_NOTE, payload: activeNote.id });
+        dispatch(setDefaultActiveNoteId());
+    });
+};

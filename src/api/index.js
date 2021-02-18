@@ -85,4 +85,18 @@ export const fetchNotes = async () => {
     return notes;
 };
 
+export const deleteNote = (note, onSuccess) => {
+    const uid = firebase.auth().currentUser.uid;
+    database
+        .collection('users')
+        .doc(uid)
+        .collection('notes')
+        .doc(note.id)
+        .delete()
+        .then((docRef) => onSuccess(docRef))
+        .catch((error) => {
+            console.error('Error adding document: ', error);
+        });
+};
+
 export default firebase;
