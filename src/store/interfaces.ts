@@ -17,6 +17,7 @@ export interface RootState {
         loading: boolean;
         error: string;
         activeNote: EnumNotesItem;
+        globalTags: [string];
     };
     user: {
         isLoggedIn: boolean;

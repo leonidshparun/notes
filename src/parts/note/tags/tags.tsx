@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTag, removeTag } from 'store/actions/data';
 import styles from './tags.module.scss';
 
-const Tags = ({ data }: { data: [string] }) => {
-    const [tags, setTags] = useState<Array<string>>(data);
+const Tags = ({ data, noteId }: { data: [string]; noteId: string }) => {
+    const dispatch = useDispatch();
     const [input, setInput] = useState<string>('');
 
-    const removeTag = (idx: number) => {
-        setTags([...tags.filter((_el, _idx) => idx !== _idx)]);
+    const addNewTag = () => {
+        const trimmed = input.trim();
+        if (!trimmed) return;
+        dispatch(addTag(noteId, trimmed));
+        setInput('');
     };
 
-    useEffect(() => {
-        setTags(data)
-    }, [data]);
-
+    const removeSelectedTag = (tag: string) => {
+        dispatch(removeTag(noteId, tag));
+    };
 
     return (
         <footer className={styles.container}>
-            <div className={styles.tagList}>
-                {tags.map((tag, idx) => (
-                    <div key={idx}>
-                        <button onClick={() => removeTag(idx)}>x</button>
-                        <span>{tag}</span>
-                    </div>
-                ))}
-            </div>
+            {data.map((tag, idx) => (
+                <div className={styles.tagItem} key={idx}>
+                    <button onClick={() => removeSelectedTag(tag)}>x</button>
+                    <span>{tag}</span>
+                </div>
+            ))}
             <form
                 className={styles.input}
                 onSubmit={(e) => {
                     e.preventDefault();
-                    setTags([...tags, input]);
-                    setInput('');
+                    addNewTag();
                 }}
             >
                 <input

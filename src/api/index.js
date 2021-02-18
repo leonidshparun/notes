@@ -14,27 +14,21 @@ firebase.initializeApp(config);
 
 export const database = firebase.firestore();
 
-export const usersRef = database.collection('users');
-export const notesRef = database.collection('notes');
-
-export const updateNote = (note, difference) => {
+const getNotesCollectionRef = () => {
     const uid = firebase.auth().currentUser.uid;
-    database
-        .collection('users')
-        .doc(uid)
-        .collection('notes')
-        .doc(note.id)
+    return database.collection('users').doc(uid).collection('notes');
+};
+
+const getNoteRef = (id) => getNotesCollectionRef().doc(id);
+
+export const updateNote = (note, difference) =>
+    getNoteRef(note.id)
         .update({
             ...difference,
             lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
         })
-        .then(() => {
-            console.log('Document successfully updated!');
-        })
-        .catch((error) => {
-            console.error('Error updating document: ', error);
-        });
-};
+        .then(() => console.log('Document successfully updated!'))
+        .catch((error) => console.error('Error updating document: ', error));
 
 export const createNote = (onSuccess) => {
     const uid = firebase.auth().currentUser.uid;
@@ -46,24 +40,15 @@ export const createNote = (onSuccess) => {
         tags: [],
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
-    database
-        .collection('users')
-        .doc(uid)
-        .collection('notes')
+    getNotesCollectionRef()
         .add(newNote)
         .then((docRef) => onSuccess(docRef, newNote))
-        .catch((error) => {
-            console.error('Error adding document: ', error);
-        });
+        .catch((error) => console.error('Error adding document: ', error));
 };
 
 export const fetchNotes = async () => {
-    const uid = firebase.auth().currentUser.uid;
     const notes = [];
-    await database
-        .collection('users')
-        .doc(uid)
-        .collection('notes')
+    await getNotesCollectionRef()
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -79,24 +64,32 @@ export const fetchNotes = async () => {
                 });
             });
         })
-        .catch((error) => {
-            console.log(error); // не ловит!!!
-        });
+        .catch((error) => console.log(error)); // не ловит!!!
     return notes;
 };
 
-export const deleteNote = (note, onSuccess) => {
-    const uid = firebase.auth().currentUser.uid;
-    database
-        .collection('users')
-        .doc(uid)
-        .collection('notes')
-        .doc(note.id)
+export const deleteNote = (note, onSuccess) =>
+    getNoteRef(note.id)
         .delete()
         .then((docRef) => onSuccess(docRef))
-        .catch((error) => {
-            console.error('Error adding document: ', error);
-        });
-};
+        .catch((error) => console.error('Error adding document: ', error));
+
+export const addNoteTag = (noteId, tag, onSuccess) =>
+    getNoteRef(noteId)
+        .update({
+            tags: firebase.firestore.FieldValue.arrayUnion(tag),
+            lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
+        })
+        .then((docRef) => onSuccess(docRef))
+        .catch((error) => console.error('Error updating document: ', error));
+
+export const removeNoteTag = (noteId, tag, onSuccess) =>
+    getNoteRef(noteId)
+        .update({
+            tags: firebase.firestore.FieldValue.arrayRemove(tag),
+            lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
+        })
+        .then((docRef) => onSuccess(docRef))
+        .catch((error) => console.error('Error updating document: ', error));
 
 export default firebase;

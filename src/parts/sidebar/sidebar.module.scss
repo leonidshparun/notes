@@ -10,10 +10,11 @@
 
     & > * {
         width: 20rem;
+        min-width: 20rem;
     }
 }
 
 .visible {
-    width: 20rem;
+    min-width: 20rem;
     transform: scaleX(1);
 }

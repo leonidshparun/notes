@@ -5,7 +5,7 @@ import {
 } from '../actions/data';
 
 let saveTimer;
-const debounceTime = 5000;
+const debounceTime = 2000;
 
 const sendNoteUpdates = (note, difference) => updateNote(note, difference);
 

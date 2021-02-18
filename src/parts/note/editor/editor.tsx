@@ -4,7 +4,7 @@ import React, {
     useEffect,
     useImperativeHandle,
     useRef,
-    useState
+    useState,
 } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDebounce } from 'services/hooks';
@@ -19,12 +19,11 @@ const Editor = forwardRef<any, any>((props: NoteProps, ref: RefProp) => {
     const dispatch = useDispatch();
     const [noteInput, setNoteInput] = useState(props.data);
     const debouncedNoteInput = useDebounce(noteInput, 500);
+    const inputRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
-        setNoteInput(props.data)
+        setNoteInput(props.data);
     }, [props]);
-
-    const inputRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
         if (debouncedNoteInput) {
@@ -61,6 +60,7 @@ const Editor = forwardRef<any, any>((props: NoteProps, ref: RefProp) => {
                         inputRef.current,
                         cursorPosition + cursorOffset,
                     );
+                    inputRef.current?.focus();
                 }
             }, 0);
         }
@@ -100,6 +100,7 @@ const Editor = forwardRef<any, any>((props: NoteProps, ref: RefProp) => {
             setTimeout(() => {
                 if (inputRef.current) {
                     editor.setCursorPosition(inputRef.current, cursorPosition);
+                    inputRef.current?.focus();
                 }
             }, 0);
         }
@@ -137,6 +138,7 @@ const Editor = forwardRef<any, any>((props: NoteProps, ref: RefProp) => {
                             inputRef.current,
                             cursorPosition + cursorOffset,
                         );
+                        inputRef.current?.focus();
                     }
                 }, 0);
             }

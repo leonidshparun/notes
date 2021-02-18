@@ -6,6 +6,8 @@ import {
     FETCH_DATA_SUCCESS,
     SET_ACTIVE_NOTE_DATA,
     UPDATE_DATA,
+    UPDATE_GLOBAL_TAGS,
+    UPDATE_NOTE,
 } from '../actions/data';
 
 const dataState = {
@@ -13,6 +15,7 @@ const dataState = {
     loading: false,
     error: '',
     activeNote: null,
+    globalTags: [],
 };
 
 const dataReducer = (state = dataState, action) => {
@@ -53,6 +56,16 @@ const dataReducer = (state = dataState, action) => {
             return {
                 ...state,
                 data: state.data.filter((note) => note.id !== action.payload),
+            };
+        case UPDATE_NOTE:
+            return {
+                ...state,
+                activeNote: action.payload,
+            };
+        case UPDATE_GLOBAL_TAGS:
+            return {
+                ...state,
+                globalTags: [...new Set([...action.payload])],
             };
         default:
             return state;

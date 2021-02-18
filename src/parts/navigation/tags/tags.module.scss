@@ -20,6 +20,8 @@
 
 .list {
     padding-left: 1rem;
+    overflow-y: auto;
+    max-height: 300px;
 }
 
 .item {

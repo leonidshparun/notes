@@ -19,7 +19,7 @@ const Note = () => {
                 <>
                     <Heading handleCheckListModeBtnClick={switchLineCheckListMode} />
                     <Editor data={data.text} ref={editorRef} />
-                    <Tags data={data.tags} />
+                    <Tags data={data.tags} noteId={data.id} />
                 </>
             )}
         </section>
