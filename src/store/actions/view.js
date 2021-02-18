@@ -1,4 +1,4 @@
-import { setDefaultActiveNoteId } from 'store/actions/data';
+import { setDefaultActiveNote } from 'store/actions/data';
 
 export const TOGGLE_NAVIGATION_VISIBILITY = 'TOGGLE_NAVIGATION_VISIBILITY';
 export const TOGGLE_SIDEBAR_VISIBILITY = 'TOGGLE_SIDEBAR_VISIBILITY';
@@ -23,5 +23,5 @@ export const changeRoute = (route) => async (dispatch) => {
         payload: route,
     });
 
-    dispatch(setDefaultActiveNoteId());
+    dispatch(setDefaultActiveNote());
 };

@@ -1,3 +1,42 @@
 .container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+}
+
+.list {
     overflow-y: auto;
+    width: 100%;
+}
+
+.emptyTrashBtn {
+    color: slateblue;
+    font-size: 1.2rem;
+    display: flex;
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: #dcdcde 1px solid;
+    border-bottom: #dcdcde 1px solid;
+}
+
+.emptyList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    p {
+        font-size: 1.3rem;
+    }
+    button {
+        padding: 0.5rem;
+        color: slateblue;
+    }
 }
