@@ -1,7 +1,8 @@
 import Note from 'parts/note/note';
 import Sidebar from 'parts/sidebar/sidebar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchData } from 'store/actions/data';
 import { hideNavigation } from 'store/actions/view';
 import { RootState } from 'store/interfaces';
 import styles from './notes.module.scss';
@@ -11,7 +12,11 @@ function Notes() {
     const isNavigationVisible = useSelector(
         (state: RootState) => state.view.isNavigationVisible,
     );
-    const { data, activeNoteId } = useSelector((state: RootState) => state.data);
+
+    useEffect(() => {
+        dispatch(fetchData());
+    }, [dispatch]);
+
     return (
         <main
             className={`${styles.container} ${isNavigationVisible && styles.blur}`}
@@ -23,7 +28,7 @@ function Notes() {
             }}
         >
             <Sidebar />
-            <Note data={data} noteId={activeNoteId} />
+            <Note />
         </main>
     );
 }

@@ -4,7 +4,7 @@ export const FETCH_DATA_START = 'FETCH_DATA_START';
 export const FETCH_DATA_ERROR = 'FETCH_DATA_ERROR';
 export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
 export const UPDATE_DATA = 'UPDATE_DATA';
-export const SET_ACTIVE_NOTE_ID = 'SET_ACTIVE_NOTE_ID';
+export const SET_ACTIVE_NOTE_DATA = 'SET_ACTIVE_NOTE_DATA';
 export const CREATE_NEW_NOTE = 'CREATE_NEW_NOTE';
 export const SYNC_UPDATES_WITH_SERVER = 'SYNC_UPDATES_WITH_SERVER';
 export const SYNC_UPDATES_WITH_SERVER_IMMEDIATELY =
@@ -24,9 +24,9 @@ export const fetchDataSuccess = (data) => ({
     payload: data,
 });
 
-export const setActiveNoteId = (id) => ({
-    type: SET_ACTIVE_NOTE_ID,
-    payload: id,
+export const setActiveNoteData = (data) => ({
+    type: SET_ACTIVE_NOTE_DATA,
+    payload: data,
 });
 
 export const setDefaultActiveNoteId = () => async (dispatch, getState) => {
@@ -42,7 +42,7 @@ export const setDefaultActiveNoteId = () => async (dispatch, getState) => {
         })
         .sort((note) => (note.pinned ? -1 : 1));
     dispatch(
-        setActiveNoteId(filtredDataBasedOnRoute[0] ? filtredDataBasedOnRoute[0].id : ''),
+        setActiveNoteData(filtredDataBasedOnRoute[0] ? filtredDataBasedOnRoute[0] : ''),
     );
 };
 
@@ -93,16 +93,16 @@ export const pinNote = (note) => async (dispatch) => {
 };
 
 export const updateNoteText = (value) => async (dispatch, getState) => {
-    const { activeNoteId, data } = getState().data;
-    const note = data.find((note) => note.id === activeNoteId);
+    const { activeNote, data } = getState().data;
+    const note = data.find((note) => note.id === activeNote.id);
     if (!note || value === note.text) return;
     const difference = { text: value };
     dispatch(updateNoteWithDebounce(note, difference));
 };
 
 const setNoteIsInTrash = (value) => async (dispatch, getState) => {
-    const { activeNoteId, data } = getState().data;
-    const note = data.find((note) => note.id === activeNoteId);
+    const { activeNote, data } = getState().data;
+    const note = data.find((note) => note.id === activeNote.id);
     const difference = { trash: value };
     dispatch(updateNoteImmediately(note, difference));
     dispatch(setDefaultActiveNoteId());
@@ -114,5 +114,5 @@ export const restoreNoteFromTrash = () => setNoteIsInTrash(false);
 export const createNewNote = () => async (dispatch) =>
     createNote((docRef, newNote) => {
         dispatch({ type: CREATE_NEW_NOTE, payload: { ...newNote, id: docRef.id } });
-        dispatch(setActiveNoteId(docRef.id));
+        dispatch(setActiveNoteData({ ...newNote, id: docRef.id }));
     });

@@ -1,0 +1,17 @@
+.textInput {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    textarea {
+        padding: 2rem;
+        resize: none;
+        height: 100%;
+        width: 100%;
+    }
+
+    textarea:first-line {
+        font-weight: bold;
+    }
+}

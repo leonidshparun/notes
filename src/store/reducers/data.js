@@ -3,7 +3,7 @@ import {
     FETCH_DATA_ERROR,
     FETCH_DATA_START,
     FETCH_DATA_SUCCESS,
-    SET_ACTIVE_NOTE_ID,
+    SET_ACTIVE_NOTE_DATA,
     UPDATE_DATA,
 } from '../actions/data';
 
@@ -11,7 +11,7 @@ const dataState = {
     data: [],
     loading: false,
     error: '',
-    activeNoteId: '',
+    activeNote: null,
 };
 
 const dataReducer = (state = dataState, action) => {
@@ -38,10 +38,10 @@ const dataReducer = (state = dataState, action) => {
                 ...state,
                 data: action.payload,
             };
-        case SET_ACTIVE_NOTE_ID:
+        case SET_ACTIVE_NOTE_DATA:
             return {
                 ...state,
-                activeNoteId: action.payload,
+                activeNote: action.payload,
             };
         case CREATE_NEW_NOTE:
             return {

@@ -43,6 +43,7 @@ export const createNote = (onSuccess) => {
         pinned: false,
         trash: false,
         author: uid,
+        tags: [],
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
     database
@@ -60,21 +61,28 @@ export const fetchNotes = async () => {
     const uid = firebase.auth().currentUser.uid;
     const notes = [];
     await database
-    .collection('users')
-    .doc(uid)
-    .collection('notes')
-    .get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            const { text, pinned, trash, createdAt, lastUpdate } = doc.data();
-            notes.push({ createdAt, lastUpdate, text, pinned, trash, id: doc.id });
+        .collection('users')
+        .doc(uid)
+        .collection('notes')
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                const { text, pinned, trash, createdAt, lastUpdate, tags } = doc.data();
+                notes.push({
+                    tags,
+                    createdAt,
+                    lastUpdate,
+                    text,
+                    pinned,
+                    trash,
+                    id: doc.id,
+                });
+            });
+        })
+        .catch((error) => {
+            console.log(error); // не ловит!!!
         });
-    })
-    .catch(error => {
-        console.log(error) // не ловит!!!
-    });
-    return notes
-}
-
+    return notes;
+};
 
 export default firebase;

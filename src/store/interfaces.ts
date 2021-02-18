@@ -3,6 +3,7 @@ export interface EnumNotesItem {
     pinned: boolean;
     id: string;
     trash: boolean;
+    tags: [string];
 }
 
 export interface RootState {
@@ -15,7 +16,7 @@ export interface RootState {
         data: [EnumNotesItem];
         loading: boolean;
         error: string;
-        activeNoteId: string;
+        activeNote: EnumNotesItem;
     };
     user: {
         isLoggedIn: boolean;

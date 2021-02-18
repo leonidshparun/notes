@@ -1,7 +1,7 @@
 import { ReactComponent as PinIcon } from 'assets/pin.svg';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { pinNote, setActiveNoteId } from 'store/actions/data';
+import { pinNote, setActiveNoteData } from 'store/actions/data';
 import { EnumNotesItem } from 'store/interfaces';
 import styles from './item.module.scss';
 
@@ -14,7 +14,7 @@ const Item = ({ note, activeNoteId }: ItemProps) => {
             className={`${styles.container} ${
                 activeNoteId === note.id ? styles.active : ''
             }`}
-            onClick={() => dispatch(setActiveNoteId(note.id))}
+            onClick={() => dispatch(setActiveNoteData(note))}
         >
             <button
                 onClick={() => dispatch(pinNote(note))}
