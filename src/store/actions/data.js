@@ -38,7 +38,7 @@ export const setActiveNoteData = (data) => ({
     payload: data,
 });
 
-export const setDefaultActiveNoteId = () => async (dispatch, getState) => {
+export const setDefaultActiveNote = () => async (dispatch, getState) => {
     const allNotes = getState().data.data;
     const currentRoute = getState().view.route;
     const filtredDataBasedOnRoute = allNotes
@@ -60,7 +60,7 @@ export const fetchData = () => async (dispatch) => {
     try {
         const notes = await fetchNotes();
         dispatch(fetchDataSuccess(notes));
-        dispatch(setDefaultActiveNoteId());
+        dispatch(setDefaultActiveNote());
     } catch (error) {
         dispatch(fetchDataError(error.message));
     }
@@ -113,7 +113,7 @@ const setNoteIsInTrash = (value) => async (dispatch, getState) => {
     const { activeNote } = getState().data;
     const difference = { trash: value };
     dispatch(updateNoteImmediately(activeNote, difference));
-    dispatch(setDefaultActiveNoteId());
+    dispatch(setDefaultActiveNote());
 };
 
 export const sendNoteToTrash = () => setNoteIsInTrash(true);
@@ -125,12 +125,27 @@ export const createNewNote = () => async (dispatch) =>
         dispatch(setActiveNoteData({ ...newNote, id: docRef.id }));
     });
 
-export const deleteNoteForever = () => (dispatch, getState) => {
-    const { activeNote } = getState().data;
-    deleteNote(activeNote, () => {
-        dispatch({ type: DELETE_NOTE, payload: activeNote.id });
-        dispatch(setDefaultActiveNoteId());
+export const deleteNoteForever = (noteId) => (dispatch, getState) => {
+    deleteNote(noteId, () => {
+        dispatch({ type: DELETE_NOTE, payload: noteId });
+        dispatch(setDefaultActiveNote());
+
+        const { data } = getState().data;
+        dispatch({
+            type: UPDATE_GLOBAL_TAGS,
+            payload: data.map((note) => note.tags).flat(),
+        });
     });
+};
+
+export const resetTrashBin = () => (dispatch, getState) => {
+    const { data } = getState().data;
+    const trashBinNotes = data.filter((note) => note.trash);
+    // сейчас после удаления одной записи пересобираются глобальные тэги,
+    // переопределяется дефолтая запасиь для отображения ===> оптимизировать
+    Promise.all(
+        trashBinNotes.map(async (note) => await dispatch(deleteNoteForever(note.id))),
+    ).then(() => console.log(trashBinNotes.length + 'notes deleted'));
 };
 
 export const addTag = (noteId, tag) => (dispatch, getState) => {

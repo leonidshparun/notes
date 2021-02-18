@@ -17,7 +17,10 @@ const Note = () => {
         <section className={styles.container}>
             {data && (
                 <>
-                    <Heading handleCheckListModeBtnClick={switchLineCheckListMode} />
+                    <Heading
+                        handleCheckListModeBtnClick={switchLineCheckListMode}
+                        noteId={data.id}
+                    />
                     <Editor data={data.text} ref={editorRef} />
                     <Tags data={data.tags} noteId={data.id} />
                 </>

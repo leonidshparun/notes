@@ -68,8 +68,8 @@ export const fetchNotes = async () => {
     return notes;
 };
 
-export const deleteNote = (note, onSuccess) =>
-    getNoteRef(note.id)
+export const deleteNote = (noteId, onSuccess) =>
+    getNoteRef(noteId)
         .delete()
         .then((docRef) => onSuccess(docRef))
         .catch((error) => console.error('Error adding document: ', error));
