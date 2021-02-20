@@ -2,11 +2,16 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createNewNote, resetTrashBin } from 'store/actions/data';
 import { changeRoute } from 'store/actions/view';
-import { RootState } from 'store/interfaces';
+import { EnumNotesItem, RootState } from 'store/interfaces';
 import Item from './item/item';
 import styles from './list.module.scss';
 
-const List = ({ route }: { route: string }) => {
+interface ISortType {
+    title: string;
+    func: (valA: EnumNotesItem, valB: EnumNotesItem) => number;
+}
+
+const List = ({ route, sort }: { route: string; sort: ISortType }) => {
     const dispatch = useDispatch();
     const { data, loading, error, activeNote } = useSelector(
         (state: RootState) => state.data,
@@ -28,7 +33,8 @@ const List = ({ route }: { route: string }) => {
                 <>
                     <ul className={styles.list}>
                         {filtred
-                            .sort((note) => (note.pinned ? -1 : 1))
+                            // .sort((note) => (note.pinned ? -1 : 1))
+                            .sort(sort.func)
                             .map((note, idx) => (
                                 <Item
                                     key={idx}

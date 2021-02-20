@@ -4,6 +4,12 @@ export interface EnumNotesItem {
     id: string;
     trash: boolean;
     tags: [string];
+    createdAt: {
+        seconds: number;
+    };
+    lastUpdate: {
+        seconds: number;
+    };
 }
 
 export interface RootState {

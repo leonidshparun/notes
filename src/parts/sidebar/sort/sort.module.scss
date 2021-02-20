@@ -4,4 +4,13 @@
     align-items: center;
     min-height: 2.5rem;
     margin-top: auto;
+
+    border-top: 1px solid #dcdcde;
+
+    select {
+        margin-left: 0.5rem;
+        appearance: none;
+        text-align: center;
+        font-weight: 600;
+    }
 }

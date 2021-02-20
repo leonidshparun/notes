@@ -5,9 +5,9 @@ import {
     FETCH_DATA_START,
     FETCH_DATA_SUCCESS,
     SET_ACTIVE_NOTE_DATA,
+    UPDATE_ACTIVE_NOTE,
     UPDATE_DATA,
     UPDATE_GLOBAL_TAGS,
-    UPDATE_NOTE,
 } from '../actions/data';
 
 const dataState = {
@@ -57,7 +57,7 @@ const dataReducer = (state = dataState, action) => {
                 ...state,
                 data: state.data.filter((note) => note.id !== action.payload),
             };
-        case UPDATE_NOTE:
+        case UPDATE_ACTIVE_NOTE:
             return {
                 ...state,
                 activeNote: action.payload,

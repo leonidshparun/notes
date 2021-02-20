@@ -30,23 +30,27 @@ export const updateNote = (note, difference) =>
         .then(() => console.log('Document successfully updated!'))
         .catch((error) => console.error('Error updating document: ', error));
 
-export const createNote = (onSuccess) => {
-    const uid = firebase.auth().currentUser.uid;
+export const createNoteDB = (onSuccess) => {
     const newNote = {
         text: '',
         pinned: false,
         trash: false,
-        author: uid,
         tags: [],
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
     };
     getNotesCollectionRef()
         .add(newNote)
-        .then((docRef) => onSuccess(docRef, newNote))
+        .then((docRef) => {
+            getNotesCollectionRef()
+                .doc(docRef.id)
+                .get()
+                .then((doc) => onSuccess(doc.data(), docRef.id));
+        })
         .catch((error) => console.error('Error adding document: ', error));
 };
 
-export const fetchNotes = async () => {
+export const fetchNotesDB = async () => {
     const notes = [];
     await getNotesCollectionRef()
         .get()
@@ -68,13 +72,13 @@ export const fetchNotes = async () => {
     return notes;
 };
 
-export const deleteNote = (noteId, onSuccess) =>
-    getNoteRef(noteId)
+export const deleteNoteDB = async (noteId, onSuccess) =>
+    await getNoteRef(noteId)
         .delete()
         .then((docRef) => onSuccess(docRef))
-        .catch((error) => console.error('Error adding document: ', error));
+        .catch((error) => console.error('Error deleting document: ', error));
 
-export const addNoteTag = (noteId, tag, onSuccess) =>
+export const addNoteTagDB = (noteId, tag, onSuccess) =>
     getNoteRef(noteId)
         .update({
             tags: firebase.firestore.FieldValue.arrayUnion(tag),
@@ -83,8 +87,8 @@ export const addNoteTag = (noteId, tag, onSuccess) =>
         .then((docRef) => onSuccess(docRef))
         .catch((error) => console.error('Error updating document: ', error));
 
-export const removeNoteTag = (noteId, tag, onSuccess) =>
-    getNoteRef(noteId)
+export const removeNoteTagDB = async (noteId, tag, onSuccess) =>
+    await getNoteRef(noteId)
         .update({
             tags: firebase.firestore.FieldValue.arrayRemove(tag),
             lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),

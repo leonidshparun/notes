@@ -1,4 +1,10 @@
-import { addNoteTag, createNote, deleteNote, fetchNotes, removeNoteTag } from 'api/index';
+import {
+    addNoteTagDB,
+    createNoteDB,
+    deleteNoteDB,
+    fetchNotesDB,
+    removeNoteTagDB,
+} from 'api/index';
 
 export const FETCH_DATA_START = 'FETCH_DATA_START';
 export const FETCH_DATA_ERROR = 'FETCH_DATA_ERROR';
@@ -10,8 +16,13 @@ export const SYNC_UPDATES_WITH_SERVER = 'SYNC_UPDATES_WITH_SERVER';
 export const SYNC_UPDATES_WITH_SERVER_IMMEDIATELY =
     'SYNC_UPDATES_WITH_SERVER_IMMEDIATELY';
 export const DELETE_NOTE = 'DELETE_NOTE';
-export const UPDATE_NOTE = 'UPDATE_NOTE';
+export const UPDATE_ACTIVE_NOTE = 'UPDATE_NOTE';
 export const UPDATE_GLOBAL_TAGS = 'UPDATE_GLOBAL_TAGS';
+
+export const refreshGlobalTags = (data) => ({
+    type: UPDATE_GLOBAL_TAGS,
+    payload: data.map((note) => note.tags).flat(),
+});
 
 export const fetchDataStart = () => ({
     type: FETCH_DATA_START,
@@ -27,10 +38,7 @@ export const fetchDataSuccess = (data) => async (dispatch) => {
         type: FETCH_DATA_SUCCESS,
         payload: data,
     });
-    dispatch({
-        type: UPDATE_GLOBAL_TAGS,
-        payload: data.map((note) => note.tags).flat(),
-    });
+    dispatch(refreshGlobalTags(data));
 };
 
 export const setActiveNoteData = (data) => ({
@@ -50,19 +58,16 @@ export const setDefaultActiveNote = () => async (dispatch, getState) => {
             } else return false;
         })
         .sort((note) => (note.pinned ? -1 : 1));
-    dispatch(
-        setActiveNoteData(filtredDataBasedOnRoute[0] ? filtredDataBasedOnRoute[0] : ''),
-    );
+    dispatch(setActiveNoteData(filtredDataBasedOnRoute[0] || null));
 };
 
 export const fetchData = () => async (dispatch) => {
     dispatch(fetchDataStart());
     try {
-        const notes = await fetchNotes();
-        dispatch(fetchDataSuccess(notes));
-        dispatch(setDefaultActiveNote());
+        const notes = await fetchNotesDB();
+        return dispatch(fetchDataSuccess(notes));
     } catch (error) {
-        dispatch(fetchDataError(error.message));
+        return dispatch(fetchDataError(error.message));
     }
 };
 
@@ -72,7 +77,7 @@ export const updateNotes = (updatedNote) => async (dispatch, getState) => {
         note.id === updatedNote.id ? updatedNote : note,
     );
     dispatch({ type: UPDATE_DATA, payload: updatedNotes });
-    dispatch({ type: UPDATE_NOTE, payload: updatedNote });
+    dispatch({ type: UPDATE_ACTIVE_NOTE, payload: updatedNote });
 };
 
 export const syncUpdatesWithServer = (note, difference) => ({
@@ -120,36 +125,42 @@ export const sendNoteToTrash = () => setNoteIsInTrash(true);
 export const restoreNoteFromTrash = () => setNoteIsInTrash(false);
 
 export const createNewNote = () => async (dispatch) =>
-    createNote((docRef, newNote) => {
-        dispatch({ type: CREATE_NEW_NOTE, payload: { ...newNote, id: docRef.id } });
-        dispatch(setActiveNoteData({ ...newNote, id: docRef.id }));
+    createNoteDB((newNote, id) => {
+        dispatch({ type: CREATE_NEW_NOTE, payload: { ...newNote, id } });
+        dispatch(setActiveNoteData({ ...newNote, id }));
     });
 
 export const deleteNoteForever = (noteId) => (dispatch, getState) => {
-    deleteNote(noteId, () => {
+    deleteNoteDB(noteId, () => {
         dispatch({ type: DELETE_NOTE, payload: noteId });
         dispatch(setDefaultActiveNote());
 
         const { data } = getState().data;
-        dispatch({
-            type: UPDATE_GLOBAL_TAGS,
-            payload: data.map((note) => note.tags).flat(),
-        });
+        dispatch(refreshGlobalTags(data));
     });
 };
 
 export const resetTrashBin = () => (dispatch, getState) => {
     const { data } = getState().data;
     const trashBinNotes = data.filter((note) => note.trash);
-    // сейчас после удаления одной записи пересобираются глобальные тэги,
-    // переопределяется дефолтая запасиь для отображения ===> оптимизировать
     Promise.all(
-        trashBinNotes.map(async (note) => await dispatch(deleteNoteForever(note.id))),
-    ).then(() => console.log(trashBinNotes.length + 'notes deleted'));
+        trashBinNotes.map(
+            async (note) =>
+                await deleteNoteDB(note.id, () => {
+                    dispatch({ type: DELETE_NOTE, payload: note.id });
+                    console.log('deleted note with id: ', note.id);
+                }),
+        ),
+    ).then(() => {
+        console.log(trashBinNotes.length + ' notes deleted');
+        dispatch(setDefaultActiveNote());
+        const { data } = getState().data;
+        dispatch(refreshGlobalTags(data));
+    });
 };
 
 export const addTag = (noteId, tag) => (dispatch, getState) => {
-    addNoteTag(noteId, tag, () => {
+    addNoteTagDB(noteId, tag, () => {
         const { activeNote, globalTags } = getState().data;
         const difference = { tags: [...new Set([...activeNote.tags, tag])] };
         dispatch(updateNotes({ ...activeNote, ...difference }));
@@ -161,28 +172,22 @@ export const addTag = (noteId, tag) => (dispatch, getState) => {
 };
 
 export const removeTag = (noteId, tag) => (dispatch, getState) => {
-    removeNoteTag(noteId, tag, () => {
+    removeNoteTagDB(noteId, tag, () => {
         const { activeNote } = getState().data;
         const difference = { tags: [...activeNote.tags.filter((_tag) => tag !== _tag)] };
         dispatch(updateNotes({ ...activeNote, ...difference }));
 
         const { data } = getState().data;
-        dispatch({
-            type: UPDATE_GLOBAL_TAGS,
-            payload: data.map((note) => note.tags).flat(),
-        });
+        dispatch(refreshGlobalTags(data));
     });
 };
 
 export const removeNoteGlobalTag = (note, tag) => (dispatch, getState) => {
-    removeNoteTag(note.id, tag, () => {
+    removeNoteTagDB(note.id, tag, () => {
         const difference = { tags: [...note.tags.filter((_tag) => tag !== _tag)] };
         dispatch(updateNotes({ ...note, ...difference }));
         const { data } = getState().data;
-        dispatch({
-            type: UPDATE_GLOBAL_TAGS,
-            payload: data.map((note) => note.tags).flat(),
-        });
+        dispatch(refreshGlobalTags(data));
     });
 };
 
@@ -190,6 +195,18 @@ export const removeGlobalTag = (tag) => (dispatch, getState) => {
     const { data } = getState().data;
     const notesWithTag = data.filter((note) => note.tags.includes(tag));
     Promise.all(
-        notesWithTag.map(async (note) => await dispatch(removeNoteGlobalTag(note, tag))),
-    ).then(() => console.log('deleted'));
+        notesWithTag.map(
+            async (note) =>
+                await removeNoteTagDB(note.id, tag, () => {
+                    const difference = {
+                        tags: [...note.tags.filter((_tag) => tag !== _tag)],
+                    };
+                    dispatch(updateNotes({ ...note, ...difference }));
+                }),
+        ),
+    ).then(() => {
+        console.log('deleted global tag: ', tag);
+        const { data } = getState().data;
+        dispatch(refreshGlobalTags(data));
+    });
 };

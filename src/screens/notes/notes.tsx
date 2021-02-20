@@ -2,7 +2,7 @@ import Note from 'parts/note/note';
 import Sidebar from 'parts/sidebar/sidebar';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchData } from 'store/actions/data';
+import { fetchData, setDefaultActiveNote } from 'store/actions/data';
 import { hideNavigation } from 'store/actions/view';
 import { RootState } from 'store/interfaces';
 import styles from './notes.module.scss';
@@ -14,7 +14,11 @@ function Notes() {
     );
 
     useEffect(() => {
-        dispatch(fetchData());
+        const initNotes = async () => {
+            await Promise.resolve(dispatch(fetchData()));
+            dispatch(setDefaultActiveNote());
+        };
+        initNotes();
     }, [dispatch]);
 
     return (
