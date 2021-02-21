@@ -2,15 +2,20 @@ import { ReactComponent as PinIcon } from 'assets/pin.svg';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { pinNote, setActiveNoteId } from 'store/actions/data';
-import { RootState } from 'store/interfaces';
+import {
+    activeNoteIdSelector,
+    notePinSelector,
+    noteTextSelector,
+} from 'store/selectors/index';
 import styles from './item.module.scss';
 
 type ItemProps = { noteId: string };
 
 const Item = ({ noteId }: ItemProps) => {
     const dispatch = useDispatch();
-    const activeNoteId = useSelector((state: RootState) => state.data.activeNoteId);
-    const { text, pinned } = useSelector((state: RootState) => state.data.data[noteId]);
+    const activeNoteId = useSelector(activeNoteIdSelector);
+    const text = useSelector(noteTextSelector(noteId));
+    const pinned = useSelector(notePinSelector(noteId));
     return (
         <li
             className={`${styles.container} ${
@@ -29,7 +34,9 @@ const Item = ({ noteId }: ItemProps) => {
             </button>
             <div className={styles.card}>
                 {text.trim() ? (
-                    text.split(/\r?\n/).map((line, idx) => <p key={idx}>{line}</p>)
+                    text
+                        .split(/\r?\n/)
+                        .map((line: string, idx: number) => <p key={idx}>{line}</p>)
                 ) : (
                     <p className={styles.newNote}>New Note</p>
                 )}

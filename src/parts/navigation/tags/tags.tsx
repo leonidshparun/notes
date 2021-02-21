@@ -2,13 +2,13 @@ import { ReactComponent as DeleteIcon } from 'assets/delete.svg';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeGlobalTag } from 'store/actions/data';
-import { RootState } from 'store/interfaces';
+import { globalTagsSelector } from 'store/selectors/index';
 import styles from './tags.module.scss';
 
 const Tags = () => {
     const [accessToEdit, toggleAccessToEditState] = useState(false);
     const dispatch = useDispatch();
-    const data = useSelector((state: RootState) => state.data.globalTags);
+    const data = useSelector(globalTagsSelector);
     return (
         <>
             <div className={styles.heading}>
@@ -18,7 +18,7 @@ const Tags = () => {
                 </button>
             </div>
             <ul className={styles.list}>
-                {data.map((tag, idx) => (
+                {data.map((tag: string, idx: number) => (
                     <li key={idx} className={styles.item}>
                         <span>{tag}</span>
                         {accessToEdit && (

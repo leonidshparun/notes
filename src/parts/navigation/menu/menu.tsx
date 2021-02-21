@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { menuConfig } from 'routes/index';
 import { setDefaultActiveNote } from 'store/actions/data';
 import { changeRoute } from 'store/actions/view';
-import { RootState } from 'store/interfaces';
+import { routeSelector } from 'store/selectors/index';
 import styles from './menu.module.scss';
 
 const Navigation = () => {
     const dispatch = useDispatch();
-    const route = useSelector((state: RootState) => state.view.route);
+    const route = useSelector(routeSelector);
     return (
         <ul className={styles.container}>
             {menuConfig.map((item, idx) => (

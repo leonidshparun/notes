@@ -10,19 +10,15 @@ import {
     sendNoteToTrash,
 } from 'store/actions/data';
 import { toggleSidebarVisibility } from 'store/actions/view';
-import { RootState } from 'store/interfaces';
+import { isSidebarVisibleSelector, routeSelector } from 'store/selectors/index';
 import styles from './heading.module.scss';
 
-const Heading = ({
-    handleCheckListModeBtnClick,
-}: {
-    handleCheckListModeBtnClick: () => void;
-}) => {
+type HeadingProps = { handleCheckListModeBtnClick: () => void };
+
+const Heading = ({ handleCheckListModeBtnClick }: HeadingProps) => {
     const dispatch = useDispatch();
-    const isSidebarVisible = useSelector(
-        (state: RootState) => state.view.isSidebarVisible,
-    );
-    const route = useSelector((state: RootState) => state.view.route);
+    const isSidebarVisible = useSelector(isSidebarVisibleSelector);
+    const route = useSelector(routeSelector);
 
     return (
         <header className={`${styles.container} ${isSidebarVisible ? styles.full : ''}`}>

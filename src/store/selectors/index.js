@@ -1,29 +1,41 @@
 import { combinedSort } from 'config/sort.config';
 import { createSelector } from 'reselect';
 
-const selectNoteEntities = (state) => state.data.data;
-const selectRoute = (state) => state.view.route;
+const selectNotesData = (state) => state.data.data;
+export const routeSelector = (state) => state.view.route;
 const sortOption = (state) => state.data.selection.sortOption;
 const searchQuery = (state) => state.data.selection.searchQuery;
 
-export const selectFiltredNotesList = createSelector(
-    selectNoteEntities,
-    selectRoute,
+export const selectFiltredAndSortedNotesList = createSelector(
+    selectNotesData,
+    routeSelector,
     sortOption,
     searchQuery,
-    (entities, route, sort, query) => {
-        return Object.values(entities)
+    (notes, route, sort, query) => {
+        return Object.values(notes)
             .filter(
-                (entity) =>
-                    (route === 'all' && !entity.trash) ||
-                    (route === 'trash' && entity.trash),
+                (note) =>
+                    (route === 'all' && !note.trash) || (route === 'trash' && note.trash),
             )
             .sort(combinedSort(sort));
     },
 );
 
-export const selectNotesIdList = createSelector(selectFiltredNotesList, (entities) =>
-    entities.map((entity) => entity.id),
+export const selectNotesIdList = createSelector(
+    selectFiltredAndSortedNotesList,
+    (notes) => notes.map((note) => note.id),
 );
 
-export const selectTodoById = (state, noteId) => selectNoteEntities(state)[noteId];
+export const selectNoteById = (state, noteId) => selectNotesData(state)[noteId];
+export const activeNoteIdSelector = (state) => state.data.activeNoteId;
+
+export const globalTagsSelector = (state) => state.data.globalTags;
+
+export const isLoggedInSelector = (state) => state.user.isLoggedIn;
+export const isNavVisibleSelector = (state) => state.view.isNavigationVisible;
+export const isSidebarVisibleSelector = (state) => state.view.isSidebarVisible;
+
+export const noteTextSelector = (noteId) => (state) => selectNoteById(state, noteId).text;
+export const noteTagsSelector = (noteId) => (state) => selectNoteById(state, noteId).tags;
+export const notePinSelector = (noteId) => (state) =>
+    selectNoteById(state, noteId).pinned;

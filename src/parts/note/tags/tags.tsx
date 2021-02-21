@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTag, removeTag } from 'store/actions/data';
-import { RootState } from 'store/interfaces';
+import { noteTagsSelector } from 'store/selectors/index';
 import styles from './tags.module.scss';
 
 type TagsProps = { noteId: string };
 
 const Tags = ({ noteId }: TagsProps) => {
     const dispatch = useDispatch();
-    const data = useSelector((state: RootState) => state.data.data[noteId].tags);
+    const data = useSelector(noteTagsSelector(noteId));
     const [input, setInput] = useState<string>('');
 
     const addNewTag = () => {
@@ -24,7 +24,7 @@ const Tags = ({ noteId }: TagsProps) => {
 
     return (
         <footer className={styles.container}>
-            {data.map((tag, idx) => (
+            {data.map((tag: string, idx: number) => (
                 <div className={styles.tagItem} key={idx}>
                     <button onClick={() => removeSelectedTag(tag)}>x</button>
                     <span>{tag}</span>

@@ -10,15 +10,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useDebounce } from 'services/hooks';
 import { editorUtlits as editor } from 'services/utils';
 import { updateNoteText } from 'store/actions/data';
-import { RootState } from 'store/interfaces';
+import { noteTextSelector } from 'store/selectors/index';
 import styles from './editor.module.scss';
 
 type NoteProps = { noteId: string };
 type RefProp = Ref<{ checkListToggle: () => void }>;
 
 const Editor = forwardRef<any, any>((props: NoteProps, ref: RefProp) => {
-    const text = useSelector((state: RootState) => state.data.data[props.noteId].text);
-
+    const text = useSelector(noteTextSelector(props.noteId));
     const dispatch = useDispatch();
     const [noteInput, setNoteInput] = useState(text);
     const debouncedNoteInput = useDebounce(noteInput, 500);

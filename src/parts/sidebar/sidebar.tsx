@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store/interfaces';
+import { isSidebarVisibleSelector, routeSelector } from 'store/selectors/index';
 import Heading from './heading/heading';
 import List from './list/list';
 import Searchbar from './searchbar/searchbar';
@@ -8,8 +8,8 @@ import styles from './sidebar.module.scss';
 import Sort from './sort/sort';
 
 const Sidebar = () => {
-    const isVisible = useSelector((state: RootState) => state.view.isSidebarVisible);
-    const route = useSelector((state: RootState) => state.view.route);
+    const isVisible = useSelector(isSidebarVisibleSelector);
+    const route = useSelector(routeSelector);
     return (
         <section className={`${styles.container} ${isVisible ? styles.visible : ''}`}>
             <Heading route={route} />

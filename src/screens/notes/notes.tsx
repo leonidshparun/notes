@@ -4,14 +4,12 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchData, setDefaultActiveNote } from 'store/actions/data';
 import { hideNavigation } from 'store/actions/view';
-import { RootState } from 'store/interfaces';
+import { isNavVisibleSelector } from 'store/selectors/index';
 import styles from './notes.module.scss';
 
 function Notes() {
     const dispatch = useDispatch();
-    const isNavigationVisible = useSelector(
-        (state: RootState) => state.view.isNavigationVisible,
-    );
+    const isNavVisible = useSelector(isNavVisibleSelector);
 
     useEffect(() => {
         const initNotes = async () => {
@@ -23,9 +21,9 @@ function Notes() {
 
     return (
         <main
-            className={`${styles.container} ${isNavigationVisible && styles.blur}`}
+            className={`${styles.container} ${isNavVisible && styles.blur}`}
             onClickCapture={(e) => {
-                if (isNavigationVisible) {
+                if (isNavVisible) {
                     e.stopPropagation();
                     dispatch(hideNavigation());
                 }
