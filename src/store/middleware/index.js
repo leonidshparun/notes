@@ -1,4 +1,4 @@
-import { updateNote } from 'api/index';
+import { updateNoteDB } from 'api/index';
 import {
     SYNC_UPDATES_WITH_SERVER,
     SYNC_UPDATES_WITH_SERVER_IMMEDIATELY,
@@ -7,10 +7,8 @@ import {
 let saveTimer;
 const debounceTime = 2000;
 
-const sendNoteUpdates = (noteId, difference) => updateNote(noteId, difference);
-
 const syncImmediately = ({ noteId, difference }) => {
-    sendNoteUpdates(noteId, difference);
+    updateNoteDB(noteId, difference);
 };
 
 const syncWithDebounce = ({ noteId, difference }) => {
@@ -19,7 +17,7 @@ const syncWithDebounce = ({ noteId, difference }) => {
     }
 
     saveTimer = setTimeout(() => {
-        sendNoteUpdates(noteId, difference);
+        updateNoteDB(noteId, difference);
     }, debounceTime);
 };
 

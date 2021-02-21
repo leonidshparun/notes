@@ -15,9 +15,7 @@ export const hideNavigation = () => ({
     type: HIDE_NAVIGATION,
 });
 
-export const changeRoute = (route) => async (dispatch) => {
-    dispatch({
-        type: CHANGE_ROUTE,
-        payload: route,
-    });
-};
+export const changeRoute = (route) => ({
+    type: CHANGE_ROUTE,
+    payload: route,
+});

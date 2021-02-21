@@ -23,7 +23,7 @@ const getNoteRef = (id) => getNotesCollectionRef().doc(id);
 
 export const getTimestamp = () => firebase.firestore.Timestamp.now();
 
-export const updateNote = (noteId, difference) =>
+export const updateNoteDB = (noteId, difference) =>
     getNoteRef(noteId)
         .update({
             ...difference,

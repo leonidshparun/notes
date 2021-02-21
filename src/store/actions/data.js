@@ -6,6 +6,7 @@ import {
     getTimestamp,
     removeNoteTagDB,
 } from 'api/index';
+import { combinedSort } from 'config/sort.config';
 
 export const FETCH_DATA_START = 'FETCH_DATA_START';
 export const FETCH_DATA_ERROR = 'FETCH_DATA_ERROR';
@@ -49,14 +50,15 @@ export const setActiveNoteId = (id) => ({
 export const setDefaultActiveNote = () => async (dispatch, getState) => {
     const allNotes = getState().data.data;
     const currentRoute = getState().view.route;
-    const filtredDataBasedOnRoute = Object.values(allNotes)
+    const sortOption = getState().data.selection.sortOption;
+    const filterAndSortedNotes = Object.values(allNotes)
         .filter(
             (note) =>
                 (currentRoute === 'all' && !note.trash) ||
                 (currentRoute === 'trash' && note.trash),
         )
-        .sort((note) => (note.pinned ? -1 : 1));
-    dispatch(setActiveNoteId(filtredDataBasedOnRoute[0]?.id || null));
+        .sort(combinedSort(sortOption));
+    dispatch(setActiveNoteId(filterAndSortedNotes[0]?.id || null));
 };
 
 export const fetchData = () => async (dispatch) => {
@@ -119,7 +121,6 @@ export const restoreNoteFromTrash = () => setNoteIsInTrash(false);
 
 export const createNewNote = () => (dispatch) =>
     createNoteDB((newNote) => {
-        console.log(newNote);
         dispatch({ type: CREATE_NEW_NOTE, payload: newNote });
         dispatch(setActiveNoteId(newNote.id));
     });
