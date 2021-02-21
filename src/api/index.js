@@ -21,13 +21,17 @@ const getNotesCollectionRef = () => {
 
 const getNoteRef = (id) => getNotesCollectionRef().doc(id);
 
+export const getTimestamp = () => firebase.firestore.Timestamp.now();
+
 export const updateNote = (noteId, difference) =>
     getNoteRef(noteId)
         .update({
             ...difference,
             lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
         })
-        .then(() => console.log('Document successfully updated!'))
+        .then(() => {
+            console.log('Document successfully updated!');
+        })
         .catch((error) => console.error('Error updating document: ', error));
 
 export const createNoteDB = (onSuccess) => {

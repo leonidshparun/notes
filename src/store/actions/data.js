@@ -3,6 +3,7 @@ import {
     createNoteDB,
     deleteNoteDB,
     fetchNotesDB,
+    getTimestamp,
     removeNoteTagDB,
 } from 'api/index';
 
@@ -88,8 +89,10 @@ export const updateNote = (noteId, difference, debounce) => async (
 ) => {
     const syncWithServerType = syncUpdateType(debounce);
     const noteToUpdate = getState().data.data[noteId];
-    dispatch(updateNoteData({ ...noteToUpdate, ...difference }));
     dispatch(syncWithServerType(noteId, difference));
+    dispatch(
+        updateNoteData({ ...noteToUpdate, ...difference, lastUpdate: getTimestamp() }),
+    );
 };
 
 export const pinNote = (noteId, value) => async (dispatch) => {
