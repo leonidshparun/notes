@@ -175,6 +175,18 @@ export const removeTag = (noteId, tag) => (dispatch, getState) => {
     });
 };
 
+export const updateTagsSelection = (tag) => (dispatch, getState) => {
+    const currentTagsSelection = getState().data.selection.tags;
+    let result;
+    if (currentTagsSelection.includes(tag)) {
+        result = currentTagsSelection.filter((_tag) => tag !== _tag);
+    } else {
+        result = [...currentTagsSelection, tag];
+    }
+    dispatch({ type: UPDATE_TAG_SELECTION, payload: result });
+    dispatch(setDefaultActiveNote());
+};
+
 export const removeGlobalTag = (tag) => (dispatch, getState) => {
     const { data } = getState().data;
     const notesWithTag = Object.values(data).filter((note) => note.tags.includes(tag));
@@ -192,6 +204,8 @@ export const removeGlobalTag = (tag) => (dispatch, getState) => {
         console.log('deleted global tag: ', tag);
         const { data } = getState().data;
         dispatch(refreshGlobalTags(data));
+        if (getState().data.selection.tags.includes(tag))
+            dispatch(updateTagsSelection(tag));
     });
 };
 
@@ -201,15 +215,4 @@ export const setSearchQuery = (value) => async (dispatch, getState) => {
     dispatch({ type: SET_SEARCH_QUERY, payload: value });
     const { activeNoteId } = getState().data;
     if (value || !activeNoteId) dispatch(setDefaultActiveNote());
-};
-
-export const updateTagsSelection = (tag) => (dispatch, getState) => {
-    const currentTagsSelection = getState().data.selection.tags;
-    let result;
-    if (currentTagsSelection.includes(tag)) {
-        result = currentTagsSelection.filter((_tag) => tag !== _tag);
-    } else {
-        result = [...currentTagsSelection, tag];
-    }
-    dispatch({ type: UPDATE_TAG_SELECTION, payload: result });
 };
