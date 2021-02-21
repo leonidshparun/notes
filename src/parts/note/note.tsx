@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/interfaces';
 import Editor from './editor/editor';
@@ -9,20 +9,21 @@ import Tags from './tags/tags';
 type RefType = { checkListToggle: () => void };
 
 const Note = () => {
-    const data = useSelector((state: RootState) => state.data.activeNote);
-    const editorRef = useRef<RefType>();
-    const switchLineCheckListMode = () => editorRef.current?.checkListToggle();
+    const activeNoteId = useSelector((state: RootState) => state.data.activeNoteId);
+
+    const editorRef = useRef<RefType>(null);
+    const switchCheckListMode = useCallback(
+        () => editorRef.current?.checkListToggle(),
+        [],
+    );
 
     return (
         <section className={styles.container}>
-            {data && (
+            {activeNoteId && (
                 <>
-                    <Heading
-                        handleCheckListModeBtnClick={switchLineCheckListMode}
-                        noteId={data.id}
-                    />
-                    <Editor data={data.text} ref={editorRef} />
-                    <Tags data={data.tags} noteId={data.id} />
+                    <Heading handleCheckListModeBtnClick={switchCheckListMode} />
+                    <Editor noteId={activeNoteId} ref={editorRef} />
+                    <Tags noteId={activeNoteId} />
                 </>
             )}
         </section>

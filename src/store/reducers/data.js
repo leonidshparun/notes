@@ -4,18 +4,25 @@ import {
     FETCH_DATA_ERROR,
     FETCH_DATA_START,
     FETCH_DATA_SUCCESS,
-    SET_ACTIVE_NOTE_DATA,
-    UPDATE_ACTIVE_NOTE,
-    UPDATE_DATA,
+    SET_ACTIVE_NOTE_ID,
+    SET_NOTE_ID_LIST,
+    SET_SEARCH_QUERY,
+    SET_SORT_TYPE,
     UPDATE_GLOBAL_TAGS,
+    UPDATE_NOTE_DATA,
 } from '../actions/data';
 
 const dataState = {
-    data: [],
+    data: {},
     loading: false,
     error: '',
-    activeNote: null,
+    activeNoteId: null,
     globalTags: [],
+    selection: {
+        sortOption: 0,
+        searchQuery: '',
+    },
+    noteIdList: [],
 };
 
 const dataReducer = (state = dataState, action) => {
@@ -37,35 +44,55 @@ const dataReducer = (state = dataState, action) => {
                 loading: false,
                 data: action.payload,
             };
-        case UPDATE_DATA:
+        case UPDATE_NOTE_DATA:
             return {
                 ...state,
-                data: action.payload,
+                data: {
+                    ...state.data,
+                    [action.payload.id]: action.payload,
+                },
             };
-        case SET_ACTIVE_NOTE_DATA:
+        case SET_ACTIVE_NOTE_ID:
             return {
                 ...state,
-                activeNote: action.payload,
+                activeNoteId: action.payload,
             };
         case CREATE_NEW_NOTE:
             return {
                 ...state,
-                data: [...state.data, action.payload],
+                data: { ...state.data, [action.payload.id]: action.payload },
             };
         case DELETE_NOTE:
+            const { [action.payload]: value, ...rest } = state.data;
             return {
                 ...state,
-                data: state.data.filter((note) => note.id !== action.payload),
-            };
-        case UPDATE_ACTIVE_NOTE:
-            return {
-                ...state,
-                activeNote: action.payload,
+                data: rest,
             };
         case UPDATE_GLOBAL_TAGS:
             return {
                 ...state,
                 globalTags: [...new Set([...action.payload])],
+            };
+        case SET_NOTE_ID_LIST:
+            return {
+                ...state,
+                noteIdList: action.payload,
+            };
+        case SET_SORT_TYPE:
+            return {
+                ...state,
+                selection: {
+                    ...state.selection,
+                    sortOption: action.payload,
+                },
+            };
+        case SET_SEARCH_QUERY:
+            return {
+                ...state,
+                selection: {
+                    ...state.selection,
+                    searchQuery: action.payload,
+                },
             };
         default:
             return state;

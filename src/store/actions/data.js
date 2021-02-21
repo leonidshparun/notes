@@ -9,24 +9,26 @@ import {
 export const FETCH_DATA_START = 'FETCH_DATA_START';
 export const FETCH_DATA_ERROR = 'FETCH_DATA_ERROR';
 export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
-export const UPDATE_DATA = 'UPDATE_DATA';
-export const SET_ACTIVE_NOTE_DATA = 'SET_ACTIVE_NOTE_DATA';
+export const UPDATE_NOTE_DATA = 'UPDATE_NOTE_DATA';
+export const SET_ACTIVE_NOTE_ID = 'SET_ACTIVE_NOTE_ID';
 export const CREATE_NEW_NOTE = 'CREATE_NEW_NOTE';
 export const SYNC_UPDATES_WITH_SERVER = 'SYNC_UPDATES_WITH_SERVER';
 export const SYNC_UPDATES_WITH_SERVER_IMMEDIATELY =
     'SYNC_UPDATES_WITH_SERVER_IMMEDIATELY';
 export const DELETE_NOTE = 'DELETE_NOTE';
-export const UPDATE_ACTIVE_NOTE = 'UPDATE_NOTE';
 export const UPDATE_GLOBAL_TAGS = 'UPDATE_GLOBAL_TAGS';
+export const SET_NOTE_ID_LIST = 'SET_NOTE_ID_LIST';
+export const SET_SORT_TYPE = 'SET_SORT_TYPE';
+export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
 
 export const refreshGlobalTags = (data) => ({
     type: UPDATE_GLOBAL_TAGS,
-    payload: data.map((note) => note.tags).flat(),
+    payload: Object.values(data)
+        .map((note) => note.tags)
+        .flat(),
 });
 
-export const fetchDataStart = () => ({
-    type: FETCH_DATA_START,
-});
+export const fetchDataStart = () => ({ type: FETCH_DATA_START });
 
 export const fetchDataError = (error) => ({
     type: FETCH_DATA_ERROR,
@@ -34,105 +36,96 @@ export const fetchDataError = (error) => ({
 });
 
 export const fetchDataSuccess = (data) => async (dispatch) => {
-    dispatch({
-        type: FETCH_DATA_SUCCESS,
-        payload: data,
-    });
+    dispatch({ type: FETCH_DATA_SUCCESS, payload: data });
     dispatch(refreshGlobalTags(data));
 };
 
-export const setActiveNoteData = (data) => ({
-    type: SET_ACTIVE_NOTE_DATA,
-    payload: data,
+export const setActiveNoteId = (id) => ({
+    type: SET_ACTIVE_NOTE_ID,
+    payload: id,
 });
 
 export const setDefaultActiveNote = () => async (dispatch, getState) => {
     const allNotes = getState().data.data;
     const currentRoute = getState().view.route;
-    const filtredDataBasedOnRoute = allNotes
-        .filter((note) => {
-            if (currentRoute === 'all') {
-                return !note.trash;
-            } else if (currentRoute === 'trash') {
-                return note.trash;
-            } else return false;
-        })
+    const filtredDataBasedOnRoute = Object.values(allNotes)
+        .filter(
+            (note) =>
+                (currentRoute === 'all' && !note.trash) ||
+                (currentRoute === 'trash' && note.trash),
+        )
         .sort((note) => (note.pinned ? -1 : 1));
-    dispatch(setActiveNoteData(filtredDataBasedOnRoute[0] || null));
+    dispatch(setActiveNoteId(filtredDataBasedOnRoute[0]?.id || null));
 };
 
 export const fetchData = () => async (dispatch) => {
     dispatch(fetchDataStart());
     try {
         const notes = await fetchNotesDB();
-        return dispatch(fetchDataSuccess(notes));
+        const normalized = {};
+        notes.forEach((note) => {
+            normalized[note.id] = note;
+        });
+        return dispatch(fetchDataSuccess(normalized));
     } catch (error) {
         return dispatch(fetchDataError(error.message));
     }
 };
 
-export const updateNotes = (updatedNote) => async (dispatch, getState) => {
-    const allNotes = getState().data.data;
-    const updatedNotes = allNotes.map((note) =>
-        note.id === updatedNote.id ? updatedNote : note,
-    );
-    dispatch({ type: UPDATE_DATA, payload: updatedNotes });
-    dispatch({ type: UPDATE_ACTIVE_NOTE, payload: updatedNote });
-};
-
-export const syncUpdatesWithServer = (note, difference) => ({
-    type: SYNC_UPDATES_WITH_SERVER,
-    payload: { note, difference },
+export const updateNoteData = (updatedNote) => ({
+    type: UPDATE_NOTE_DATA,
+    payload: updatedNote,
 });
 
-export const syncUpdatesWithServerImmediately = (note, difference) => ({
-    type: SYNC_UPDATES_WITH_SERVER_IMMEDIATELY,
-    payload: { note, difference },
+const syncUpdateType = (isDebounced) => (noteId, difference) => ({
+    type: isDebounced ? SYNC_UPDATES_WITH_SERVER : SYNC_UPDATES_WITH_SERVER_IMMEDIATELY,
+    payload: { noteId, difference },
 });
 
-export const updateNoteWithDebounce = (note, difference) => async (dispatch) => {
-    const updatedNote = { ...note, ...difference };
-    dispatch(updateNotes(updatedNote));
-    dispatch(syncUpdatesWithServer(note, difference));
+export const updateNote = (noteId, difference, debounce) => async (
+    dispatch,
+    getState,
+) => {
+    const syncWithServerType = syncUpdateType(debounce);
+    const noteToUpdate = getState().data.data[noteId];
+    dispatch(updateNoteData({ ...noteToUpdate, ...difference }));
+    dispatch(syncWithServerType(noteId, difference));
 };
 
-export const updateNoteImmediately = (note, difference) => async (dispatch) => {
-    const updatedNote = { ...note, ...difference };
-    dispatch(updateNotes(updatedNote));
-    dispatch(syncUpdatesWithServerImmediately(note, difference));
-};
-
-export const pinNote = (note) => async (dispatch) => {
-    const difference = { pinned: !note.pinned };
-    dispatch(updateNoteImmediately(note, difference));
+export const pinNote = (noteId, value) => async (dispatch) => {
+    const difference = { pinned: !value };
+    dispatch(updateNote(noteId, difference, false));
 };
 
 export const updateNoteText = (value) => async (dispatch, getState) => {
-    const { activeNote } = getState().data;
-    if (value === activeNote.text) return;
+    const { activeNoteId, data } = getState().data;
+    if (value === data[activeNoteId].text) return;
     const difference = { text: value };
-    dispatch(updateNoteWithDebounce(activeNote, difference));
+    dispatch(updateNote(activeNoteId, difference, true));
 };
 
 const setNoteIsInTrash = (value) => async (dispatch, getState) => {
-    const { activeNote } = getState().data;
+    const { activeNoteId } = getState().data;
     const difference = { trash: value };
-    dispatch(updateNoteImmediately(activeNote, difference));
+    dispatch(updateNote(activeNoteId, difference, false));
     dispatch(setDefaultActiveNote());
 };
 
 export const sendNoteToTrash = () => setNoteIsInTrash(true);
 export const restoreNoteFromTrash = () => setNoteIsInTrash(false);
 
-export const createNewNote = () => async (dispatch) =>
-    createNoteDB((newNote, id) => {
-        dispatch({ type: CREATE_NEW_NOTE, payload: { ...newNote, id } });
-        dispatch(setActiveNoteData({ ...newNote, id }));
+export const createNewNote = () => (dispatch) =>
+    createNoteDB((newNote) => {
+        console.log(newNote);
+        dispatch({ type: CREATE_NEW_NOTE, payload: newNote });
+        dispatch(setActiveNoteId(newNote.id));
     });
 
-export const deleteNoteForever = (noteId) => (dispatch, getState) => {
-    deleteNoteDB(noteId, () => {
-        dispatch({ type: DELETE_NOTE, payload: noteId });
+export const deleteNoteForever = () => (dispatch, getState) => {
+    const { activeNoteId } = getState().data;
+    dispatch(setActiveNoteId(null));
+    deleteNoteDB(activeNoteId, () => {
+        dispatch({ type: DELETE_NOTE, payload: activeNoteId });
         dispatch(setDefaultActiveNote());
 
         const { data } = getState().data;
@@ -142,7 +135,8 @@ export const deleteNoteForever = (noteId) => (dispatch, getState) => {
 
 export const resetTrashBin = () => (dispatch, getState) => {
     const { data } = getState().data;
-    const trashBinNotes = data.filter((note) => note.trash);
+    const trashBinNotes = Object.values(data).filter((note) => note.trash);
+    dispatch(setActiveNoteId(null));
     Promise.all(
         trashBinNotes.map(
             async (note) =>
@@ -153,7 +147,6 @@ export const resetTrashBin = () => (dispatch, getState) => {
         ),
     ).then(() => {
         console.log(trashBinNotes.length + ' notes deleted');
-        dispatch(setDefaultActiveNote());
         const { data } = getState().data;
         dispatch(refreshGlobalTags(data));
     });
@@ -161,39 +154,29 @@ export const resetTrashBin = () => (dispatch, getState) => {
 
 export const addTag = (noteId, tag) => (dispatch, getState) => {
     addNoteTagDB(noteId, tag, () => {
-        const { activeNote, globalTags } = getState().data;
-        const difference = { tags: [...new Set([...activeNote.tags, tag])] };
-        dispatch(updateNotes({ ...activeNote, ...difference }));
-        dispatch({
-            type: UPDATE_GLOBAL_TAGS,
-            payload: [...globalTags, tag],
-        });
+        const { activeNoteId, globalTags, data } = getState().data;
+        const difference = { tags: [...new Set([...data[activeNoteId].tags, tag])] };
+        dispatch(updateNoteData({ ...data[activeNoteId], ...difference }));
+        dispatch({ type: UPDATE_GLOBAL_TAGS, payload: [...globalTags, tag] });
     });
 };
 
 export const removeTag = (noteId, tag) => (dispatch, getState) => {
     removeNoteTagDB(noteId, tag, () => {
-        const { activeNote } = getState().data;
-        const difference = { tags: [...activeNote.tags.filter((_tag) => tag !== _tag)] };
-        dispatch(updateNotes({ ...activeNote, ...difference }));
+        const { activeNoteId, data } = getState().data;
+        const difference = {
+            tags: [...data[activeNoteId].tags.filter((_tag) => tag !== _tag)],
+        };
+        dispatch(updateNoteData({ ...data[activeNoteId], ...difference }));
 
-        const { data } = getState().data;
-        dispatch(refreshGlobalTags(data));
-    });
-};
-
-export const removeNoteGlobalTag = (note, tag) => (dispatch, getState) => {
-    removeNoteTagDB(note.id, tag, () => {
-        const difference = { tags: [...note.tags.filter((_tag) => tag !== _tag)] };
-        dispatch(updateNotes({ ...note, ...difference }));
-        const { data } = getState().data;
-        dispatch(refreshGlobalTags(data));
+        const updatedData = getState().data.data;
+        dispatch(refreshGlobalTags(updatedData));
     });
 };
 
 export const removeGlobalTag = (tag) => (dispatch, getState) => {
     const { data } = getState().data;
-    const notesWithTag = data.filter((note) => note.tags.includes(tag));
+    const notesWithTag = Object.values(data).filter((note) => note.tags.includes(tag));
     Promise.all(
         notesWithTag.map(
             async (note) =>
@@ -201,7 +184,7 @@ export const removeGlobalTag = (tag) => (dispatch, getState) => {
                     const difference = {
                         tags: [...note.tags.filter((_tag) => tag !== _tag)],
                     };
-                    dispatch(updateNotes({ ...note, ...difference }));
+                    dispatch(updateNoteData({ ...note, ...difference }));
                 }),
         ),
     ).then(() => {
@@ -210,3 +193,13 @@ export const removeGlobalTag = (tag) => (dispatch, getState) => {
         dispatch(refreshGlobalTags(data));
     });
 };
+
+export const setSortType = (value) => ({
+    type: SET_SORT_TYPE,
+    payload: value,
+});
+
+export const setSearchQuery = (value) => ({
+    type: SET_SEARCH_QUERY,
+    payload: value,
+});

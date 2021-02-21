@@ -19,11 +19,18 @@ export interface RootState {
         route: string;
     };
     data: {
-        data: [EnumNotesItem];
+        data: {
+            [key: string]: EnumNotesItem;
+        };
         loading: boolean;
         error: string;
-        activeNote: EnumNotesItem;
+        activeNoteId: string;
         globalTags: [string];
+        selection: {
+            sortOption: number;
+            searchQuery: string;
+        };
+        noteIdList: [string];
     };
     user: {
         isLoggedIn: boolean;

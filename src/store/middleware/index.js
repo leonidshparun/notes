@@ -7,19 +7,19 @@ import {
 let saveTimer;
 const debounceTime = 2000;
 
-const sendNoteUpdates = (note, difference) => updateNote(note, difference);
+const sendNoteUpdates = (noteId, difference) => updateNote(noteId, difference);
 
-const syncImmediately = ({ note, difference }) => {
-    sendNoteUpdates(note, difference);
+const syncImmediately = ({ noteId, difference }) => {
+    sendNoteUpdates(noteId, difference);
 };
 
-const syncWithDebounce = ({ note, difference }) => {
+const syncWithDebounce = ({ noteId, difference }) => {
     if (saveTimer) {
         clearTimeout(saveTimer);
     }
 
     saveTimer = setTimeout(() => {
-        sendNoteUpdates(note, difference);
+        sendNoteUpdates(noteId, difference);
     }, debounceTime);
 };
 

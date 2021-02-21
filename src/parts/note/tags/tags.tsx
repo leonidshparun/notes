@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addTag, removeTag } from 'store/actions/data';
+import { RootState } from 'store/interfaces';
 import styles from './tags.module.scss';
 
-const Tags = ({ data, noteId }: { data: [string]; noteId: string }) => {
+type TagsProps = { noteId: string };
+
+const Tags = ({ noteId }: TagsProps) => {
     const dispatch = useDispatch();
+    const data = useSelector((state: RootState) => state.data.data[noteId].tags);
     const [input, setInput] = useState<string>('');
 
     const addNewTag = () => {

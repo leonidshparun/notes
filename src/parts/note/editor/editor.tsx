@@ -6,24 +6,27 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDebounce } from 'services/hooks';
 import { editorUtlits as editor } from 'services/utils';
 import { updateNoteText } from 'store/actions/data';
+import { RootState } from 'store/interfaces';
 import styles from './editor.module.scss';
 
-type NoteProps = { data: string };
+type NoteProps = { noteId: string };
 type RefProp = Ref<{ checkListToggle: () => void }>;
 
 const Editor = forwardRef<any, any>((props: NoteProps, ref: RefProp) => {
+    const text = useSelector((state: RootState) => state.data.data[props.noteId].text);
+
     const dispatch = useDispatch();
-    const [noteInput, setNoteInput] = useState(props.data);
+    const [noteInput, setNoteInput] = useState(text);
     const debouncedNoteInput = useDebounce(noteInput, 500);
     const inputRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
-        setNoteInput(props.data);
-    }, [props]);
+        setNoteInput(text);
+    }, [text]);
 
     useEffect(() => {
         if (debouncedNoteInput) {
@@ -76,7 +79,6 @@ const Editor = forwardRef<any, any>((props: NoteProps, ref: RefProp) => {
                 cursorPosition - selectionRange,
                 selectionRange,
             );
-            console.log(closetoSelection);
             if (!editor.isLineContainCheckbox(closetoSelection)) {
                 return;
             }

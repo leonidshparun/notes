@@ -1,30 +1,35 @@
 import { ReactComponent as PinIcon } from 'assets/pin.svg';
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { pinNote, setActiveNoteData } from 'store/actions/data';
-import { EnumNotesItem } from 'store/interfaces';
+import { useDispatch, useSelector } from 'react-redux';
+import { pinNote, setActiveNoteId } from 'store/actions/data';
+import { RootState } from 'store/interfaces';
 import styles from './item.module.scss';
 
-type ItemProps = { note: EnumNotesItem; activeNoteId: string };
+type ItemProps = { noteId: string };
 
-const Item = ({ note, activeNoteId }: ItemProps) => {
+const Item = ({ noteId }: ItemProps) => {
     const dispatch = useDispatch();
+    const activeNoteId = useSelector((state: RootState) => state.data.activeNoteId);
+    const { text, pinned } = useSelector((state: RootState) => state.data.data[noteId]);
     return (
         <li
             className={`${styles.container} ${
-                activeNoteId === note.id ? styles.active : ''
+                activeNoteId === noteId ? styles.active : ''
             }`}
-            onClick={() => dispatch(setActiveNoteData(note))}
+            onClick={() => dispatch(setActiveNoteId(noteId))}
         >
             <button
-                onClick={() => dispatch(pinNote(note))}
-                className={note.pinned ? styles.pinned : ''}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(pinNote(noteId, pinned));
+                }}
+                className={pinned ? styles.pinned : ''}
             >
                 <PinIcon />
             </button>
             <div className={styles.card}>
-                {note.text.trim() ? (
-                    note.text.split(/\r?\n/).map((line, idx) => <p key={idx}>{line}</p>)
+                {text.trim() ? (
+                    text.split(/\r?\n/).map((line, idx) => <p key={idx}>{line}</p>)
                 ) : (
                     <p className={styles.newNote}>New Note</p>
                 )}

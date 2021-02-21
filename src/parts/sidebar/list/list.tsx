@@ -1,47 +1,30 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { createNewNote, resetTrashBin } from 'store/actions/data';
 import { changeRoute } from 'store/actions/view';
-import { EnumNotesItem, RootState } from 'store/interfaces';
+import { RootState } from 'store/interfaces';
+import { selectNotesIdList } from 'store/selectors/index';
 import Item from './item/item';
 import styles from './list.module.scss';
 
-interface ISortType {
-    title: string;
-    func: (valA: EnumNotesItem, valB: EnumNotesItem) => number;
-}
-
-const List = ({ route, sort }: { route: string; sort: ISortType }) => {
+const List = ({ route }: { route: string }) => {
     const dispatch = useDispatch();
-    const { data, loading, error, activeNote } = useSelector(
-        (state: RootState) => state.data,
-    );
+    const error = useSelector((state: RootState) => state.data.error);
+    const loading = useSelector((state: RootState) => state.data.loading);
+
+    const notesIdList = useSelector(selectNotesIdList, shallowEqual);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
 
-    const filtred = [...data].filter((note) => {
-        if (route === 'all') {
-            return !note.trash;
-        } else if (route === 'trash') {
-            return note.trash;
-        } else return false;
-    });
     return (
         <div className={styles.container}>
-            {!!filtred.length ? (
+            {!!notesIdList.length ? (
                 <>
                     <ul className={styles.list}>
-                        {filtred
-                            // .sort((note) => (note.pinned ? -1 : 1))
-                            .sort(sort.func)
-                            .map((note, idx) => (
-                                <Item
-                                    key={idx}
-                                    note={note}
-                                    activeNoteId={activeNote?.id}
-                                />
-                            ))}
+                        {notesIdList.map((noteId: string) => (
+                            <Item key={noteId} noteId={noteId} />
+                        ))}
                     </ul>
                     {route === 'trash' && (
                         <button

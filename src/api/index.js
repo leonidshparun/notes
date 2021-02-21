@@ -21,8 +21,8 @@ const getNotesCollectionRef = () => {
 
 const getNoteRef = (id) => getNotesCollectionRef().doc(id);
 
-export const updateNote = (note, difference) =>
-    getNoteRef(note.id)
+export const updateNote = (noteId, difference) =>
+    getNoteRef(noteId)
         .update({
             ...difference,
             lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
@@ -45,7 +45,7 @@ export const createNoteDB = (onSuccess) => {
             getNotesCollectionRef()
                 .doc(docRef.id)
                 .get()
-                .then((doc) => onSuccess(doc.data(), docRef.id));
+                .then((doc) => onSuccess({ ...doc.data(), id: docRef.id }));
         })
         .catch((error) => console.error('Error adding document: ', error));
 };

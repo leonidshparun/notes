@@ -15,10 +15,8 @@ import styles from './heading.module.scss';
 
 const Heading = ({
     handleCheckListModeBtnClick,
-    noteId,
 }: {
     handleCheckListModeBtnClick: () => void;
-    noteId: string;
 }) => {
     const dispatch = useDispatch();
     const isSidebarVisible = useSelector(
@@ -53,7 +51,7 @@ const Heading = ({
                     </button>
                     <button
                         className={styles.textBtn}
-                        onClick={() => dispatch(deleteNoteForever(noteId))}
+                        onClick={() => dispatch(deleteNoteForever())}
                     >
                         Delete forever
                     </button>
