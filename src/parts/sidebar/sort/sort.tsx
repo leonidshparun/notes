@@ -1,4 +1,4 @@
-import { SORT_OPTIONS } from 'config/sort.config';
+import { SORT_OPTIONS } from 'config/list.config';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setSortType } from 'store/actions/data';

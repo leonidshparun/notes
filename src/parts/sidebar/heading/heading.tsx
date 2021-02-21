@@ -1,8 +1,8 @@
 import { ReactComponent as AddNoteIcon } from 'assets/add.svg';
 import { ReactComponent as MenuIcon } from 'assets/menu.svg';
+import { titleByRoute } from 'config/menu.config';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { titleByRoute } from 'routes/index';
 import { createNewNote } from 'store/actions/data';
 import { toggleNavigationVisibility } from 'store/actions/view';
 import styles from './heading.module.scss';

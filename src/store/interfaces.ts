@@ -29,6 +29,7 @@ export interface RootState {
         selection: {
             sortOption: number;
             searchQuery: string;
+            tags: [string];
         };
         noteIdList: [string];
     };

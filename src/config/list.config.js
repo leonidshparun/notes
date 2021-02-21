@@ -59,3 +59,15 @@ export const combinedSort = (sort) => (a, b) => {
         return sortBySortType(a, b);
     }
 };
+
+export const filterBySearchQuery = (searchQuery, note) => note.text.includes(searchQuery);
+
+export const filterByRoute = (route, note) =>
+    (route === 'all' && !note.trash) || (route === 'trash' && note.trash);
+
+export const filterByTags = (tags, note) => tags.every((tag) => note.tags.includes(tag));
+
+export const combinedFilter = (route, searchQuery, tags) => (note) =>
+    filterBySearchQuery(searchQuery, note) &&
+    filterByRoute(route, note) &&
+    filterByTags(tags, note);

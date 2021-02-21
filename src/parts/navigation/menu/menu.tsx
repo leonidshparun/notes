@@ -1,8 +1,6 @@
+import { menuConfig } from 'config/menu.config';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { menuConfig } from 'routes/index';
-import { setDefaultActiveNote } from 'store/actions/data';
-import { changeRoute } from 'store/actions/view';
 import { routeSelector } from 'store/selectors/index';
 import styles from './menu.module.scss';
 
@@ -22,8 +20,7 @@ const Navigation = () => {
                     <a
                         onClick={(e) => {
                             e.preventDefault();
-                            dispatch(changeRoute(item.route));
-                            dispatch(setDefaultActiveNote());
+                            dispatch(item.action(item.route));
                         }}
                         href={item.route}
                         className={styles.link}

@@ -6,7 +6,7 @@ import {
     getTimestamp,
     removeNoteTagDB,
 } from 'api/index';
-import { combinedSort } from 'config/sort.config';
+import { combinedFilter, combinedSort } from 'config/list.config';
 
 export const FETCH_DATA_START = 'FETCH_DATA_START';
 export const FETCH_DATA_ERROR = 'FETCH_DATA_ERROR';
@@ -22,6 +22,7 @@ export const UPDATE_GLOBAL_TAGS = 'UPDATE_GLOBAL_TAGS';
 export const SET_NOTE_ID_LIST = 'SET_NOTE_ID_LIST';
 export const SET_SORT_TYPE = 'SET_SORT_TYPE';
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
+export const UPDATE_TAG_SELECTION = 'UPDATE_TAG_SELECTION';
 
 export const refreshGlobalTags = (data) => ({
     type: UPDATE_GLOBAL_TAGS,
@@ -50,13 +51,9 @@ export const setActiveNoteId = (id) => ({
 export const setDefaultActiveNote = () => async (dispatch, getState) => {
     const allNotes = getState().data.data;
     const currentRoute = getState().view.route;
-    const sortOption = getState().data.selection.sortOption;
+    const { sortOption, searchQuery, tags } = getState().data.selection;
     const filterAndSortedNotes = Object.values(allNotes)
-        .filter(
-            (note) =>
-                (currentRoute === 'all' && !note.trash) ||
-                (currentRoute === 'trash' && note.trash),
-        )
+        .filter(combinedFilter(currentRoute, searchQuery, tags))
         .sort(combinedSort(sortOption));
     dispatch(setActiveNoteId(filterAndSortedNotes[0]?.id || null));
 };
@@ -198,12 +195,21 @@ export const removeGlobalTag = (tag) => (dispatch, getState) => {
     });
 };
 
-export const setSortType = (value) => ({
-    type: SET_SORT_TYPE,
-    payload: value,
-});
+export const setSortType = (value) => ({ type: SET_SORT_TYPE, payload: value });
 
-export const setSearchQuery = (value) => ({
-    type: SET_SEARCH_QUERY,
-    payload: value,
-});
+export const setSearchQuery = (value) => async (dispatch, getState) => {
+    dispatch({ type: SET_SEARCH_QUERY, payload: value });
+    const { activeNoteId } = getState().data;
+    if (value || !activeNoteId) dispatch(setDefaultActiveNote());
+};
+
+export const updateTagsSelection = (tag) => (dispatch, getState) => {
+    const currentTagsSelection = getState().data.selection.tags;
+    let result;
+    if (currentTagsSelection.includes(tag)) {
+        result = currentTagsSelection.filter((_tag) => tag !== _tag);
+    } else {
+        result = [...currentTagsSelection, tag];
+    }
+    dispatch({ type: UPDATE_TAG_SELECTION, payload: result });
+};

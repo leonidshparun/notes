@@ -1,24 +1,22 @@
-import { combinedSort } from 'config/sort.config';
+import { combinedFilter, combinedSort } from 'config/list.config';
 import { createSelector } from 'reselect';
 
 const selectNotesData = (state) => state.data.data;
 export const routeSelector = (state) => state.view.route;
 const sortOption = (state) => state.data.selection.sortOption;
-const searchQuery = (state) => state.data.selection.searchQuery;
+export const searchQuerySelector = (state) => state.data.selection.searchQuery;
+export const selectedTagsSelector = (state) => state.data.selection.tags;
 
 export const selectFiltredAndSortedNotesList = createSelector(
     selectNotesData,
     routeSelector,
     sortOption,
-    searchQuery,
-    (notes, route, sort, query) => {
-        return Object.values(notes)
-            .filter(
-                (note) =>
-                    (route === 'all' && !note.trash) || (route === 'trash' && note.trash),
-            )
-            .sort(combinedSort(sort));
-    },
+    searchQuerySelector,
+    selectedTagsSelector,
+    (notes, route, sortOption, searchQuery, tags) =>
+        Object.values(notes)
+            .filter(combinedFilter(route, searchQuery, tags))
+            .sort(combinedSort(sortOption)),
 );
 
 export const selectNotesIdList = createSelector(

@@ -10,6 +10,7 @@ import {
     SET_SORT_TYPE,
     UPDATE_GLOBAL_TAGS,
     UPDATE_NOTE_DATA,
+    UPDATE_TAG_SELECTION,
 } from '../actions/data';
 
 const dataState = {
@@ -21,6 +22,7 @@ const dataState = {
     selection: {
         sortOption: 0,
         searchQuery: '',
+        tags: [],
     },
     noteIdList: [],
 };
@@ -92,6 +94,14 @@ const dataReducer = (state = dataState, action) => {
                 selection: {
                     ...state.selection,
                     searchQuery: action.payload,
+                },
+            };
+        case UPDATE_TAG_SELECTION:
+            return {
+                ...state,
+                selection: {
+                    ...state.selection,
+                    tags: action.payload,
                 },
             };
         default:
