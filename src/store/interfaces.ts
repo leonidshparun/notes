@@ -17,6 +17,10 @@ export interface RootState {
         isNavigationVisible: boolean;
         isSidebarVisible: boolean;
         route: string;
+        modal: {
+            show: boolean;
+            type: string | null;
+        };
     };
     data: {
         data: {

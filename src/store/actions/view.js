@@ -4,6 +4,8 @@ export const TOGGLE_NAVIGATION_VISIBILITY = 'TOGGLE_NAVIGATION_VISIBILITY';
 export const TOGGLE_SIDEBAR_VISIBILITY = 'TOGGLE_SIDEBAR_VISIBILITY';
 export const HIDE_NAVIGATION = 'HIDE_NAVIGATION';
 export const CHANGE_ROUTE = 'CHANGE_ROUTE';
+export const SHOW_MODAL = 'SHOW_MODAL';
+export const HIDE_MODAL = 'HIDE_MODAL';
 
 export const toggleNavigationVisibility = () => ({
     type: TOGGLE_NAVIGATION_VISIBILITY,
@@ -26,3 +28,7 @@ export const switchScreen = (route) => (dispatch) => {
     dispatch(changeRoute(route));
     dispatch(setDefaultActiveNote());
 };
+
+export const showModal = (modalType) => ({ type: SHOW_MODAL, payload: modalType });
+
+export const hideModal = () => ({ type: HIDE_MODAL });

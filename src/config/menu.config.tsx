@@ -1,7 +1,7 @@
 import { ReactComponent as DeleteIcon } from 'assets/delete.svg';
 import { ReactComponent as NoteIcon } from 'assets/note.svg';
 import { ReactComponent as SettingsIcon } from 'assets/settings.svg';
-import { switchScreen } from 'store/actions/view';
+import { showModal, switchScreen } from 'store/actions/view';
 
 type Config = {
     [route: string]: {
@@ -25,7 +25,7 @@ export const RoutesConfig: Config = {
     settings: {
         title: 'Settings',
         icon: <SettingsIcon />,
-        action: () => switchScreen('all'),
+        action: () => showModal('SETTINGS'),
     },
 };
 

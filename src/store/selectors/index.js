@@ -37,3 +37,5 @@ export const noteTextSelector = (noteId) => (state) => selectNoteById(state, not
 export const noteTagsSelector = (noteId) => (state) => selectNoteById(state, noteId).tags;
 export const notePinSelector = (noteId) => (state) =>
     selectNoteById(state, noteId).pinned;
+
+export const modalStateSelector = (state) => state.view.modal;

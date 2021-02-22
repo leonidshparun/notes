@@ -1,5 +1,4 @@
 import { images } from 'services/icons';
-
 interface IconProps {
     name: string;
     width: number;
