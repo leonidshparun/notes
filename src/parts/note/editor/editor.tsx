@@ -72,23 +72,25 @@ const Editor = forwardRef<any, any>((props: NoteProps, ref: RefProp) => {
         if (inputRef.current) {
             if (window.getSelection()?.toString()) return;
             const cursorPosition = inputRef.current.selectionStart;
-            let selectionRange = cursorPosition >= 2 ? 2 : 1;
+            let selectionOffset = cursorPosition === 0 ? 0 : 1;
 
-            const closetoSelection = noteInput.substr(
-                cursorPosition - selectionRange,
-                selectionRange,
-            );
+            const closetoSelection = noteInput
+                .substr(cursorPosition - selectionOffset, selectionOffset + 1)
+                .split('\n')
+                .pop();
+
             if (!editor.isLineContainCheckbox(closetoSelection)) {
                 return;
             }
 
             const lines = editor.splitLineByLineBreaks(
-                noteInput.substr(0, cursorPosition),
+                noteInput.substr(0, cursorPosition + 1),
             );
             const linePosition = lines.length - 1;
             const selectedLine = lines[linePosition];
 
             const fullStringToArray = editor.splitLineByLineBreaks(noteInput);
+
             let replaced = '';
             if (/☑/.test(selectedLine)) {
                 replaced = fullStringToArray[linePosition].replace('☑', '☐');
@@ -116,7 +118,7 @@ const Editor = forwardRef<any, any>((props: NoteProps, ref: RefProp) => {
             const linePosition = lines.length - 1;
 
             const selectedLine = lines[linePosition];
-            if (/☑|☐/.test(selectedLine)) {
+            if (editor.isLineContainCheckbox(selectedLine)) {
                 let updatedInput = '';
                 let cursorOffset = 0;
                 if (selectedLine === '☐ ') {
