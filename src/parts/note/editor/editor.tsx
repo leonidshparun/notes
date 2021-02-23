@@ -1,3 +1,4 @@
+import { UI } from 'config/keyboard.config';
 import React, {
     forwardRef,
     Ref,
@@ -6,6 +7,7 @@ import React, {
     useRef,
     useState,
 } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDebounce } from 'services/hooks';
 import { editorUtlits as editor } from 'services/utils';
@@ -151,6 +153,10 @@ const Editor = forwardRef<any, any>((props: NoteProps, ref: RefProp) => {
     useImperativeHandle(ref, () => ({
         checkListToggle: () => toggleLineIntoChecklistItem(),
     }));
+
+    useHotkeys(UI.insertChecklist.keyboardBinding, () => toggleLineIntoChecklistItem(), {
+        enableOnTags: ['TEXTAREA'],
+    });
 
     return (
         <section className={styles.textInput}>

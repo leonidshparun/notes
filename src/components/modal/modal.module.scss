@@ -4,7 +4,7 @@
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.75);
     z-index: 500;
 }
 
@@ -16,6 +16,7 @@
     z-index: 700;
     width: inherit;
     outline: 0;
+    box-shadow: 0 2px 4px 2px rgb(29 35 39 / 15%);
 }
 
 .modal {
@@ -23,28 +24,48 @@
     background: white;
     position: relative;
     margin: auto;
-    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
 
     .header {
-        border-radius: 8px 8px 0 0;
         display: flex;
-        justify-content: space-between;
-        padding: 0.3rem;
+        justify-content: center;
+        border-bottom: 1px solid #d3d3d3;
+        min-height: 3rem;
+        padding-left: 40px;
 
-        p {
-            color: #fff;
+        h3 {
+            color: black;
+            flex: 1;
+            text-align: center;
+            font-size: 1rem;
             align-self: center;
-            color: lightgray;
         }
 
         button {
             font-size: 0.8rem;
             border: none;
-            border-radius: 3px;
-            margin-left: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background: none;
-            :hover {
+
+            &:active {
+                background-color: slateblue;
+                svg {
+                    fill: white;
+                }
+            }
+            &:hover {
                 cursor: pointer;
+            }
+            min-height: 100%;
+            width: 40px;
+            svg {
+                height: 20px;
+                width: 20px;
+                fill: grey;
             }
         }
     }

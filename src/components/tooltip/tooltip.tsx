@@ -9,13 +9,6 @@ interface IRect extends HTMLDivElement {
     bottom: number;
 }
 
-interface ISpan extends HTMLSpanElement {
-    width: number;
-    left: number;
-    top: number;
-    bottom: number;
-}
-
 interface IDimensions extends DOMRect {
     width: number;
     left: number;
@@ -33,17 +26,15 @@ interface IStyle {
 
 const Tooltip = ({ children, tip }: { children: JSX.Element; tip: string }) => {
     const ref = useRef<IRect>(null);
-    const space = 10;
 
-    const [isVisible, toggleVisibility] = useState(false);
-
+    const [isVisible, setVisibility] = useState(false);
     const [style, setStyle] = useState<IStyle>();
-
     const [delayHandler, setDelayHandler] = useState<NodeJS.Timeout>();
 
     const showToolTip = () => {
-        const tipWidth = tip.length * 6.7 + 10;
-        const setPosition = (dimensions: IDimensions | undefined) => {
+        const space = 10;
+        const tipWidth = tip.length * 6.7 + space;
+        const calcPosition = (dimensions: IDimensions | undefined) => {
             if (dimensions && tipWidth) {
                 const style = {
                     width: 'auto',
@@ -60,7 +51,7 @@ const Tooltip = ({ children, tip }: { children: JSX.Element; tip: string }) => {
                 );
 
                 if (dimensions.top < window.innerHeight / 2) {
-                    style.top = dimensions.top + dimensions.height + space;
+                    style.top = dimensions.top + dimensions.height;
                 } else {
                     style.bottom = window.innerHeight - dimensions.top + space;
                 }
@@ -68,12 +59,12 @@ const Tooltip = ({ children, tip }: { children: JSX.Element; tip: string }) => {
             }
         };
 
-        setPosition(ref.current?.getBoundingClientRect());
-        toggleVisibility(true);
+        calcPosition(ref.current?.getBoundingClientRect());
+        setVisibility(true);
     };
 
     const hideToolTip = () => {
-        toggleVisibility(false);
+        setVisibility(false);
     };
 
     const handleMouseEnter = () => {

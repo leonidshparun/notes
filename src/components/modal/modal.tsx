@@ -1,3 +1,4 @@
+import { ReactComponent as CloseIcon } from 'assets/clear.svg';
 import { MODAL_COMPONENTS } from 'config/modals.config';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -21,8 +22,10 @@ export const Modal = () => {
             <div className={styles.wrapper}>
                 <div className={styles.modal}>
                     <div className={styles.header}>
-                        <p>{SpecificModal.heading}</p>
-                        <button onClick={() => dispatch(hideModal())}>X</button>
+                        <h3>{SpecificModal.heading}</h3>
+                        <button onClick={() => dispatch(hideModal())}>
+                            <CloseIcon />
+                        </button>
                     </div>
                     <div className={styles.content}>{SpecificModal.content}</div>
                 </div>
