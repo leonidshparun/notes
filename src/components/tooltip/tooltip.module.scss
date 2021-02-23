@@ -1,0 +1,18 @@
+.container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tip {
+    position: fixed;
+    border-radius: 3px;
+    padding: 5px 5px 7px 5px;
+    font-size: 0.9rem;
+    color: white;
+    white-space: nowrap;
+    background-color: rgb(106, 106, 109);
+    white-space: nowrap;
+    transition: all 0.3s ease-in-out;
+}

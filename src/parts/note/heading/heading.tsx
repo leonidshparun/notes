@@ -2,6 +2,7 @@ import { ReactComponent as ChecklistIcon } from 'assets/checklist.svg';
 import { ReactComponent as DeleteIcon } from 'assets/delete.svg';
 import { ReactComponent as InfoIcon } from 'assets/information.svg';
 import { ReactComponent as SidebarIcon } from 'assets/sidebar.svg';
+import Tooltip from 'components/tooltip/tooltip';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -22,20 +23,29 @@ const Heading = ({ handleCheckListModeBtnClick }: HeadingProps) => {
 
     return (
         <header className={`${styles.container} ${isSidebarVisible ? styles.full : ''}`}>
-            <button onClick={() => dispatch(toggleSidebarVisibility())}>
-                <SidebarIcon />
-            </button>
+            <Tooltip tip="Toggle Sidebar">
+                <button onClick={() => dispatch(toggleSidebarVisibility())}>
+                    <SidebarIcon />
+                </button>
+            </Tooltip>
             {route === 'all' ? (
                 <>
-                    <button onClick={handleCheckListModeBtnClick}>
-                        <ChecklistIcon />
-                    </button>
-                    <button onClick={() => dispatch(sendNoteToTrash())}>
-                        <DeleteIcon />
-                    </button>
-                    <button>
-                        <InfoIcon />
-                    </button>
+                    <Tooltip tip="Insert Checklist">
+                        <button onClick={handleCheckListModeBtnClick}>
+                            <ChecklistIcon />
+                        </button>
+                    </Tooltip>
+                    <Tooltip tip="Trash">
+                        <button onClick={() => dispatch(sendNoteToTrash())}>
+                            <DeleteIcon />
+                        </button>
+                    </Tooltip>
+
+                    <Tooltip tip="Info">
+                        <button>
+                            <InfoIcon />
+                        </button>
+                    </Tooltip>
                 </>
             ) : (
                 <>

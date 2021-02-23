@@ -1,5 +1,6 @@
 import { ReactComponent as AddNoteIcon } from 'assets/add.svg';
 import { ReactComponent as MenuIcon } from 'assets/menu.svg';
+import Tooltip from 'components/tooltip/tooltip';
 import { titleByRoute } from 'config/menu.config';
 import React from 'react';
 import { useDispatch } from 'react-redux';
@@ -11,16 +12,25 @@ const Heading = ({ route }: { route: string }) => {
     const dispatch = useDispatch();
     return (
         <header className={styles.container}>
-            <button onClick={() => dispatch(toggleNavigationVisibility())}>
-                <MenuIcon />
-            </button>
+            <Tooltip tip="Menu">
+                <button
+                    data-title="Menu"
+                    onClick={() => dispatch(toggleNavigationVisibility())}
+                >
+                    <MenuIcon />
+                </button>
+            </Tooltip>
+
             <h3>{titleByRoute(route)}</h3>
-            <button
-                onClick={() => dispatch(createNewNote())}
-                disabled={route === 'trash'}
-            >
-                <AddNoteIcon />
-            </button>
+            <Tooltip tip="Create new note">
+                <button
+                    onClick={() => dispatch(createNewNote())}
+                    disabled={route === 'trash'}
+                    data-title="Create new note"
+                >
+                    <AddNoteIcon />
+                </button>
+            </Tooltip>
         </header>
     );
 };

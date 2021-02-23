@@ -1,8 +1,6 @@
 *,
 *::before,
 *::after {
-    position: relative;
-    /* make absolutely positioned elements relative to their parent by default */
     min-width: 0;
     /* prevent flex items from overflowing horizontally */
     min-height: 0;
