@@ -32,10 +32,10 @@ const Tooltip = ({ children, tip }: { children: JSX.Element; tip: string }) => {
     const [delayHandler, setDelayHandler] = useState<NodeJS.Timeout>();
 
     const showToolTip = () => {
-        const space = 10;
-        const tipWidth = tip.length * 6.7 + space;
         const calcPosition = (dimensions: IDimensions | undefined) => {
-            if (dimensions && tipWidth) {
+            if (dimensions) {
+                const space = 10;
+                const tipWidth = tip.length * 6.7 + space;
                 const style = {
                     width: 'auto',
                     height: dimensions.height,
