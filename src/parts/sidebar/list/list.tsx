@@ -10,11 +10,9 @@ import styles from './list.module.scss';
 const List = ({ route }: { route: string }) => {
     const dispatch = useDispatch();
     const error = useSelector((state: RootState) => state.data.error);
-    const loading = useSelector((state: RootState) => state.data.loading);
 
     const notesIdList = useSelector(selectNotesIdList, shallowEqual);
 
-    if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
 
     return (
