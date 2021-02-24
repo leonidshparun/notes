@@ -21,6 +21,7 @@ export interface RootState {
             show: boolean;
             type: string | null;
         };
+        media: string;
     };
     data: {
         data: {

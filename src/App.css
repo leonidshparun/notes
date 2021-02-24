@@ -90,3 +90,9 @@ th {
     text-align: inherit;
     /* reset UA stylesheet’s `text-align: center` */
 }
+
+@media (max-width: 680px) {
+    html {
+        font-size: 18px;
+    }
+}

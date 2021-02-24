@@ -6,6 +6,7 @@ export const HIDE_NAVIGATION = 'HIDE_NAVIGATION';
 export const CHANGE_ROUTE = 'CHANGE_ROUTE';
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
+export const SET_BREAKPOINT = 'SET_BREAKPOINT';
 
 export const toggleNavigationVisibility = () => ({
     type: TOGGLE_NAVIGATION_VISIBILITY,
@@ -28,6 +29,11 @@ export const switchScreen = (route) => (dispatch) => {
     dispatch(changeRoute(route));
     dispatch(setDefaultActiveNote());
 };
+
+export const setBreakPoint = (type) => ({
+    type: SET_BREAKPOINT,
+    payload: type,
+});
 
 export const showModal = (modalType) => ({ type: SHOW_MODAL, payload: modalType });
 

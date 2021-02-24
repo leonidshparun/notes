@@ -2,6 +2,7 @@ import {
     CHANGE_ROUTE,
     HIDE_MODAL,
     HIDE_NAVIGATION,
+    SET_BREAKPOINT,
     SHOW_MODAL,
     TOGGLE_NAVIGATION_VISIBILITY,
     TOGGLE_SIDEBAR_VISIBILITY,
@@ -15,6 +16,7 @@ const viewState = {
         show: false,
         type: null,
     },
+    media: 'full',
 };
 
 const viewReducer = (state = viewState, action) => {
@@ -55,6 +57,12 @@ const viewReducer = (state = viewState, action) => {
                     show: false,
                     type: null,
                 },
+            };
+        }
+        case SET_BREAKPOINT: {
+            return {
+                ...state,
+                media: action.payload,
             };
         }
         default:

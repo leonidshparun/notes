@@ -2,13 +2,18 @@ import { ReactComponent as AddNoteIcon } from 'assets/add.svg';
 import { ReactComponent as ChecklistIcon } from 'assets/checklist.svg';
 import { ReactComponent as DeleteIcon } from 'assets/delete.svg';
 import { ReactComponent as InfoIcon } from 'assets/information.svg';
+import { ReactComponent as LeftArrow } from 'assets/left-arrow.svg';
 import { ReactComponent as SidebarIcon } from 'assets/sidebar.svg';
 import Tooltip from 'components/tooltip/tooltip';
 import { buildTip, UI } from 'config/keyboard.config';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteNoteForever, restoreNoteFromTrash } from 'store/actions/data';
-import { isSidebarVisibleSelector, routeSelector } from 'store/selectors/index';
+import {
+    isSidebarVisibleSelector,
+    mediaTypeSelector,
+    routeSelector,
+} from 'store/selectors/index';
 import styles from './heading.module.scss';
 
 type HeadingProps = { handleCheckListModeBtnClick: () => void };
@@ -18,10 +23,11 @@ const Heading = ({ handleCheckListModeBtnClick }: HeadingProps) => {
     const isSidebarVisible = useSelector(isSidebarVisibleSelector);
     const route = useSelector(routeSelector);
 
+    const isMinified = useSelector(mediaTypeSelector) === 'mobile';
     const { toggleSidebar, insertChecklist, inTrash, NoteInfo, newNote } = UI;
     return (
         <header className={`${styles.container} ${!isSidebarVisible ? styles.full : ''}`}>
-            {!isSidebarVisible && route === 'all' && (
+            {!isSidebarVisible && route === 'all' && !isMinified && (
                 <div className={styles.aside}>
                     <Tooltip tip={buildTip(newNote)}>
                         <button onClick={newNote.action}>
@@ -33,7 +39,7 @@ const Heading = ({ handleCheckListModeBtnClick }: HeadingProps) => {
             <div className={styles.wrapper}>
                 <Tooltip tip={buildTip(toggleSidebar)}>
                     <button onClick={toggleSidebar.action}>
-                        <SidebarIcon />
+                        {isMinified ? <LeftArrow /> : <SidebarIcon />}
                     </button>
                 </Tooltip>
                 {route === 'all' ? (

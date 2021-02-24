@@ -1,6 +1,10 @@
 import React, { useCallback, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { activeNoteIdSelector } from 'store/selectors/index';
+import {
+    activeNoteIdSelector,
+    isSidebarVisibleSelector,
+    mediaTypeSelector,
+} from 'store/selectors/index';
 import Editor from './editor/editor';
 import Heading from './heading/heading';
 import styles from './note.module.scss';
@@ -13,8 +17,15 @@ const Note = () => {
     const editorRef = useRef<RefType>(null);
     const switchLineMode = useCallback(() => editorRef.current?.checkListToggle(), []);
 
+    const isMinified = useSelector(mediaTypeSelector) !== 'full';
+    const isSidebarVisible = useSelector(isSidebarVisibleSelector);
+
     return (
-        <section className={styles.container}>
+        <section
+            className={`${styles.container} 
+        ${!isSidebarVisible ? styles.visible : ''} 
+        ${isMinified ? styles.minified : ''}`}
+        >
             {activeNoteId && (
                 <>
                     <Heading handleCheckListModeBtnClick={switchLineMode} />

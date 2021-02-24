@@ -18,3 +18,15 @@
     min-width: 20rem;
     transform: scaleX(1);
 }
+
+.minified {
+    overflow-x: hidden;
+    &.visible {
+        min-width: 100%;
+    }
+
+    & > * {
+        width: 100vw;
+        min-width: 100vw;
+    }
+}

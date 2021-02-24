@@ -39,3 +39,5 @@ export const notePinSelector = (noteId) => (state) =>
     selectNoteById(state, noteId).pinned;
 
 export const modalStateSelector = (state) => state.view.modal;
+
+export const mediaTypeSelector = (state) => state.view.media;

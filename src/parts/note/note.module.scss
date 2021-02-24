@@ -3,6 +3,9 @@
     flex-direction: column;
     flex-grow: 1;
 
+    text-area {
+        min-width: 100%;
+    }
     footer {
         margin-top: auto;
         min-height: 2.5rem;
@@ -10,4 +13,20 @@
     }
 
     border-left: 1px solid #dcdcde;
+}
+
+.minified {
+    width: 0;
+    min-width: 0;
+    overflow-x: hidden;
+    border: none;
+
+    & > * {
+        width: 100vw;
+        min-width: 100vw;
+    }
+    &.visible {
+        // flex-grow: 1;
+        display: flex;
+    }
 }
