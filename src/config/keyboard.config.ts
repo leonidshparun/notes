@@ -7,14 +7,25 @@ import {
 } from 'store/actions/view';
 import store from 'store/index';
 
-export const UI = {
+interface IUIItem {
+    title: string;
+    description: string;
+    action: () => void;
+    keyboardBinding: string;
+    local: boolean;
+}
+
+interface IUIDictionary {
+    [key: string]: IUIItem;
+}
+
+export const UI: IUIDictionary = {
     toggleNav: {
         title: 'Menu',
         description: 'Toggle navigation and tag list',
         action: () => store.dispatch(toggleNavigationVisibility()),
         keyboardBinding: 'ctrl+alt+m',
         local: false,
-        section: 'view',
     },
     toggleSidebar: {
         title: 'Toggle Sidebar',
@@ -22,7 +33,6 @@ export const UI = {
         action: () => store.dispatch(toggleSidebarVisibility()),
         keyboardBinding: 'ctrl+alt+f',
         local: false,
-        section: 'view',
     },
     newNote: {
         title: 'New Note',
@@ -33,7 +43,6 @@ export const UI = {
         },
         keyboardBinding: 'ctrl+alt+n',
         local: false,
-        section: 'note editing',
     },
     insertChecklist: {
         title: 'Insert Checklist',
@@ -41,7 +50,6 @@ export const UI = {
         action: () => null,
         keyboardBinding: 'ctrl+alt+c',
         local: true,
-        section: 'note editing',
     },
     inTrash: {
         title: 'Trash',
@@ -49,7 +57,6 @@ export const UI = {
         action: () => store.dispatch(sendNoteToTrash()),
         keyboardBinding: 'ctrl+alt+d',
         local: false,
-        section: 'note editing',
     },
     showShortcuts: {
         title: 'Keyboard shortcuts',
@@ -57,14 +64,18 @@ export const UI = {
         action: () => store.dispatch(showModal('KEYBOARD')),
         keyboardBinding: 'ctrl+alt+/',
         local: false,
-        section: 'view',
     },
-    openSettings: {
+    showSettings: {
         title: 'Settings',
         description: 'Show app settings',
         action: () => store.dispatch(showModal('SETTINGS')),
         keyboardBinding: 'ctrl+alt+s',
         local: false,
-        section: 'view',
     },
+};
+
+export const ShortcutsBySections = {
+    view: ['toggleNav', 'toggleSidebar'],
+    'note editing': ['newNote', 'insertChecklist', 'inTrash'],
+    app: ['showSettings', 'showShortcuts'],
 };
