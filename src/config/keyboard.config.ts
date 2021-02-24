@@ -19,19 +19,23 @@ interface IUIDictionary {
     [key: string]: IUIItem;
 }
 
+export const buildTip = ({ title, keyboardBinding }: IUIItem) => {
+    return `${title} · ${keyboardBinding}`;
+};
+
 export const UI: IUIDictionary = {
     toggleNav: {
         title: 'Menu',
         description: 'Toggle navigation and tag list',
         action: () => store.dispatch(toggleNavigationVisibility()),
-        keyboardBinding: 'ctrl+alt+m',
+        keyboardBinding: 'Ctrl+Alt+M',
         local: false,
     },
     toggleSidebar: {
         title: 'Toggle Sidebar',
         description: 'Toggle focus mode',
         action: () => store.dispatch(toggleSidebarVisibility()),
-        keyboardBinding: 'ctrl+alt+f',
+        keyboardBinding: 'Ctrl+Alt+F',
         local: false,
     },
     newNote: {
@@ -41,35 +45,42 @@ export const UI: IUIDictionary = {
             store.dispatch(changeRoute('all'));
             store.dispatch(createNewNote());
         },
-        keyboardBinding: 'ctrl+alt+n',
+        keyboardBinding: 'Ctrl+Alt+N',
         local: false,
     },
     insertChecklist: {
         title: 'Insert Checklist',
         description: 'Insert checklist item',
         action: () => null,
-        keyboardBinding: 'ctrl+alt+c',
+        keyboardBinding: 'Ctrl+Alt+C',
         local: true,
     },
     inTrash: {
         title: 'Trash',
         description: 'Put note to the trash',
         action: () => store.dispatch(sendNoteToTrash()),
-        keyboardBinding: 'ctrl+alt+d',
+        keyboardBinding: 'Ctrl+Alt+D',
         local: false,
     },
     showShortcuts: {
         title: 'Keyboard shortcuts',
         description: 'Show keyboard shortcuts',
         action: () => store.dispatch(showModal('KEYBOARD')),
-        keyboardBinding: 'ctrl+alt+/',
+        keyboardBinding: 'Ctrl+Alt+/',
         local: false,
     },
     showSettings: {
         title: 'Settings',
         description: 'Show app settings',
         action: () => store.dispatch(showModal('SETTINGS')),
-        keyboardBinding: 'ctrl+alt+s',
+        keyboardBinding: 'Ctrl+Alt+S',
+        local: false,
+    },
+    NoteInfo: {
+        title: 'Note Info',
+        description: 'Show note information',
+        action: () => {},
+        keyboardBinding: 'Ctrl+Alt+I',
         local: false,
     },
 };

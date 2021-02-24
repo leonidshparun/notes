@@ -24,7 +24,12 @@ interface IStyle {
     bottom: number;
 }
 
-const Tooltip = ({ children, tip }: { children: JSX.Element; tip: string }) => {
+type ToolTipProps = {
+    children: JSX.Element;
+    tip: string;
+};
+
+const Tooltip = ({ children, tip }: ToolTipProps) => {
     const ref = useRef<IRect>(null);
 
     const [isVisible, setVisibility] = useState(false);
@@ -68,11 +73,7 @@ const Tooltip = ({ children, tip }: { children: JSX.Element; tip: string }) => {
     };
 
     const handleMouseEnter = () => {
-        setDelayHandler(
-            setTimeout(() => {
-                showToolTip();
-            }, 200),
-        );
+        setDelayHandler(setTimeout(() => showToolTip(), 200));
     };
 
     const handleMouseLeave = () => {

@@ -58,14 +58,30 @@ export const setDefaultActiveNote = () => async (dispatch, getState) => {
     dispatch(setActiveNoteId(filterAndSortedNotes[0]?.id || null));
 };
 
+export const setNeighborActiveNote = (noteId) => async (dispatch, getState) => {
+    const allNotes = getState().data.data;
+    const currentRoute = getState().view.route;
+    const { sortOption, searchQuery, tags } = getState().data.selection;
+    const filterAndSortedNotes = Object.values(allNotes)
+        .filter(combinedFilter(currentRoute, searchQuery, tags))
+        .sort(combinedSort(sortOption));
+    const currentNoteIdx = filterAndSortedNotes.findIndex((item) => item.id === noteId);
+    let nextNoteId = '';
+    if (filterAndSortedNotes[currentNoteIdx + 1]) {
+        nextNoteId = filterAndSortedNotes[currentNoteIdx + 1].id;
+    } else if (filterAndSortedNotes[currentNoteIdx - 1]) {
+        nextNoteId = filterAndSortedNotes[currentNoteIdx - 1].id;
+    } else nextNoteId = null;
+
+    dispatch(setActiveNoteId(nextNoteId));
+};
+
 export const fetchData = () => async (dispatch) => {
     dispatch(fetchDataStart());
     try {
         const notes = await fetchNotesDB();
         const normalized = {};
-        notes.forEach((note) => {
-            normalized[note.id] = note;
-        });
+        notes.forEach((note) => (normalized[note.id] = note));
         return dispatch(fetchDataSuccess(normalized));
     } catch (error) {
         return dispatch(fetchDataError(error.message));
@@ -108,9 +124,9 @@ export const updateNoteText = (value) => async (dispatch, getState) => {
 
 const setNoteIsInTrash = (value) => async (dispatch, getState) => {
     const { activeNoteId } = getState().data;
+    dispatch(setNeighborActiveNote(activeNoteId));
     const difference = { trash: value };
     dispatch(updateNote(activeNoteId, difference, false));
-    dispatch(setDefaultActiveNote());
 };
 
 export const sendNoteToTrash = () => setNoteIsInTrash(true);
@@ -124,11 +140,9 @@ export const createNewNote = () => (dispatch) =>
 
 export const deleteNoteForever = () => (dispatch, getState) => {
     const { activeNoteId } = getState().data;
-    dispatch(setActiveNoteId(null));
     deleteNoteDB(activeNoteId, () => {
+        dispatch(setNeighborActiveNote(activeNoteId));
         dispatch({ type: DELETE_NOTE, payload: activeNoteId });
-        dispatch(setDefaultActiveNote());
-
         const { data } = getState().data;
         dispatch(refreshGlobalTags(data));
     });

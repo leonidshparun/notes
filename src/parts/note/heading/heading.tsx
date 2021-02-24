@@ -3,14 +3,10 @@ import { ReactComponent as DeleteIcon } from 'assets/delete.svg';
 import { ReactComponent as InfoIcon } from 'assets/information.svg';
 import { ReactComponent as SidebarIcon } from 'assets/sidebar.svg';
 import Tooltip from 'components/tooltip/tooltip';
+import { buildTip, UI } from 'config/keyboard.config';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    deleteNoteForever,
-    restoreNoteFromTrash,
-    sendNoteToTrash,
-} from 'store/actions/data';
-import { toggleSidebarVisibility } from 'store/actions/view';
+import { deleteNoteForever, restoreNoteFromTrash } from 'store/actions/data';
 import { isSidebarVisibleSelector, routeSelector } from 'store/selectors/index';
 import styles from './heading.module.scss';
 
@@ -21,27 +17,28 @@ const Heading = ({ handleCheckListModeBtnClick }: HeadingProps) => {
     const isSidebarVisible = useSelector(isSidebarVisibleSelector);
     const route = useSelector(routeSelector);
 
+    const { toggleSidebar, insertChecklist, inTrash, NoteInfo } = UI;
     return (
         <header className={`${styles.container} ${isSidebarVisible ? styles.full : ''}`}>
-            <Tooltip tip="Toggle Sidebar">
-                <button onClick={() => dispatch(toggleSidebarVisibility())}>
+            <Tooltip tip={buildTip(toggleSidebar)}>
+                <button onClick={toggleSidebar.action}>
                     <SidebarIcon />
                 </button>
             </Tooltip>
             {route === 'all' ? (
                 <>
-                    <Tooltip tip="Insert Checklist">
+                    <Tooltip tip={buildTip(insertChecklist)}>
                         <button onClick={handleCheckListModeBtnClick}>
                             <ChecklistIcon />
                         </button>
                     </Tooltip>
-                    <Tooltip tip="Trash">
-                        <button onClick={() => dispatch(sendNoteToTrash())}>
+                    <Tooltip tip={buildTip(inTrash)}>
+                        <button onClick={inTrash.action}>
                             <DeleteIcon />
                         </button>
                     </Tooltip>
 
-                    <Tooltip tip="Info">
+                    <Tooltip tip={buildTip(NoteInfo)}>
                         <button>
                             <InfoIcon />
                         </button>
