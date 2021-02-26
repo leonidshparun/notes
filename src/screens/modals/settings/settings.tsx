@@ -28,6 +28,23 @@ const SettingsModal = () => {
                         </button>
                     </div>
                 </li>
+                <li>
+                    <div className={styles.submenu_container}>
+                        <p className={styles.sub_heading}>Theme</p>
+                        <div className={styles.menu_item}>
+                            <div className={styles.theme}>
+                                <p>Dark</p>
+                                <button></button>
+                            </div>
+                        </div>
+                        <div className={styles.menu_item}>
+                            <div className={styles.theme}>
+                                <p>Light</p>
+                                <button className={styles.activeTheme}></button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     );

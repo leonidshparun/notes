@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import styles from './keyboard.module.scss';
 
 const KeyboardModal = () => (
-    <div>
+    <div className={styles.container}>
         <ul>
             {Object.entries(ShortcutsBySections).map(([section, optionNames]) => (
                 <Fragment key={section}>
