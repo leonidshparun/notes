@@ -9,44 +9,42 @@ const SettingsModal = () => {
     const userEmail = useSelector(userEmailSelector);
     const dispatch = useDispatch();
     return (
-        <div>
-            <ul className={styles.container}>
-                <li>
-                    <div className={styles.submenu_container}>
-                        <p className={styles.sub_heading}>Account</p>
-                        <div className={styles.menu_item}>
-                            <p>{userEmail}</p>
-                        </div>
-                        <button
-                            onClick={() => {
-                                dispatch(hideModal());
-                                dispatch(userLogout());
-                            }}
-                            className={styles.logoutBtn}
-                        >
-                            Log Out
-                        </button>
+        <ul>
+            <li>
+                <div className={styles.submenu_container}>
+                    <p className={styles.sub_heading}>Account</p>
+                    <div className={styles.menu_item}>
+                        <p>{userEmail}</p>
                     </div>
-                </li>
-                <li>
-                    <div className={styles.submenu_container}>
-                        <p className={styles.sub_heading}>Theme</p>
-                        <div className={styles.menu_item}>
-                            <div className={styles.theme}>
-                                <p>Dark</p>
-                                <button></button>
-                            </div>
-                        </div>
-                        <div className={styles.menu_item}>
-                            <div className={styles.theme}>
-                                <p>Light</p>
-                                <button className={styles.activeTheme}></button>
-                            </div>
+                    <button
+                        onClick={() => {
+                            dispatch(hideModal());
+                            dispatch(userLogout());
+                        }}
+                        className={styles.logoutBtn}
+                    >
+                        Log Out
+                    </button>
+                </div>
+            </li>
+            <li>
+                <div className={styles.submenu_container}>
+                    <p className={styles.sub_heading}>Theme</p>
+                    <div className={styles.menu_item}>
+                        <div className={styles.theme}>
+                            <p>Dark</p>
+                            <button></button>
                         </div>
                     </div>
-                </li>
-            </ul>
-        </div>
+                    <div className={styles.menu_item}>
+                        <div className={styles.theme}>
+                            <p>Light</p>
+                            <button className={styles.activeTheme}></button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
     );
 };
 export default SettingsModal;
