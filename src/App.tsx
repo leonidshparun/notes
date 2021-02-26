@@ -1,5 +1,6 @@
 import firebase from 'api/index';
 import { Modal } from 'components/modal/modal';
+import Spinner from 'components/spinner/spinner';
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import Layout from 'screens/layout/layout';
@@ -10,16 +11,16 @@ function App() {
     const [isFirebaseConnected, setConnecteion] = useState(false);
 
     useEffect(() => {
-        if (firebase.auth().currentUser) {
-            setConnecteion(true);
-        } else {
-            firebase.auth().onAuthStateChanged(() => {
-                setConnecteion(true);
-            });
-        }
+        const unlisten = firebase.auth().onAuthStateChanged(() => setConnecteion(true));
+        return () => unlisten();
     }, []);
 
-    if (!isFirebaseConnected) return <p>Loading</p>;
+    if (!isFirebaseConnected)
+        return (
+            <div className="app_loading">
+                <Spinner />
+            </div>
+        );
 
     return (
         <Provider store={store}>
