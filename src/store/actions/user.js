@@ -6,7 +6,13 @@ export const userLogin = (email, id) => ({
     payload: { email, id },
 });
 
-export const userLogout = (error) => ({
-    type: LOGOUT,
-    payload: error,
-});
+export const userLogout = () => (dispacth) => {
+    localStorage.setItem(
+        'credentials',
+        JSON.stringify({
+            ...JSON.parse(localStorage.getItem('credentials')),
+            uid: null,
+        }),
+    );
+    dispacth({ type: LOGOUT });
+};

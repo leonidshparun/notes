@@ -27,10 +27,10 @@ function LogIn() {
         setCredentials({ ...credentials, [name]: value });
     };
 
-    const saveLogin = () => {
+    const saveUser = (uid: string) => {
         setRemember(remember);
         if (remember) {
-            setStoredCredentials({ ...credentials });
+            setStoredCredentials({ ...credentials, uid });
         } else {
             cleanStoredCredentials();
         }
@@ -45,9 +45,13 @@ function LogIn() {
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                console.log(userCredential.user);
-                saveLogin();
-                dispatch(userLogin(userCredential.user?.email, userCredential.user?.uid));
+                console.log(userCredential);
+                if (userCredential.user) {
+                    const email = userCredential.user.email;
+                    const uid = userCredential.user.uid;
+                    saveUser(uid);
+                    dispatch(userLogin(email, uid));
+                }
             })
             .catch((error) => {
                 console.log(error);

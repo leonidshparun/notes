@@ -1,9 +1,11 @@
 import { LOGIN, LOGOUT } from '../actions/user';
 
+const persistUSerData = JSON.parse(localStorage.getItem('credentials'));
+
 const dataState = {
-    isLoggedIn: false,
-    email: '',
-    id: '',
+    isLoggedIn: !!persistUSerData?.uid || false,
+    email: persistUSerData?.email || '',
+    id: persistUSerData?.uid || '',
 };
 
 const dataReducer = (state = dataState, action) => {

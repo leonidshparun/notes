@@ -1,0 +1,38 @@
+.container {
+    width: 24rem;
+    padding: 1rem 4rem;
+    list-style: none;
+}
+
+.submenu_container {
+    & > * {
+        margin: 0.7rem 0;
+    }
+}
+
+.sub_heading {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.7rem;
+    margin: 0.3rem 0;
+}
+
+.menu_item {
+    border: 1px solid #dedede;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logoutBtn {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: slateblue;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    width: 100%;
+}
