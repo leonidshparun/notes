@@ -1,4 +1,5 @@
 import KeyboardModal from 'screens/modals/keyboard/keyboard';
+import SettingsModal from 'screens/modals/settings/settings';
 
 export const MODAL_COMPONENTS: {
     [key: string]: {
@@ -7,5 +8,5 @@ export const MODAL_COMPONENTS: {
     };
 } = {
     KEYBOARD: { content: <KeyboardModal />, heading: 'Keyboard shortcuts' },
-    SETTINGS: { content: <p>SETTINGS MODAL</p>, heading: 'Settings' },
+    SETTINGS: { content: <SettingsModal />, heading: 'Settings' },
 };

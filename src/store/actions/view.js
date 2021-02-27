@@ -7,6 +7,7 @@ export const CHANGE_ROUTE = 'CHANGE_ROUTE';
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
 export const SET_BREAKPOINT = 'SET_BREAKPOINT';
+export const SET_THEME = 'SET_THEME';
 
 export const toggleNavigationVisibility = () => ({
     type: TOGGLE_NAVIGATION_VISIBILITY,
@@ -38,3 +39,8 @@ export const setBreakPoint = (type) => ({
 export const showModal = (modalType) => ({ type: SHOW_MODAL, payload: modalType });
 
 export const hideModal = () => ({ type: HIDE_MODAL });
+
+export const setTheme = (theme) => (dispatch) => {
+    dispatch({ type: SET_THEME, payload: theme });
+    localStorage.setItem('theme', theme);
+};

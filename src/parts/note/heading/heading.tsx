@@ -20,14 +20,54 @@ type HeadingProps = { handleCheckListModeBtnClick: () => void };
 
 const Heading = ({ handleCheckListModeBtnClick }: HeadingProps) => {
     const dispatch = useDispatch();
-    const isSidebarVisible = useSelector(isSidebarVisibleSelector);
-    const route = useSelector(routeSelector);
 
-    const isMinified = useSelector(mediaTypeSelector) === 'mobile';
+    const isSidebarVisible = useSelector(isSidebarVisibleSelector);
+    const isAllNotes = useSelector(routeSelector) === 'all';
+    const isMinified = useSelector(mediaTypeSelector) !== 'full';
+
     const { toggleSidebar, insertChecklist, inTrash, NoteInfo, newNote } = UI;
+
+    const allNotesControls = (
+        <>
+            <Tooltip tip={buildTip(insertChecklist)}>
+                <button onClick={handleCheckListModeBtnClick}>
+                    <ChecklistIcon />
+                </button>
+            </Tooltip>
+            <Tooltip tip={buildTip(inTrash)}>
+                <button onClick={inTrash.action}>
+                    <DeleteIcon />
+                </button>
+            </Tooltip>
+            <Tooltip tip={buildTip(NoteInfo)}>
+                <button>
+                    <InfoIcon />
+                </button>
+            </Tooltip>
+        </>
+    );
+
+    const trashNotesControls = (
+        <>
+            <button
+                className={styles.textBtn}
+                onClick={() => dispatch(restoreNoteFromTrash())}
+            >
+                Restore
+            </button>
+
+            <button
+                className={styles.textBtn}
+                onClick={() => dispatch(deleteNoteForever())}
+            >
+                Delete forever
+            </button>
+        </>
+    );
+
     return (
         <header className={`${styles.container} ${!isSidebarVisible ? styles.full : ''}`}>
-            {!isSidebarVisible && route === 'all' && !isMinified && (
+            {!isSidebarVisible && isAllNotes && isMinified && (
                 <div className={styles.aside}>
                     <Tooltip tip={buildTip(newNote)}>
                         <button onClick={newNote.action}>
@@ -42,41 +82,7 @@ const Heading = ({ handleCheckListModeBtnClick }: HeadingProps) => {
                         {isMinified ? <LeftArrow /> : <SidebarIcon />}
                     </button>
                 </Tooltip>
-                {route === 'all' ? (
-                    <>
-                        <Tooltip tip={buildTip(insertChecklist)}>
-                            <button onClick={handleCheckListModeBtnClick}>
-                                <ChecklistIcon />
-                            </button>
-                        </Tooltip>
-                        <Tooltip tip={buildTip(inTrash)}>
-                            <button onClick={inTrash.action}>
-                                <DeleteIcon />
-                            </button>
-                        </Tooltip>
-
-                        <Tooltip tip={buildTip(NoteInfo)}>
-                            <button>
-                                <InfoIcon />
-                            </button>
-                        </Tooltip>
-                    </>
-                ) : (
-                    <>
-                        <button
-                            className={styles.textBtn}
-                            onClick={() => dispatch(restoreNoteFromTrash())}
-                        >
-                            Restore
-                        </button>
-                        <button
-                            className={styles.textBtn}
-                            onClick={() => dispatch(deleteNoteForever())}
-                        >
-                            Delete forever
-                        </button>
-                    </>
-                )}
+                {isAllNotes ? allNotesControls : trashNotesControls}
             </div>
         </header>
     );

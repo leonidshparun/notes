@@ -1,0 +1,65 @@
+.sub_heading {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.7rem;
+    margin: 1rem 0 0.5rem;
+}
+
+.menu_item {
+    border: 1px solid #dedede;
+    border-bottom: none;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    &:last-of-type {
+        border-bottom: 1px solid #dedede;
+    }
+}
+
+.logoutBtn {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #dedede;
+    background-color: slateblue;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    width: 100%;
+    height: 2.4rem;
+
+    &:active {
+        border: 1px solid slateblue;
+    }
+}
+
+.theme {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    p {
+        font-weight: 500;
+    }
+
+    button {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 1px solid gray;
+
+        &:focus {
+            border: 1px solid slateblue;
+        }
+    }
+
+    button.activeTheme {
+        background-color: slateblue;
+    }
+}

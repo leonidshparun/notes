@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useMedia } from 'services/hooks';
 import { setBreakPoint } from 'store/actions/view';
 import { RootState } from 'store/interfaces';
-import { isLoggedInSelector } from 'store/selectors/index';
+import { isLoggedInSelector, themeSelector } from 'store/selectors/index';
 import { breakPoints, mediaType } from 'styles/responsive';
 import Auth from '../auth/auth';
 import Notes from '../notes/notes';
@@ -16,6 +16,7 @@ function Layout() {
     const isLoggedIn = useSelector(isLoggedInSelector);
     const loading = useSelector((state: RootState) => state.data.loading);
 
+    const theme = useSelector(themeSelector);
     const breakpoint = useMedia(breakPoints, mediaType, 'full');
 
     useEffect(() => {
@@ -23,7 +24,7 @@ function Layout() {
     }, [breakpoint, dispatch]);
 
     return (
-        <div className={styles.page}>
+        <div className={`${styles.page} ${styles[theme]}`}>
             {isLoggedIn ? (
                 <>
                     <Navigation />

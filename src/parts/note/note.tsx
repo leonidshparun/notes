@@ -15,16 +15,18 @@ type RefType = { checkListToggle: () => void };
 const Note = () => {
     const activeNoteId = useSelector(activeNoteIdSelector);
     const editorRef = useRef<RefType>(null);
+
     const switchLineMode = useCallback(() => editorRef.current?.checkListToggle(), []);
 
-    const isMinified = useSelector(mediaTypeSelector) !== 'full';
+    const isDesktop = useSelector(mediaTypeSelector) === 'full';
     const isSidebarVisible = useSelector(isSidebarVisibleSelector);
 
     return (
         <section
-            className={`${styles.container} 
-        ${!isSidebarVisible ? styles.visible : ''} 
-        ${isMinified ? styles.minified : ''}`}
+            className={`
+                ${styles.container} 
+                ${!isSidebarVisible ? styles.visible : ''} 
+                ${!isDesktop ? styles.minified : ''}`}
         >
             {activeNoteId && (
                 <>

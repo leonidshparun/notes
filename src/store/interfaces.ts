@@ -22,6 +22,7 @@ export interface RootState {
             type: string | null;
         };
         media: string;
+        theme: string;
     };
     data: {
         data: {

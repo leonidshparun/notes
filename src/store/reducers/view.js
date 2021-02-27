@@ -3,6 +3,7 @@ import {
     HIDE_MODAL,
     HIDE_NAVIGATION,
     SET_BREAKPOINT,
+    SET_THEME,
     SHOW_MODAL,
     TOGGLE_NAVIGATION_VISIBILITY,
     TOGGLE_SIDEBAR_VISIBILITY,
@@ -17,6 +18,7 @@ const viewState = {
         type: null,
     },
     media: 'full',
+    theme: localStorage.getItem('theme') || 'light',
 };
 
 const viewReducer = (state = viewState, action) => {
@@ -63,6 +65,12 @@ const viewReducer = (state = viewState, action) => {
             return {
                 ...state,
                 media: action.payload,
+            };
+        }
+        case SET_THEME: {
+            return {
+                ...state,
+                theme: action.payload,
             };
         }
         default:

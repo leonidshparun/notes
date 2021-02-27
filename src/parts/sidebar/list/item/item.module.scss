@@ -1,11 +1,13 @@
+@import 'styles/_mixins.scss';
+@import 'styles/_color-palette.scss';
+
 .container {
-    max-height: 7.4rem;
-    overflow-y: hidden;
-    padding: 0.5rem 0;
     display: flex;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    overflow-y: hidden;
     align-items: flex-start;
     border-bottom: 1px solid #dcdcde;
-    cursor: pointer;
 
     &:hover {
         button {
@@ -41,15 +43,15 @@
 }
 
 .card {
-    margin-left: 0.5rem;
     width: 100%;
+    margin-left: 0.5rem;
 
     p {
-        white-space: nowrap;
         overflow: hidden;
+        width: calc(100% - 2rem);
+        white-space: nowrap;
         text-overflow: ellipsis;
         white-space: nowrap;
-        width: calc(100% - 2rem);
 
         &:first-of-type {
             font-weight: 600;
@@ -57,7 +59,46 @@
     }
 
     .newNote {
-        color: darkcyan;
         font-weight: 500;
+    }
+}
+
+.light {
+    &.active {
+        background-color: #00968850;
+    }
+
+    &:hover:not(.active) {
+        background-color: #e5e7eb;
+    }
+
+    & .newNote {
+        color: darkcyan;
+    }
+
+    & .pinned {
+        svg {
+            fill: darkcyan;
+        }
+    }
+}
+
+.dark {
+    &.active {
+        background-color: #555;
+    }
+
+    &:hover:not(.active) {
+        background-color: #383c44;
+    }
+
+    & .newNote {
+        color: #ffc107;
+    }
+
+    & .pinned {
+        svg {
+            fill: #ffc107;
+        }
     }
 }
