@@ -27,7 +27,7 @@ const Searchbar = () => {
             </button>
             <input
                 type="text"
-                placeholder="Search notes and tags"
+                placeholder="Search notes"
                 onChange={(e) => updateSearchQuery(e.target.value)}
                 value={searchQuery || ''}
             />
