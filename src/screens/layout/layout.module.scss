@@ -5,23 +5,13 @@
     height: 100vh;
     display: flex;
 
-    @include theme-aware('background', 'color-background');
-    @include theme-aware('color', 'color-text-primary');
-
-    svg {
-        @include theme-aware('fill', 'color-text-primary');
-    }
-
     & * {
         color: inherit;
-    }
-
-    ::placeholder {
-        @include theme-aware('color', 'color-text-placeholder');
     }
 }
 
 .light {
+    @extend .page;
     background: map-get(map-get($themes, 'light'), 'color-background');
     color: map-get(map-get($themes, 'light'), 'color-text-primary');
 
@@ -39,6 +29,7 @@
 }
 
 .dark {
+    @extend .page;
     background: map-get(map-get($themes, 'dark'), 'color-background');
     color: map-get(map-get($themes, 'dark'), 'color-text-primary');
 
@@ -53,11 +44,4 @@
     & * {
         border-color: map-get(map-get($themes, 'dark'), 'color-border');
     }
-}
-
-.spinner {
-    position: fixed;
-    bottom: 0px;
-    right: 0px;
-    padding: 50px;
 }

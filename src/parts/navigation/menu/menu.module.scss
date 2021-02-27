@@ -34,12 +34,14 @@
 }
 
 .light {
+    @extend .item;
     &.active {
         background-color: #00968850;
     }
 }
 
 .dark {
+    @extend .item;
     &.active {
         background-color: #555;
     }

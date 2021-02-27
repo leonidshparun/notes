@@ -1,32 +1,33 @@
-import firebase from 'api/index';
+import { apiConnectionListener } from 'api/index';
 import { Modal } from 'components/modal/modal';
-import Spinner from 'components/spinner/spinner';
+import Preloader from 'components/preloader/preloader';
 import React, { useEffect, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { Provider } from 'react-redux';
 import Layout from 'screens/layout/layout';
+import { keyboardActions, keyboardBindings, useHotkeysOptions } from 'services/keyboard';
 import store from 'store/index';
 import 'styles/styles.scss';
 import './App.css';
 
 function App() {
-    const [isFirebaseConnected, setConnecteion] = useState(false);
+    const [isFirebaseConnected, setConnection] = useState(false);
 
     useEffect(() => {
-        const unlisten = firebase.auth().onAuthStateChanged(() => setConnecteion(true));
+        const unlisten = apiConnectionListener(() => setConnection(true));
         return () => unlisten();
     }, []);
 
-    if (!isFirebaseConnected)
-        return (
-            <div className="app_loading">
-                <Spinner />
-            </div>
-        );
+    useHotkeys(
+        keyboardBindings,
+        (e, handler) => keyboardActions[handler.key](),
+        useHotkeysOptions,
+    );
 
     return (
         <Provider store={store}>
+            {isFirebaseConnected ? <Layout /> : <Preloader />}
             <Modal />
-            <Layout />
         </Provider>
     );
 }

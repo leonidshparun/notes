@@ -8,27 +8,27 @@ import { modalStateSelector, themeSelector } from 'store/selectors/index';
 import styles from './modal.module.scss';
 
 export const Modal = () => {
-    const { show, type } = useSelector(modalStateSelector);
     const dispatch = useDispatch();
+
+    const { show, type } = useSelector(modalStateSelector);
     const theme = useSelector(themeSelector);
 
-    if (!type) {
-        return null;
-    }
-    const SpecificModal = MODAL_COMPONENTS[type];
+    if (!type) return null;
+
+    const SelectedModal = MODAL_COMPONENTS[type];
 
     const modal = (
         <>
             <div onClick={() => dispatch(hideModal())} className={styles.backdrop} />
             <div className={styles.wrapper}>
-                <div className={`${styles.modal} ${styles[theme]}`}>
+                <div className={styles[theme]}>
                     <div className={styles.header}>
-                        <h3>{SpecificModal.heading}</h3>
+                        <h3>{SelectedModal.heading}</h3>
                         <button onClick={() => dispatch(hideModal())}>
                             <CloseIcon />
                         </button>
                     </div>
-                    <div className={styles.content}>{SpecificModal.content}</div>
+                    <div className={styles.content}>{SelectedModal.content}</div>
                 </div>
             </div>
         </>

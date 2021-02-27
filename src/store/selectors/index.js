@@ -45,3 +45,5 @@ export const mediaTypeSelector = (state) => state.view.media;
 export const userEmailSelector = (state) => state.user.email;
 
 export const themeSelector = (state) => state.view.theme;
+
+export const globadLoaderSelector = (state) => state.data.loading;

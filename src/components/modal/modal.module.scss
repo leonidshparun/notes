@@ -83,11 +83,13 @@
 }
 
 .light {
+    @extend .modal;
     background: map-get(map-get($themes, 'light'), 'color-background');
     color: map-get(map-get($themes, 'light'), 'color-text-primary');
 }
 
 .dark {
+    @extend .modal;
     background: map-get(map-get($themes, 'dark'), 'color-background');
     color: map-get(map-get($themes, 'dark'), 'color-text-primary');
 }

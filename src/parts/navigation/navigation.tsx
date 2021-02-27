@@ -10,14 +10,11 @@ const Navigation = () => {
     const isNavVisible = useSelector(isNavVisibleSelector);
 
     return (
-        <>
-            <nav className={`${styles.container} ${isNavVisible ? styles.visible : ''}`}>
-                <Menu />
-                <Tags />
-
-                <Keyboard />
-            </nav>
-        </>
+        <nav className={`${styles.container} ${isNavVisible ? styles.visible : ''}`}>
+            <Menu />
+            <Tags />
+            <Keyboard />
+        </nav>
     );
 };
 

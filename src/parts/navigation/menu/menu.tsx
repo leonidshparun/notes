@@ -13,7 +13,7 @@ const Navigation = () => {
             {menuConfig.map((item, idx) => (
                 <li
                     key={idx}
-                    className={`${styles.item} ${styles[theme]} ${
+                    className={`${styles[theme]} ${
                         route === item.route ? styles.active : ''
                     }`}
                 >

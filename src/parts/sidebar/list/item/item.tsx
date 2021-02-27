@@ -16,12 +16,13 @@ type ItemProps = { noteId: string };
 
 const Item = ({ noteId }: ItemProps) => {
     const dispatch = useDispatch();
+
     const activeNoteId = useSelector(activeNoteIdSelector);
     const text = useSelector(noteTextSelector(noteId));
-
+    const pinned = useSelector(notePinSelector(noteId));
     const theme = useSelector(themeSelector);
     const isMinified = useSelector(mediaTypeSelector) !== 'full';
-    const pinned = useSelector(notePinSelector(noteId));
+
     return (
         <li
             className={`${styles.container} ${styles[theme]} ${
