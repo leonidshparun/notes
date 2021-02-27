@@ -1,19 +1,19 @@
 import { menuConfig } from 'config/menu.config';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { routeSelector, themeSelector } from 'store/selectors/index';
+import { routeSelector } from 'store/selectors/index';
 import styles from './menu.module.scss';
 
 const Navigation = () => {
     const dispatch = useDispatch();
     const route = useSelector(routeSelector);
-    const theme = useSelector(themeSelector);
+
     return (
         <ul className={styles.container}>
             {menuConfig.map((item, idx) => (
                 <li
                     key={idx}
-                    className={`${styles[theme]} ${
+                    className={`${styles.item} ${
                         route === item.route ? styles.active : ''
                     }`}
                 >

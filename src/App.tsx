@@ -24,6 +24,15 @@ function App() {
         useHotkeysOptions,
     );
 
+    useEffect(() => {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark') {
+            document.documentElement.setAttribute('class', theme);
+        } else {
+            document.documentElement.removeAttribute('class');
+        }
+    }, []);
+
     return (
         <Provider store={store}>
             {isFirebaseConnected ? <Layout /> : <Preloader />}

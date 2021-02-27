@@ -1,9 +1,8 @@
 import { SORT_OPTIONS } from 'config/list.config';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setSortType } from 'store/actions/data';
 import { EnumNotesItem } from 'store/interfaces';
-import { themeSelector } from 'store/selectors/index';
 import styles from './sort.module.scss';
 
 interface ISortType {
@@ -13,9 +12,8 @@ interface ISortType {
 
 const Sort = () => {
     const dispatch = useDispatch();
-    const theme = useSelector(themeSelector);
     return (
-        <footer className={`${styles.container} ${styles[theme]}`}>
+        <footer className={styles.container}>
             Sort by
             <select onChange={(e) => dispatch(setSortType(e.target.value))}>
                 {SORT_OPTIONS.map((option: ISortType, idx: number) => (

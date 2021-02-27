@@ -6,7 +6,7 @@
     transition: all 300ms ease-in-out;
     transform: scaleX(0);
     transform-origin: left;
-    border-left: 1px solid #dcdcde;
+    border-left: 1px solid var(--borderColor);
 
     & > * {
         width: 20rem;

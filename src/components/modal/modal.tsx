@@ -4,15 +4,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from 'store/actions/view';
-import { modalStateSelector, themeSelector } from 'store/selectors/index';
+import { modalStateSelector } from 'store/selectors/index';
 import styles from './modal.module.scss';
 
 export const Modal = () => {
     const dispatch = useDispatch();
 
     const { show, type } = useSelector(modalStateSelector);
-    const theme = useSelector(themeSelector);
-
     if (!type) return null;
 
     const SelectedModal = MODAL_COMPONENTS[type];
@@ -21,7 +19,7 @@ export const Modal = () => {
         <>
             <div onClick={() => dispatch(hideModal())} className={styles.backdrop} />
             <div className={styles.wrapper}>
-                <div className={styles[theme]}>
+                <div className={styles.modal}>
                     <div className={styles.header}>
                         <h3>{SelectedModal.heading}</h3>
                         <button onClick={() => dispatch(hideModal())}>

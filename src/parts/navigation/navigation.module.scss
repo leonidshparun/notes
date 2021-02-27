@@ -7,7 +7,7 @@
     flex-direction: column;
     transform: scaleX(0);
     transform-origin: left;
-    border-right: 1px solid #dcdcde;
+    border-right: 1px solid var(--borderColor);
 
     & > * {
         width: 15rem;

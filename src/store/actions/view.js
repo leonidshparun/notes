@@ -42,5 +42,10 @@ export const hideModal = () => ({ type: HIDE_MODAL });
 
 export const setTheme = (theme) => (dispatch) => {
     dispatch({ type: SET_THEME, payload: theme });
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('class', theme);
+    } else {
+        document.documentElement.removeAttribute('class');
+    }
     localStorage.setItem('theme', theme);
 };

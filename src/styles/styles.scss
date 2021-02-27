@@ -1,0 +1,35 @@
+html {
+    --primaryBackgroundColor: #fafafa;
+    --activeBackground: #00968850;
+    --hoverBackground: #e5e7eb;
+
+    --primaryTextColor: #212121;
+    --primaryTextColorReversed: #fff;
+
+    --secondaryTextColor: slateblue;
+    --secondaryTextColorReversed: #ff9800;
+
+    --placeHolderColor: #353434;
+
+    --borderColor: #bdbdbd;
+
+    --buttonBackgroundColor: slateblue;
+}
+
+html.dark {
+    --primaryBackgroundColor: #131516;
+    --activeBackground: #c2a110a8;
+    --hoverBackground: #383c44;
+
+    --primaryTextColor: #fff;
+    --primaryTextColorReversed: #212121;
+
+    --secondaryTextColor: #ff9800;
+    --secondaryTextColorReversed: slateblue;
+
+    --placeHolderColor: #d6d6d6;
+
+    --borderColor: #494949;
+
+    --buttonBackgroundColor: #e91e63;
+}

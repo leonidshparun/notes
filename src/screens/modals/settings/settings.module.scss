@@ -6,7 +6,7 @@
 }
 
 .menu_item {
-    border: 1px solid #dedede;
+    border: 1px solid var(--borderColor);
     border-bottom: none;
     padding: 0.5rem;
     display: flex;
@@ -15,7 +15,7 @@
     flex-direction: column;
 
     &:last-of-type {
-        border-bottom: 1px solid #dedede;
+        border-bottom: 1px solid var(--borderColor);
     }
 }
 
@@ -24,8 +24,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #dedede;
-    background-color: slateblue;
+    border: 1px solid var(--borderColor);
+    background-color: var(--buttonBackgroundColor);
     color: white;
     font-weight: 600;
     font-size: 1rem;
@@ -34,7 +34,7 @@
     height: 2.4rem;
 
     &:active {
-        border: 1px solid slateblue;
+        border: 1px solid var(--borderColor);
     }
 }
 
@@ -52,14 +52,14 @@
         width: 16px;
         height: 16px;
         border-radius: 50%;
-        border: 1px solid gray;
+        border: 1px solid var(--borderColor);
 
         &:focus {
-            border: 1px solid slateblue;
+            border: 1px solid var(--buttonBackgroundColor);
         }
     }
 
     button.activeTheme {
-        background-color: slateblue;
+        background-color: var(--buttonBackgroundColor);
     }
 }

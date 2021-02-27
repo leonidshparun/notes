@@ -8,7 +8,6 @@ import {
     mediaTypeSelector,
     notePinSelector,
     noteTextSelector,
-    themeSelector,
 } from 'store/selectors/index';
 import styles from './item.module.scss';
 
@@ -20,12 +19,11 @@ const Item = ({ noteId }: ItemProps) => {
     const activeNoteId = useSelector(activeNoteIdSelector);
     const text = useSelector(noteTextSelector(noteId));
     const pinned = useSelector(notePinSelector(noteId));
-    const theme = useSelector(themeSelector);
     const isMinified = useSelector(mediaTypeSelector) !== 'full';
 
     return (
         <li
-            className={`${styles.container} ${styles[theme]} ${
+            className={`${styles.container} ${
                 activeNoteId === noteId ? styles.active : ''
             }`}
             onClick={() => {

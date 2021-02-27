@@ -3,18 +3,19 @@
     padding: 0.5rem;
     align-items: center;
 
-    svg {
-        width: 18px;
-        height: 18px;
-    }
-
     p {
         margin-left: 0.5rem;
     }
 
     button {
         margin-left: auto;
-        color: darkcyan;
+        color: var(--secondaryTextColor);
+    }
+
+    svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--secondaryTextColor);
     }
 }
 
@@ -23,19 +24,12 @@
     overflow-y: auto;
     max-height: 300px;
 }
-.hilight {
-    background-color: #4caf50;
-    span {
-        color: white;
-    }
-}
-
 .item {
     display: flex;
     justify-content: space-between;
     margin-left: 1.75rem;
     padding: 0.25rem 1rem;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--borderColor);
     height: 2rem;
 
     span {
@@ -46,40 +40,19 @@
         svg {
             height: 20px;
             width: 20px;
+            fill: var(--secondaryTextColor);
         }
     }
 }
 
-.light {
+.item.hilight {
+    background-color: var(--activeBackground);
+    span {
+        color: var(--primaryTextColor);
+    }
     button {
-        color: darkcyan;
-
         svg {
-            fill: darkcyan;
-        }
-    }
-
-    &.hilight {
-        span {
-            color: white;
-        }
-        svg {
-            fill: white;
-        }
-    }
-}
-
-.dark {
-    button {
-        color: #ffc107;
-        svg {
-            fill: #ffc107;
-        }
-    }
-
-    &.hilight {
-        svg {
-            fill: white;
+            fill: var(--primaryTextColor);
         }
     }
 }

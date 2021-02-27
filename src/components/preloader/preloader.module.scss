@@ -1,19 +1,8 @@
-@import 'styles/_color-palette.scss';
-
-.preloader {
+.container {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
     width: 100vw;
-}
-
-.light {
-    @extend .preloader;
-    background: map-get(map-get($themes, 'light'), 'color-background');
-}
-
-.dark {
-    @extend .preloader;
-    background: map-get(map-get($themes, 'dark'), 'color-background');
+    background: var(--primaryBackgroundColor);
 }
