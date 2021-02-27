@@ -1,3 +1,6 @@
+@import 'styles/_mixins.scss';
+@import 'styles/_color-palette.scss';
+
 .item {
     border-bottom: 1px solid #dcdcde;
     height: 2.5rem;
@@ -28,4 +31,16 @@
 .link {
     width: 100%;
     margin-left: 0.5rem;
+}
+
+.light {
+    &.active {
+        background-color: #00968850;
+    }
+}
+
+.dark {
+    &.active {
+        background-color: #555;
+    }
 }

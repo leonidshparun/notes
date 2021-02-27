@@ -43,3 +43,5 @@ export const modalStateSelector = (state) => state.view.modal;
 export const mediaTypeSelector = (state) => state.view.media;
 
 export const userEmailSelector = (state) => state.user.email;
+
+export const themeSelector = (state) => state.view.theme;

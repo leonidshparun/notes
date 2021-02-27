@@ -1,10 +1,13 @@
+@import 'styles/_mixins.scss';
+@import 'styles/_color-palette.scss';
+
 .backdrop {
     position: fixed;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, 0.75);
+    background: #7a7a7abf;
     z-index: 500;
 }
 
@@ -21,7 +24,6 @@
 
 .modal {
     z-index: 100;
-    background: white;
     position: relative;
     margin: auto;
 
@@ -36,7 +38,7 @@
         padding-left: 40px;
 
         h3 {
-            color: black;
+            color: inherit;
             flex: 1;
             text-align: center;
             font-size: 1rem;
@@ -78,4 +80,14 @@
         padding: 1rem 4rem;
         min-width: 24rem;
     }
+}
+
+.light {
+    background: map-get(map-get($themes, 'light'), 'color-background');
+    color: map-get(map-get($themes, 'light'), 'color-text-primary');
+}
+
+.dark {
+    background: map-get(map-get($themes, 'dark'), 'color-background');
+    color: map-get(map-get($themes, 'dark'), 'color-text-primary');
 }

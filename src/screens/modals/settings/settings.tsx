@@ -1,12 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogout } from 'store/actions/user';
-import { hideModal } from 'store/actions/view';
-import { userEmailSelector } from 'store/selectors/index';
+import { hideModal, setTheme } from 'store/actions/view';
+import { themeSelector, userEmailSelector } from 'store/selectors/index';
 import styles from './settings.module.scss';
 
 const SettingsModal = () => {
     const userEmail = useSelector(userEmailSelector);
+    const theme = useSelector(themeSelector);
     const dispatch = useDispatch();
     return (
         <ul>
@@ -33,13 +34,19 @@ const SettingsModal = () => {
                     <div className={styles.menu_item}>
                         <div className={styles.theme}>
                             <p>Dark</p>
-                            <button></button>
+                            <button
+                                onClick={() => dispatch(setTheme('dark'))}
+                                className={theme === 'dark' ? styles.activeTheme : ''}
+                            ></button>
                         </div>
                     </div>
                     <div className={styles.menu_item}>
                         <div className={styles.theme}>
                             <p>Light</p>
-                            <button className={styles.activeTheme}></button>
+                            <button
+                                onClick={() => dispatch(setTheme('light'))}
+                                className={theme === 'light' ? styles.activeTheme : ''}
+                            ></button>
                         </div>
                     </div>
                 </div>

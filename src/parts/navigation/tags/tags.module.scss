@@ -24,7 +24,10 @@
     max-height: 300px;
 }
 .hilight {
-    background-color: #e7ee75;
+    background-color: #4caf50;
+    span {
+        color: white;
+    }
 }
 
 .item {
@@ -33,18 +36,50 @@
     margin-left: 1.75rem;
     padding: 0.25rem 1rem;
     border-bottom: 1px solid #e5e7eb;
+    height: 2rem;
 
     span {
         cursor: pointer;
     }
 
     button {
+        svg {
+            height: 20px;
+            width: 20px;
+        }
+    }
+}
+
+.light {
+    button {
         color: darkcyan;
 
         svg {
-            fill: currentColor;
-            height: 20px;
-            width: 20px;
+            fill: darkcyan;
+        }
+    }
+
+    &.hilight {
+        span {
+            color: white;
+        }
+        svg {
+            fill: white;
+        }
+    }
+}
+
+.dark {
+    button {
+        color: #ffc107;
+        svg {
+            fill: #ffc107;
+        }
+    }
+
+    &.hilight {
+        svg {
+            fill: white;
         }
     }
 }

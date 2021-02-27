@@ -1,6 +1,58 @@
+@import 'styles/_mixins.scss';
+@import 'styles/_color-palette.scss';
+
 .page {
     height: 100vh;
     display: flex;
+
+    @include theme-aware('background', 'color-background');
+    @include theme-aware('color', 'color-text-primary');
+
+    svg {
+        @include theme-aware('fill', 'color-text-primary');
+    }
+
+    & * {
+        color: inherit;
+    }
+
+    ::placeholder {
+        @include theme-aware('color', 'color-text-placeholder');
+    }
+}
+
+.light {
+    background: map-get(map-get($themes, 'light'), 'color-background');
+    color: map-get(map-get($themes, 'light'), 'color-text-primary');
+
+    ::placeholder {
+        color: map-get(map-get($themes, 'light'), 'color-text-placeholder');
+    }
+
+    svg {
+        fill: map-get(map-get($themes, 'light'), 'color-text-primary');
+    }
+
+    & * {
+        border-color: map-get(map-get($themes, 'light'), 'color-border');
+    }
+}
+
+.dark {
+    background: map-get(map-get($themes, 'dark'), 'color-background');
+    color: map-get(map-get($themes, 'dark'), 'color-text-primary');
+
+    ::placeholder {
+        color: map-get(map-get($themes, 'dark'), 'color-text-placeholder');
+    }
+
+    svg {
+        fill: map-get(map-get($themes, 'dark'), 'color-text-primary');
+    }
+
+    & * {
+        border-color: map-get(map-get($themes, 'dark'), 'color-border');
+    }
 }
 
 .spinner {

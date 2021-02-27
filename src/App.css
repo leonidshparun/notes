@@ -46,12 +46,6 @@ a {
     color: inherit;
 }
 
-/* fix issue where changing the background color of a `select` makes options unreadable on Windows */
-select option {
-    background-color: white;
-    color: black;
-}
-
 /* undo Normalize rule that re-enables the dotted outline in Firefox */
 button:-moz-focusring,
 [type='button']:-moz-focusring,

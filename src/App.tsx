@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import Layout from 'screens/layout/layout';
 import store from 'store/index';
+import 'styles/styles.scss';
 import './App.css';
 
 function App() {
