@@ -5,6 +5,7 @@ import {
     SET_BREAKPOINT,
     SET_THEME,
     SHOW_MODAL,
+    TOGGLE_INFO_VISIBILITY,
     TOGGLE_NAVIGATION_VISIBILITY,
     TOGGLE_SIDEBAR_VISIBILITY,
 } from '../actions/view';
@@ -12,6 +13,7 @@ import {
 const viewState = {
     isNavigationVisible: false,
     isSidebarVisible: true,
+    isInfoVisible: false,
     route: 'all',
     modal: {
         show: false,
@@ -71,6 +73,12 @@ const viewReducer = (state = viewState, action) => {
             return {
                 ...state,
                 theme: action.payload,
+            };
+        }
+        case TOGGLE_INFO_VISIBILITY: {
+            return {
+                ...state,
+                isInfoVisible: !state.isInfoVisible,
             };
         }
         default:

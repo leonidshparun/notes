@@ -32,11 +32,17 @@ export const globalTagsSelector = (state) => state.data.globalTags;
 export const isLoggedInSelector = (state) => state.user.isLoggedIn;
 export const isNavVisibleSelector = (state) => state.view.isNavigationVisible;
 export const isSidebarVisibleSelector = (state) => state.view.isSidebarVisible;
+export const isInfoVisibleSelector = (state) => state.view.isInfoVisible;
 
 export const noteTextSelector = (noteId) => (state) => selectNoteById(state, noteId).text;
 export const noteTagsSelector = (noteId) => (state) => selectNoteById(state, noteId).tags;
 export const notePinSelector = (noteId) => (state) =>
     selectNoteById(state, noteId).pinned;
+
+export const activeNoteDataSelector = (state) => {
+    const { activeNoteId } = state.data;
+    return selectNoteById(state, activeNoteId);
+};
 
 export const modalStateSelector = (state) => state.view.modal;
 
