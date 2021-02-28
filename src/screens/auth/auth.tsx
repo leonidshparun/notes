@@ -1,4 +1,4 @@
-import Icon from 'components/Icon';
+import Icon from 'components/icon/Icon';
 import React, { useState } from 'react';
 import styles from './auth.module.scss';
 import LogIn from './login';
