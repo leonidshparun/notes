@@ -1,0 +1,58 @@
+.heading {
+    display: flex;
+    padding: 0.5rem;
+    align-items: center;
+
+    p {
+        margin-left: 0.5rem;
+    }
+
+    button {
+        margin-left: auto;
+        color: var(--secondaryTextColor);
+    }
+
+    svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--secondaryTextColor);
+    }
+}
+
+.list {
+    padding-left: 1rem;
+    overflow-y: auto;
+    max-height: 300px;
+}
+.item {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 1.75rem;
+    padding: 0.25rem 1rem;
+    border-bottom: 1px solid var(--borderColor);
+    height: 2rem;
+
+    span {
+        cursor: pointer;
+    }
+
+    button {
+        svg {
+            height: 20px;
+            width: 20px;
+            fill: var(--secondaryTextColor);
+        }
+    }
+}
+
+.item.hilight {
+    background-color: var(--activeBackground);
+    span {
+        color: var(--primaryTextColor);
+    }
+    button {
+        svg {
+            fill: var(--primaryTextColor);
+        }
+    }
+}

@@ -1,0 +1,62 @@
+.container {
+    display: flex;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    overflow-y: hidden;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--borderColor);
+
+    &:hover {
+        button {
+            visibility: visible;
+        }
+    }
+
+    button {
+        visibility: hidden;
+        margin-left: 0.8rem;
+
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+    }
+
+    .pinned {
+        visibility: visible;
+
+        svg {
+            fill: var(--secondaryTextColor);
+        }
+    }
+
+    &:hover:not(.active) {
+        background-color: var(--hoverBackground);
+    }
+}
+
+.active {
+    background-color: var(--activeBackground);
+}
+
+.card {
+    width: 100%;
+    margin-left: 0.5rem;
+
+    p {
+        overflow: hidden;
+        width: calc(100% - 2rem);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:first-of-type {
+            font-weight: 600;
+        }
+    }
+
+    .newNote {
+        font-weight: 500;
+        color: var(--secondaryTextColor);
+    }
+}

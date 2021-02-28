@@ -1,0 +1,29 @@
+.item {
+    border-bottom: 1px solid var(--borderColor);
+    min-height: 2.5rem;
+    padding-left: 1rem;
+    display: flex;
+    align-items: center;
+
+    & > svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    &:hover:not(.active) {
+        color: var(--secondaryTextColor);
+
+        & > svg {
+            fill: var(--secondaryTextColor);
+        }
+    }
+}
+
+.active {
+    background-color: var(--activeBackground);
+}
+
+.link {
+    width: 100%;
+    margin-left: 0.5rem;
+}

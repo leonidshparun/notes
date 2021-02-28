@@ -1,0 +1,96 @@
+*,
+*::before,
+*::after {
+    min-width: 0;
+    /* prevent flex items from overflowing horizontally */
+    min-height: 0;
+    /* prevent flex items from overflowing vertically */
+    background-position: center center;
+    /* better default than 0% 0% */
+    background-repeat: no-repeat;
+    /* better default than repeat */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* make `text-align: inherit` work properly in the following rules */
+body {
+    text-align: left;
+    text-align: start;
+    font-family: -apple-system, Roboto, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu,
+        Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* remove default styles on form elements */
+button,
+input,
+select,
+textarea {
+    border-radius: 0;
+    /* remove the default border radius set by Safari on iOS */
+    background-color: transparent;
+    font: inherit;
+    text-align: inherit;
+    text-transform: inherit;
+    letter-spacing: inherit;
+    outline: none;
+    border: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* undo Normalize rule that re-enables the dotted outline in Firefox */
+button:-moz-focusring,
+[type='button']:-moz-focusring,
+[type='reset']:-moz-focusring,
+[type='submit']:-moz-focusring {
+    outline: 0;
+}
+
+svg:not(:root) {
+    overflow: visible;
+    /* reset UA stylesheet’s `overflow: hidden` to prevent clipping */
+}
+
+small {
+    font-size: inherit;
+    /* reset UA stylesheet’s `font-size: smaller` */
+}
+
+cite,
+var,
+address,
+dfn {
+    font-style: inherit;
+    /* reset UA stylesheet’s `font-style: italic` */
+}
+
+th,
+td {
+    padding: 0;
+    /* remove the default 1px padding set by some browsers */
+}
+
+th {
+    font-weight: inherit;
+    /* reset UA stylesheet’s `font-weight: bold` */
+    text-align: inherit;
+    /* reset UA stylesheet’s `text-align: center` */
+}
+
+@media (max-width: 680px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+ul {
+    list-style: none;
+}

@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 0;
+    transition: all 300ms ease-in-out;
+    transform: scaleX(0);
+    transform-origin: left;
+
+    & > * {
+        width: 20rem;
+        min-width: 20rem;
+    }
+}
+
+.visible {
+    min-width: 20rem;
+    transform: scaleX(1);
+}
+
+.minified {
+    overflow-x: hidden;
+    &.visible {
+        min-width: 100%;
+    }
+
+    & > * {
+        width: 100vw;
+        min-width: 100vw;
+    }
+}

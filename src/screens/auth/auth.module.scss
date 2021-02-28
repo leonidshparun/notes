@@ -1,0 +1,75 @@
+.container {
+    margin: 0 auto;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .heading {
+        font-size: 2rem;
+        margin-top: 20px;
+        font-weight: 600;
+        text-align: center;
+    }
+    .toggleForm {
+        color: var(--primaryTextColor);
+        margin-top: 20px;
+        font-size: 0.9rem;
+        text-align: center;
+        button {
+            color: var(--secondaryTextColorReversed);
+            font-weight: 600;
+            &:hover {
+                color: var(--secondaryTextColor);
+            }
+        }
+    }
+
+    .rememberMe {
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    form {
+        margin-top: 60px;
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+
+        input {
+            border: 2px solid var(--borderColor);
+            padding: 5px 10px;
+            font-size: 1.2rem;
+            margin: 5px;
+            border-radius: 3px;
+        }
+
+        input:focus {
+            border-color: var(--buttonBackgroundColor);
+        }
+
+        button {
+            font-size: 1.2rem;
+            border-radius: 5px;
+            background-color: var(--buttonBackgroundColor);
+            color: white;
+            padding: 5px 10px;
+            margin: 10px 5px;
+            text-align: center;
+            height: 2.4rem;
+            transition: all 0.2s ease-in-out;
+
+            &:hover {
+                background-color: var(--buttonBackgroundColor);
+            }
+        }
+
+        & > p {
+            color: tomato;
+            font-weight: 500;
+            padding: 10px;
+        }
+    }
+}

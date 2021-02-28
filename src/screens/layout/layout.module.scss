@@ -1,0 +1,19 @@
+.page {
+    height: 100vh;
+    display: flex;
+    width: 100vw;
+    color: var(--primaryTextColor);
+    background: var(--primaryBackgroundColor);
+
+    ::placeholder {
+        color: var(--placeHolderColor);
+    }
+
+    svg {
+        fill: var(--primaryTextColor);
+    }
+
+    & * {
+        color: inherit;
+    }
+}

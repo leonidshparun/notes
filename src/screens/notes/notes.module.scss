@@ -1,0 +1,14 @@
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    transition: all 300ms ease-in-out;
+}
+
+.blur {
+    cursor: pointer;
+    opacity: 0.3;
+    & > * {
+        pointer-events: none;
+    }
+}

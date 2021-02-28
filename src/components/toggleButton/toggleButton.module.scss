@@ -1,0 +1,28 @@
+.togglePinBtn {
+    position: relative;
+    border-radius: 0.5rem;
+    width: 2rem;
+    height: 1rem;
+    font-size: 0.8rem;
+    background-color: gainsboro;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0.3rem;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        width: 0.6rem;
+        height: 0.6rem;
+        background-color: #9e9e9e;
+        transition: all 0.2s ease-in-out;
+    }
+}
+
+.pinned {
+    &::before {
+        left: 1.1rem;
+        background-color: #009688;
+    }
+}

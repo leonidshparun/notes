@@ -1,0 +1,21 @@
+.container {
+    padding-top: 2.5rem;
+    transition: all 300ms ease-in-out;
+    width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transform: scaleX(0);
+    transform-origin: left;
+    border-right: none;
+
+    & > * {
+        width: 15rem;
+    }
+}
+
+.visible {
+    min-width: 15rem;
+    transform: scaleX(1);
+    border-right: 1px solid var(--borderColor);
+}
