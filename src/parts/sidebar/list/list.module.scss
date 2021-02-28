@@ -11,7 +11,7 @@
 }
 
 .emptyTrashBtn {
-    color: slateblue;
+    color: var(--secondaryTextColor);
     font-size: 1.2rem;
     display: flex;
     margin-top: auto;
@@ -21,8 +21,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top: #dcdcde 1px solid;
-    border-bottom: #dcdcde 1px solid;
+    border-top: var(--borderColor) 1px solid;
+    border-bottom: var(--borderColor) 1px solid;
 }
 
 .emptyList {
@@ -37,6 +37,6 @@
     }
     button {
         padding: 0.5rem;
-        color: slateblue;
+        color: var(--secondaryTextColor);
     }
 }

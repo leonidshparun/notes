@@ -40,7 +40,7 @@ const Heading = ({ handleCheckListModeBtnClick }: HeadingProps) => {
                 </button>
             </Tooltip>
             <Tooltip tip={buildTip(NoteInfo)}>
-                <button>
+                <button onClick={NoteInfo.action}>
                     <InfoIcon />
                 </button>
             </Tooltip>

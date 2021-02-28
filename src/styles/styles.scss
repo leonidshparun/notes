@@ -1,0 +1,35 @@
+html {
+    --primaryBackgroundColor: #fafafa;
+    --activeBackground: #00968850;
+    --hoverBackground: #e5e7eb;
+
+    --primaryTextColor: #212121;
+    --primaryTextColorReversed: #fff;
+
+    --secondaryTextColor: #673ab7;
+    --secondaryTextColorReversed: #ff9800;
+
+    --placeHolderColor: #353434;
+
+    --borderColor: #e0e0e0;
+
+    --buttonBackgroundColor: #673ab7;
+}
+
+html.dark {
+    --primaryBackgroundColor: #131516;
+    --activeBackground: #0cb2a391;
+    --hoverBackground: #383c44;
+
+    --primaryTextColor: #fff;
+    --primaryTextColorReversed: #212121;
+
+    --secondaryTextColor: #90caf9;
+    --secondaryTextColorReversed: #673ab7;
+
+    --placeHolderColor: #d6d6d6;
+
+    --borderColor: #494949;
+
+    --buttonBackgroundColor: #673ab7;
+}

@@ -16,6 +16,7 @@ export interface RootState {
     view: {
         isNavigationVisible: boolean;
         isSidebarVisible: boolean;
+        isInfoVisible: boolean;
         route: string;
         modal: {
             show: boolean;

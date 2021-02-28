@@ -1,4 +1,4 @@
-import firebase from 'api/index';
+import { handleSignUp } from 'api/index';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { userLogin } from 'store/actions/user';
@@ -12,18 +12,22 @@ function SignUp() {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const { email, password } = credentials;
-        firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
+        handleSignUp(
+            credentials,
+            (userCredential: { user: { email: string; uid: string } }) => {
                 console.log(userCredential.user);
                 dispatch(userLogin(userCredential.user?.email, userCredential.user?.uid));
-            })
-            .catch((error) => {
+            },
+            (error: ErrorEvent) => {
                 console.log(error);
                 setError(error.message);
-            });
+            },
+        );
+    };
+
+    const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setCredentials({ ...credentials, [name]: value });
     };
 
     return (
@@ -34,21 +38,16 @@ function SignUp() {
                     required
                     placeholder="Email"
                     type="email"
-                    onChange={(e) =>
-                        setCredentials((value) => ({ ...value, email: e.target.value }))
-                    }
+                    name="email"
+                    onChange={onInputChange}
                 />
 
                 <input
                     required
                     placeholder="Password"
                     type="password"
-                    onChange={(e) =>
-                        setCredentials((value) => ({
-                            ...value,
-                            password: e.target.value,
-                        }))
-                    }
+                    name="password"
+                    onChange={onInputChange}
                 />
 
                 <button type="submit">Sign Up</button>

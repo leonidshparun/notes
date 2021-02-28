@@ -1,4 +1,4 @@
-import firebase from 'api/index';
+import { handleSignIn } from 'api/index';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocalStorage } from 'services/hooks';
@@ -22,7 +22,7 @@ function LogIn() {
         },
     );
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
     };
@@ -40,23 +40,21 @@ function LogIn() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const { email, password } = credentials;
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                console.log(userCredential);
+        handleSignIn(
+            credentials,
+            (userCredential: { user: { email: string; uid: string } }) => {
                 if (userCredential.user) {
                     const email = userCredential.user.email;
                     const uid = userCredential.user.uid;
                     saveUser(uid);
                     dispatch(userLogin(email, uid));
                 }
-            })
-            .catch((error) => {
+            },
+            (error: ErrorEvent) => {
                 console.log(error);
                 setError(error.message);
-            });
+            },
+        );
     };
 
     return (
@@ -67,7 +65,7 @@ function LogIn() {
                     required
                     placeholder="Email"
                     type="email"
-                    onChange={onChange}
+                    onChange={onInputChange}
                     name="email"
                     value={credentials.email}
                 />
@@ -76,7 +74,7 @@ function LogIn() {
                     required
                     placeholder="Password"
                     type="password"
-                    onChange={onChange}
+                    onChange={onInputChange}
                     name="password"
                     value={credentials.password}
                 />

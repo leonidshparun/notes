@@ -21,3 +21,6 @@ export function debounce<Params extends any[]>(
         }, timeout);
     };
 }
+
+export const isMobile = () =>
+    navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i);

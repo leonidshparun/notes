@@ -8,6 +8,7 @@ export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
 export const SET_BREAKPOINT = 'SET_BREAKPOINT';
 export const SET_THEME = 'SET_THEME';
+export const TOGGLE_INFO_VISIBILITY = 'TOGGLE_INFO_VISIBILITY';
 
 export const toggleNavigationVisibility = () => ({
     type: TOGGLE_NAVIGATION_VISIBILITY,
@@ -42,5 +43,14 @@ export const hideModal = () => ({ type: HIDE_MODAL });
 
 export const setTheme = (theme) => (dispatch) => {
     dispatch({ type: SET_THEME, payload: theme });
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('class', theme);
+    } else {
+        document.documentElement.removeAttribute('class');
+    }
     localStorage.setItem('theme', theme);
 };
+
+export const toggleInfoBlockVisibility = () => ({
+    type: TOGGLE_INFO_VISIBILITY,
+});

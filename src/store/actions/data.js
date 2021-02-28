@@ -38,7 +38,7 @@ export const fetchDataError = (error) => ({
     payload: error,
 });
 
-export const fetchDataSuccess = (data) => async (dispatch) => {
+export const fetchDataSuccess = (data) => (dispatch) => {
     dispatch({ type: FETCH_DATA_SUCCESS, payload: data });
     dispatch(refreshGlobalTags(data));
 };
@@ -157,11 +157,9 @@ export const resetTrashBin = () => (dispatch, getState) => {
             async (note) =>
                 await deleteNoteDB(note.id, () => {
                     dispatch({ type: DELETE_NOTE, payload: note.id });
-                    console.log('deleted note with id: ', note.id);
                 }),
         ),
     ).then(() => {
-        console.log(trashBinNotes.length + ' notes deleted');
         const { data } = getState().data;
         dispatch(refreshGlobalTags(data));
     });
@@ -215,7 +213,6 @@ export const removeGlobalTag = (tag) => (dispatch, getState) => {
                 }),
         ),
     ).then(() => {
-        console.log('deleted global tag: ', tag);
         const { data } = getState().data;
         dispatch(refreshGlobalTags(data));
         if (getState().data.selection.tags.includes(tag))

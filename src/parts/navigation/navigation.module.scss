@@ -7,20 +7,9 @@
     flex-direction: column;
     transform: scaleX(0);
     transform-origin: left;
-    border-right: 1px solid #dcdcde;
 
     & > * {
         width: 15rem;
-    }
-
-    footer {
-        display: flex;
-        margin-top: auto;
-
-        button {
-            padding: 0.5rem;
-            margin: 0 auto 0.25rem;
-        }
     }
 }
 

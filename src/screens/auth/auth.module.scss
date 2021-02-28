@@ -12,15 +12,15 @@
         text-align: center;
     }
     .toggleForm {
-        color: slategray;
+        color: var(--primaryTextColor);
         margin-top: 20px;
         font-size: 0.9rem;
         text-align: center;
         button {
-            color: steelblue;
+            color: var(--secondaryTextColorReversed);
             font-weight: 600;
             &:hover {
-                color: slateblue;
+                color: var(--secondaryTextColor);
             }
         }
     }
@@ -39,7 +39,7 @@
         width: 300px;
 
         input {
-            border: 2px solid #dcdcde;
+            border: 2px solid var(--borderColor);
             padding: 5px 10px;
             font-size: 1.2rem;
             margin: 5px;
@@ -47,13 +47,13 @@
         }
 
         input:focus {
-            border-color: steelblue;
+            border-color: var(--buttonBackgroundColor);
         }
 
         button {
             font-size: 1.2rem;
             border-radius: 5px;
-            background-color: steelblue;
+            background-color: var(--buttonBackgroundColor);
             color: white;
             padding: 5px 10px;
             margin: 10px 5px;
@@ -62,7 +62,7 @@
             transition: all 0.2s ease-in-out;
 
             &:hover {
-                background-color: slateblue;
+                background-color: var(--buttonBackgroundColor);
             }
         }
 

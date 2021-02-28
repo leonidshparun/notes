@@ -1,0 +1,51 @@
+.container {
+    display: none;
+    height: 100vh;
+    overflow-x: hidden;
+    flex-direction: column;
+    position: fixed;
+    right: 0;
+    background: var(--primaryBackgroundColor);
+    border-left: 1px solid var(--borderColor);
+
+    header {
+        display: flex;
+        padding: 0.5rem 1rem;
+        justify-content: space-between;
+
+        button {
+            svg {
+                width: 18px;
+                height: 18px;
+                color: var(--primaryTextColor);
+            }
+        }
+    }
+
+    ul {
+        padding: 0.5rem 1rem;
+        li {
+            margin: 0.6rem 0 2rem;
+
+            & > *:last-child {
+                color: var(--secondaryTextColor);
+            }
+
+            & > *:first-child {
+                font-size: 0.9rem;
+                color: var(--primaryTextColor);
+            }
+        }
+    }
+}
+
+.visible {
+    min-width: 16rem;
+    display: flex;
+}
+
+.notePinOption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

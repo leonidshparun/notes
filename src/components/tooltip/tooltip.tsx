@@ -1,7 +1,6 @@
 import Portal from 'components/portal/portal';
 import React, { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { mediaTypeSelector } from 'store/selectors/index';
+import { isMobile } from 'services/utils';
 import styles from './tooltip.module.scss';
 
 interface IRect extends HTMLDivElement {
@@ -34,14 +33,12 @@ type ToolTipProps = {
 const Tooltip = ({ children, tip }: ToolTipProps) => {
     const ref = useRef<IRect>(null);
 
-    const isDesktop = useSelector(mediaTypeSelector) === 'full';
-
     const [isVisible, setVisibility] = useState(false);
     const [style, setStyle] = useState<IStyle>();
     const [delayHandler, setDelayHandler] = useState<NodeJS.Timeout>();
 
     const showToolTip = () => {
-        if (!isDesktop) return;
+        if (isMobile()) return;
         const calcPosition = (dimensions: IDimensions | undefined) => {
             if (dimensions) {
                 const space = 10;
@@ -95,7 +92,7 @@ const Tooltip = ({ children, tip }: ToolTipProps) => {
         >
             {children}
 
-            {isVisible && isDesktop && (
+            {isVisible && !isMobile() && (
                 <Portal id="tip">
                     <span style={style} className={styles.tip}>
                         {tip}

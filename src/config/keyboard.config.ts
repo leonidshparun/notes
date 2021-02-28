@@ -2,6 +2,7 @@ import { createNewNote, sendNoteToTrash } from 'store/actions/data';
 import {
     changeRoute,
     showModal,
+    toggleInfoBlockVisibility,
     toggleNavigationVisibility,
     toggleSidebarVisibility,
 } from 'store/actions/view';
@@ -79,7 +80,7 @@ export const UI: IUIDictionary = {
     NoteInfo: {
         title: 'Note Info',
         description: 'Show note information',
-        action: () => {},
+        action: () => store.dispatch(toggleInfoBlockVisibility()),
         keyboardBinding: 'Ctrl+Alt+I',
         local: false,
     },

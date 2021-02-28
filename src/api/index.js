@@ -19,6 +19,9 @@ const getNotesCollectionRef = () => {
     return database.collection('users').doc(uid).collection('notes');
 };
 
+export const apiConnectionListener = (cb) =>
+    firebase.auth().onAuthStateChanged(() => cb());
+
 const getNoteRef = (id) => getNotesCollectionRef().doc(id);
 
 export const getTimestamp = () => firebase.firestore.Timestamp.now();
@@ -99,5 +102,23 @@ export const removeNoteTagDB = async (noteId, tag, onSuccess) =>
         })
         .then((docRef) => onSuccess(docRef))
         .catch((error) => console.error('Error updating document: ', error));
+
+export const handleSignIn = (credentials, onSuccess, onError) => {
+    const { email, password } = credentials;
+    firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(onSuccess)
+        .catch(onError);
+};
+
+export const handleSignUp = (credentials, onSuccess, onError) => {
+    const { email, password } = credentials;
+    firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(onSuccess)
+        .catch(onError);
+};
 
 export default firebase;

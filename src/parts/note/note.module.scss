@@ -3,11 +3,7 @@
     flex-direction: column;
     flex-grow: 1;
 
-    text-area {
-        min-width: 100%;
-    }
-
-    border-left: 1px solid #dcdcde;
+    border-left: 1px solid var(--borderColor);
 }
 
 .minified {
@@ -19,9 +15,5 @@
     & > * {
         width: 100vw;
         min-width: 100vw;
-    }
-    &.visible {
-        // flex-grow: 1;
-        display: flex;
     }
 }

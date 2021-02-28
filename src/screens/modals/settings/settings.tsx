@@ -7,7 +7,7 @@ import styles from './settings.module.scss';
 
 const SettingsModal = () => {
     const userEmail = useSelector(userEmailSelector);
-    const theme = useSelector(themeSelector);
+    const isDarkTheme = useSelector(themeSelector) === 'dark';
     const dispatch = useDispatch();
     return (
         <ul>
@@ -36,7 +36,7 @@ const SettingsModal = () => {
                             <p>Dark</p>
                             <button
                                 onClick={() => dispatch(setTheme('dark'))}
-                                className={theme === 'dark' ? styles.activeTheme : ''}
+                                className={isDarkTheme ? styles.activeTheme : ''}
                             ></button>
                         </div>
                     </div>
@@ -45,7 +45,7 @@ const SettingsModal = () => {
                             <p>Light</p>
                             <button
                                 onClick={() => dispatch(setTheme('light'))}
-                                className={theme === 'light' ? styles.activeTheme : ''}
+                                className={!isDarkTheme ? styles.activeTheme : ''}
                             ></button>
                         </div>
                     </div>

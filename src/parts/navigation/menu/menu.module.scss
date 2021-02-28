@@ -1,9 +1,6 @@
-@import 'styles/_mixins.scss';
-@import 'styles/_color-palette.scss';
-
 .item {
-    border-bottom: 1px solid #dcdcde;
-    height: 2.5rem;
+    border-bottom: 1px solid var(--borderColor);
+    min-height: 2.5rem;
     padding-left: 1rem;
     display: flex;
     align-items: center;
@@ -14,33 +11,19 @@
     }
 
     &:hover:not(.active) {
-        color: #673ab7;
+        color: var(--secondaryTextColor);
 
         & > svg {
-            fill: #673ab7;
+            fill: var(--secondaryTextColor);
         }
-
-        background-color: #e5e7eb;
     }
 }
 
 .active {
-    background-color: #00968850;
+    background-color: var(--activeBackground);
 }
 
 .link {
     width: 100%;
     margin-left: 0.5rem;
-}
-
-.light {
-    &.active {
-        background-color: #00968850;
-    }
-}
-
-.dark {
-    &.active {
-        background-color: #555;
-    }
 }

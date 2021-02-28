@@ -5,17 +5,17 @@ import LogIn from './login';
 import SingUp from './signup';
 
 function Auth() {
-    const [type, switchType] = useState(false);
+    const [tab, switchTab] = useState(false);
 
     return (
         <div className={styles.container}>
             <Icon name="logo" width={100} svg />
-            {type ? <SingUp /> : <LogIn />}
+            {tab ? <SingUp /> : <LogIn />}
 
             <p className={styles.toggleForm}>
-                {type ? 'Already have an account? ' : "Don't have an account? "}
-                <button onClick={() => switchType(!type)}>
-                    {type ? 'Log in' : 'Sign up'}
+                {tab ? 'Already have an account? ' : "Don't have an account? "}
+                <button onClick={() => switchTab(!tab)}>
+                    {tab ? 'Log in' : 'Sign up'}
                 </button>
             </p>
         </div>

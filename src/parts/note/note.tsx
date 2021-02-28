@@ -1,10 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import {
-    activeNoteIdSelector,
-    isSidebarVisibleSelector,
-    mediaTypeSelector,
-} from 'store/selectors/index';
+import { activeNoteIdSelector, mediaTypeSelector } from 'store/selectors/index';
 import Editor from './editor/editor';
 import Heading from './heading/heading';
 import styles from './note.module.scss';
@@ -19,13 +15,11 @@ const Note = () => {
     const switchLineMode = useCallback(() => editorRef.current?.checkListToggle(), []);
 
     const isDesktop = useSelector(mediaTypeSelector) === 'full';
-    const isSidebarVisible = useSelector(isSidebarVisibleSelector);
 
     return (
         <section
             className={`
                 ${styles.container} 
-                ${!isSidebarVisible ? styles.visible : ''} 
                 ${!isDesktop ? styles.minified : ''}`}
         >
             {activeNoteId && (
