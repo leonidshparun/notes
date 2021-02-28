@@ -5,7 +5,7 @@
     flex-direction: column;
     position: fixed;
     right: 0;
-    background: #f5f5f5;
+    background: var(--primaryBackgroundColor);
     border-left: 1px solid var(--borderColor);
 
     header {

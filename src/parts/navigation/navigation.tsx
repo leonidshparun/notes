@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { isMobile } from 'services/utils';
 import { isNavVisibleSelector } from 'store/selectors/index';
 import Keyboard from './keyboard/keyboard';
 import Menu from './menu/menu';
@@ -13,7 +14,7 @@ const Navigation = () => {
         <nav className={`${styles.container} ${isNavVisible ? styles.visible : ''}`}>
             <Menu />
             <Tags />
-            <Keyboard />
+            {!isMobile() && <Keyboard />}
         </nav>
     );
 };
