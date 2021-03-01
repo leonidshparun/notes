@@ -57,7 +57,7 @@ const Editor = forwardRef<any, any>((props: NoteProps, ref: RefProp) => {
                     return `${line}\n`;
                 })
                 .join('')
-                .trimRight();
+                .replace(/\n+$/g, '');
             setNoteInput(transformedText);
             setTimeout(() => {
                 if (inputRef.current) {
