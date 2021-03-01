@@ -87,7 +87,7 @@ export const UI: IUIDictionary = {
 };
 
 export const ShortcutsBySections = {
-    view: ['toggleNav', 'toggleSidebar'],
+    view: ['toggleNav', 'toggleSidebar', 'NoteInfo'],
     'note editing': ['newNote', 'insertChecklist', 'inTrash'],
     app: ['showSettings', 'showShortcuts'],
 };

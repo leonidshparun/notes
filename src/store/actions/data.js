@@ -132,12 +132,13 @@ const setNoteIsInTrash = (value) => async (dispatch, getState) => {
 export const sendNoteToTrash = () => setNoteIsInTrash(true);
 export const restoreNoteFromTrash = () => setNoteIsInTrash(false);
 
-export const createNewNote = () => (dispatch) =>
+export const createNewNote = () => (dispatch) => {
+    dispatch({ type: UPDATE_TAG_SELECTION, payload: [] });
     createNoteDB((newNote) => {
         dispatch({ type: CREATE_NEW_NOTE, payload: newNote });
         dispatch(setActiveNoteId(newNote.id));
     });
-
+};
 export const deleteNoteForever = () => (dispatch, getState) => {
     const { activeNoteId } = getState().data;
     deleteNoteDB(activeNoteId, () => {
